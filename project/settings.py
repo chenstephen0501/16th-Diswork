@@ -4,6 +4,28 @@ import os
 
 load_dotenv()
 
+
+# email註冊驗證start
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.DEBUG: 'debug',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'error',
+}
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # SMTP伺服器
+EMAIL_PORT = 587  # TLS通訊埠號
+EMAIL_USE_TLS = True  # 開啟TLS(傳輸層安全性)
+EMAIL_HOST_USER = 'dali175666@gmail.com'  # 寄件者電子郵件
+EMAIL_HOST_PASSWORD = 'amdantxbpnrnamrd'  # Gmail應用程式密碼
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# email註冊驗證end
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

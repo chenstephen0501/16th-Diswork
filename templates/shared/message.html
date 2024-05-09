@@ -1,0 +1,10 @@
+{% if messages %}
+<div class="flash" x-show="show" x-data="{show: true}">
+    {% for message in messages %}
+    <p class="{{ message.tags }} px-4 py-2 flex justify-between">
+        <span>{{ message }}</span>
+        <!-- <button @click="show = false">X</button> -->
+    </p>
+    {% endfor %}
+</div>
+{% endif %}
