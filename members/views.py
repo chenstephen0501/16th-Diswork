@@ -74,7 +74,7 @@ class MemberUpdateView(UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
-# mail驗證
+# mail驗證 2024/5/9 增加 -- Jeter
 def activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -89,4 +89,4 @@ def activate(request, uidb64, token):
         return redirect('members:login')
     else:
         messages.error(request, '驗證連結無效！')
-        return redirect('members:signup')
+        return redirect('members:register')

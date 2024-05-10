@@ -29,7 +29,21 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = Member
         fields = ("name", "username", "email", "password1", "password2")
-
+        
+    # 2024/5/9 增加 -- Jeter
+    # def clean_email(self):
+    #     email = self.cleaned_data["email"]
+    #     if not email.endswith("@gmail.com"):
+    #         raise forms.ValidationError("只接受 Gmail 格式註冊，請使用 Gmail 作為您的信箱。")
+    #     return email
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        allowed_domains = ["gmail.com", "yahoo.com.tw", "outlook.com"]
+        email_domain = email.split("@")[-1]
+        if email_domain not in allowed_domains:
+            allowed_domains_str = ", ".join(allowed_domains)
+            raise forms.ValidationError(f"只接受以下域名的郵箱註冊：{allowed_domains_str}。")
+        return email
 
 class MemberUpdateForm(UserChangeForm):
     name = forms.CharField(

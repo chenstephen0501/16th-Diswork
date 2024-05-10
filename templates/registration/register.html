@@ -8,24 +8,31 @@
                 <div class="mb-4">
                     <label for="name" class="mb-1 text-lg font-medium">姓名</label>
                     {{ form.name }}
+                    {{ form.name.errors }}
                 </div>
                 <div class="mb-4">
                     <label for="username" class="mb-1 text-lg font-medium">帳號</label>
                     {{ form.username }}
+                    {{ form.username.errors }}
                 </div>
                 <div class="mb-4">
                     <label for="email" class="mb-1 text-lg font-medium">信箱</label>
                     {{ form.email }}
+                    <!-- 2024/5/9 增加 -- Jeter -->
+                    {{ form.email.errors }}
                 </div>
                 <div class="mb-4">
                     <label for="password1" class="mb-1 text-lg font-medium">密碼</label>
                     {{ form.password1 }}
+                    {{ form.password1.errors }}
                 </div>
                 <div class="mb-8">
                     <label for="password2" class="mb-1 text-lg font-medium">密碼確認</label>
                     {{ form.password2 }}
+                    {{ form.password2.errors }}
                 </div>
-                <button type="submit" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline">註冊</button>
+                <button type="submit"
+                    class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline">註冊</button>
             </div>
         </form>
     </div>
