@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "members",
     "news_app",
     'chats',
+    'tasks'
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+    <h1>Show</h1>
+    {{ task.create_user_name}}
+    <hr>
+    {{ task.title }}
+    <hr>
+    {{ task.content }}
+    <hr>
+    {{ task.created_at}}
+    <hr>
+    {{task.get_time}}
+    <hr>
+    {{ task.start_time }}
+    <hr>
+    {{ task.end_time }}
+    <div>
+        <a href="http:{% url 'tasks:edit' task.id %}">edit</a>
+    </div>
+    <form action="{% url 'tasks:delete' task.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">delete</button>
+    </form> 
+
+
+
+{% endblock %}

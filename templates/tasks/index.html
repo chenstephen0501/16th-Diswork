@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+    <h1>Index</h1>
+
+    {% for task in tasks %}
+        <div>
+            <p>{{task.title}}</p>
+            <p>{{task.content}}</p>
+            <p>{{task.get_time}}</p>
+            <hr>
+            <p>{{task.start_time}}</p>
+            <hr>
+            <p>{{task.end_time}}</p>
+            <hr>
+            <p>{{task.time}}</p>
+        </div>
+        <hr>
+
+    {% endfor %}
+
+{% endblock %}
