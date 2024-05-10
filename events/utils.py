@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta
 import os.path
 from dotenv import load_dotenv
 
@@ -49,14 +49,18 @@ def get_calendar_events():
         service = build("calendar", "v3", credentials=creds)
 
         # Call the Calendar API
-        now = datetime.datetime.utcnow().isoformat() + "Z"  # 'Z' indicates UTC time
-        print("Getting the upcoming 10 events")
+        now = datetime.utcnow()
+        three_years_ago = now - timedelta(days=365 * 3)
+        three_years_later = now + timedelta(days=365 * 3)
+        now = datetime.utcnow().isoformat() + "Z"  # 'Z' indicates UTC time
+
         events_result = (
             service.events()
             .list(
                 calendarId="primary",
-                timeMin=now,
-                maxResults=10,
+                timeMin=three_years_ago.isoformat() + "Z",  # 從三年前開始
+                timeMax=three_years_later.isoformat() + "Z",  # 到三年後結束
+                maxResults=1000,  # 最多返回 1000 個事件，你可以根據需要調整
                 singleEvents=True,
                 orderBy="startTime",
             )
