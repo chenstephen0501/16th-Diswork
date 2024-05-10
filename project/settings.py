@@ -43,6 +43,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+SITE_ID = 3
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -56,7 +57,27 @@ INSTALLED_APPS = [
     'chats',
     'tasks',
     "events",
+    "django.contrib.sites",
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.discord',
 ]
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        "SCOPE": [
+            "profile",
+            "email"
+        ],
+        "AUTH_PARAMS":{"access_type":"online"},
+    }
+}
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -66,6 +87,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "project.urls"
@@ -136,8 +158,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-LOGIN_REDIRECT_URL = "home"
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -154,3 +174,12 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTHENTICATION_BACKENDS = {
+    "django.contrib.auth.backends.ModelBackend",
+    'allauth.account.auth_backends.AuthenticationBackend',
+}
+
+LOGIN_REDIRECT_URL = "/"
+
+# LOGOUT_REDIRECT_URL = "/"

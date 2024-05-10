@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import TemplateView, FormView, UpdateView
 from django.urls import reverse_lazy
@@ -24,6 +25,7 @@ class LoginView(FormView):
     form_class = AuthenticationForm
     success_url = reverse_lazy("index")
 
+    # @login_required
     def form_valid(self, form):
         login(self.request, form.get_user())
         return super().form_valid(form)
