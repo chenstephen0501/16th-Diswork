@@ -1,0 +1,12 @@
+{% extends 'layouts/base.html' %}
+{% block title %}CHATS{% endblock %}
+
+{% block content %}
+<h1>Chats Create</h1>
+<form action="{% url 'chats:add' %}" method="post">
+    {% csrf_token %}
+    <label for="create_group">新增聊天室名稱</label>
+    <input type="text" id="create_group" name="group_name">
+    <input type="submit" value="新增">
+</form>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'layouts/base.html' %}
+{% block title %}CHATS{% endblock %}
+
+{% block content %}
+<h1>Chats Home</h1>
+<a href="{% url 'chats:new' %}">新增聊天室</a>
+{% for groups in chat_groups %}
+<div class="item">
+    <a href="{% url 'chats:show' groups.id %}">{{ groups.group_name }}</a>
+</div>
+{% endfor %}
+{% endblock %}
