@@ -7,13 +7,12 @@ $ poetry init -n
 $ poetry shell
 $ poetry install
 ```
-#### Node.js:
+## Node.js
 ```
 $ install node
 $ npm init -y
 $ npm run dev
 ```
-#### run server:
 ```
 $ make server
 ```

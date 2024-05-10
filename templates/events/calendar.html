@@ -18,24 +18,3 @@
     });
 </script>
 {% endblock %}
-{% block content %}
-<<<<<<< HEAD <div class="flex items-center justify-center min-h-screen mt-1">
-    <div id="calendar" class="w-full p-4 sm:w-2/3 md:w-2/3 lg:w-2/3 xl:w-2/3">
-        <!-- 行事曆內容 -->
-    </div>
-    </div>
-    =======
-    {% comment %} <h1>Calendar Events</h1>
-    <button onclick="authenticate()">Authenticate with Google</button>
-    <ul>
-        {% for event in events %}
-        <li>
-            <strong>Start Time:</strong> {{ event.start }}<br>
-            <strong>Summary:</strong> {{ event.summary }}
-        </li> {% endcomment %}
-        <div id='calendar'></div>
-        {% comment %} {% endfor %} {% endcomment %}
-    </ul>
-    >>>>>>> 78ea244 (wit: 行事曆)
-
-    {% endblock %}
