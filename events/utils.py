@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import os.path
 from dotenv import load_dotenv
+import html
 
 load_dotenv()
 
@@ -67,6 +68,7 @@ def get_calendar_events():
             .execute()
         )
         events = events_result.get("items", [])
+        print(events)
 
         if not events:
             print("No upcoming events found.")
@@ -75,7 +77,14 @@ def get_calendar_events():
         event_list = []
         for event in events:
             start = event["start"].get("dateTime", event["start"].get("date"))
-            event_list.append({"start": start, "summary": event["summary"]})
+            end = event["end"].get("dateTime", event["end"].get("date"))
+            event_list.append(
+                {
+                    "start": start,
+                    "end": end,
+                    "summary": event["summary"],
+                }
+            )
 
         return event_list
 

@@ -1,20 +1,36 @@
 {% extends "layouts/base.html" %}
 {% block head %}
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth'
-        });
+  document.addEventListener('DOMContentLoaded', function () {
+    let calendarEl = document.getElementById('calendar');
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      height: 600,
+      editable: true,
+      eventColor: '#3C5B6F',
+    });
 
-        var events = [
-            {% for event in events %}
-        { start: '{{ event.start }}', title: '{{ event.summary }}' },
-        {% endfor %}
+    let events = [
+      {% for event in events %}
+    {
+      title: '{{ event.summary }}',
+      start: '{{ event.start }}',
+      end: '{{ event.end }}',
+      description: '{{ event.description }}'
+    },
+    {% endfor %}
     ];
-    calendar.addEventSource(events);
+  calendar.addEventSource(events);
 
-    calendar.render();
+  calendar.render();
     });
 </script>
+
+{% endblock %}
+{% block content %}
+<div class="flex items-center justify-center min-h-screen mt-1">
+  <div id="calendar" class="w-full p-4 sm:w-2/3 md:w-2/3 lg:w-2/3 xl:w-2/3">
+  </div>
+</div>
 {% endblock %}
