@@ -25,5 +25,5 @@ urlpatterns = [
     path("calendar/", include("events.urls")),
     path("news/", include("news_app.urls")),
     path("chats/", include("chats.urls")),
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
 ]
