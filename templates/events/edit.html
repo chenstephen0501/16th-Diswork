@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+<h1>Edit</h1>
+<form action="{% url 'events:edit_event' myEvent.id %}" method="post">
+    {% csrf_token %}
+
+    <label for="summary">活動</label>
+    <input type="text" id="title" name="summary" value="{{ myEvent.summary }}">
+
+    <label for="start_time">開始時間</label>
+    <input type="datetime-local" id="start_time" name="start_time" value="{{ myEvent.start_time }}>
+
+    <label for=" end_time">結束時間</label>
+    <input type="datetime-local" id="end_time" name="end_time" value="{{ myEvent.end_time }}>
+
+    <label for=" description">描述</label>
+    <textarea type="text" id="description" name="description">{{ myEvent.description }}</textarea>
+
+    <button type="submit">submit</button>
+</form>
+{% endblock %}

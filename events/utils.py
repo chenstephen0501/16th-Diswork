@@ -68,10 +68,8 @@ def get_calendar_events():
             .execute()
         )
         events = events_result.get("items", [])
-        print(events)
 
         if not events:
-            print("No upcoming events found.")
             return []
 
         event_list = []

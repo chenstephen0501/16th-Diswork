@@ -8,27 +8,35 @@
       initialView: 'dayGridMonth',
       height: 600,
       editable: true,
-      eventColor: '#3C5B6F',
+      events: "/myEvents",
+      selectable: true,
+      selectHelper: true,
+      editable: true,
+      eventLimit: true,
     });
 
     let events = [
       {% for event in events %}
-    {
+      {
       title: '{{ event.summary }}',
       start: '{{ event.start }}',
       end: '{{ event.end }}',
-      description: '{{ event.description }}'
+      description: '{{ event.description }}',
+      color: '#C7B7A3',
     },
     {% endfor %}
-    ];
-  calendar.addEventSource(events);
 
+    ];
+
+  calendar.addEventSource(events);
   calendar.render();
-    });
+  });
 </script>
+
 
 {% endblock %}
 {% block content %}
+<a href="{% url 'events:new' %}"><button>新增活動</button></a>
 <div class="flex items-center justify-center min-h-screen mt-1">
   <div id="calendar" class="w-full p-4 sm:w-2/3 md:w-2/3 lg:w-2/3 xl:w-2/3">
   </div>

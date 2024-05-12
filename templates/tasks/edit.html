@@ -2,29 +2,29 @@
 
 {% block content %}
 
-    <h1>Edit</h1>
+<h1>Edit</h1>
 
-        <form action="{% url 'tasks:show' task.id %}" method="post"> 
-            {% csrf_token %}
+<form action="{% url 'tasks:show' task.id %}" method="post">
+  {% csrf_token %}
 
-        <label for="title">title</label>
-        <input type="text" id="title" name="title" value="{{task.title}}">
+  <label for="title">title</label>
+  <input type="text" id="title" name="title" value="{{task.title}}">
 
-        <label for="content">content</label>
-        <input type="text" id="content" name="content" value="{{task.content}}">
+  <label for="content">content</label>
+  <input type="text" id="content" name="content" value="{{task.content}}">
 
-        <label for="get_time">get_time</label>
-        <input type="datetime-local" id="get_time" name="get_time" value="{{task.get_time}}">
+  <label for="get_time">get_time</label>
+  <input type="datetime-local" id="get_time" name="get_time" value="{{task.get_time}}">
 
-        <label for="start_time">start_time</label>
-        <input type="datetime-local" id="start_time" name="start_time" value="{{task.start.time}}">
+  <label for="start_time">start_time</label>
+  <input type="datetime-local" id="start_time" name="start_time" value="{{task.start.time}}">
 
-        <label for="end_time">end_time</label>
-        <input type="datetime-local" id="end_time" name="end_time" value="{{task.end_time}}">
-        
-        <!-- <label for="title">title</label>
+  <label for="end_time">end_time</label>
+  <input type="datetime-local" id="end_time" name="end_time" value="{{task.end_time}}">
+
+  <!-- <label for="title">title</label>
         <input type="text" id="title" name="title"> -->
-        <button type="submit">submit</button>
-    </form>
+  <button type="submit">submit</button>
+</form>
 
 {% endblock %}

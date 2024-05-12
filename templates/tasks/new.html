@@ -2,27 +2,27 @@
 
 {% block content %}
 
-    <h1>New</h1>
+<h1>New</h1>
 
-        <form action="{% url 'tasks:create' %}" method="post"> 
-            {% csrf_token %}
+<form action="{% url 'tasks:create' %}" method="post">
+  {% csrf_token %}
 
-        <label for="title">title</label>
-        <input type="text" id="title" name="title">
+  <label for="title">title</label>
+  <input type="text" id="title" name="title">
 
-        <label for="content">content</label>
-        <input type="text" id="content" name="content">
-        
-        <label for="get_time">get_time</label>
-        <input type="datetime-local" id="get_time" name="get_time">
+  <label for="content">content</label>
+  <input type="text" id="content" name="content">
 
-        <label for="start_time">start_time</label>
-        <input type="datetime-local" id="start_time" name="start_time">
+  <label for="get_time">get_time</label>
+  <input type="datetime-local" id="get_time" name="get_time">
 
-        <label for="end_time">end_time</label>
-        <input type="datetime-local" id="end_time" name="end_time">
-        
-        <button type="submit">submit</button>
-    </form>
+  <label for="start_time">start_time</label>
+  <input type="datetime-local" id="start_time" name="start_time">
+
+  <label for="end_time">end_time</label>
+  <input type="datetime-local" id="end_time" name="end_time">
+
+  <button type="submit">submit</button>
+</form>
 
 {% endblock %}

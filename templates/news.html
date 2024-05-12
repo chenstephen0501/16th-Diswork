@@ -1,29 +1,29 @@
 {% block content %}
 <h1>yahoo news</h1>
 <ul>
-    {% for item in page_obj %}
-    <li>
-        <p style="font-size: 14px;">來源出處：{{ item.source }}</p>
-        <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
-    </li>
-    {% endfor %}
+  {% for item in page_obj %}
+  <li>
+    <p style="font-size: 14px;">來源出處：{{ item.source }}</p>
+    <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
+  </li>
+  {% endfor %}
 </ul>
 
 <div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-        <a href="?page=1">&laquo; 第一頁</a>
-        <a href="?page={{ page_obj.previous_page_number }}">上一頁</a>
-        {% endif %}
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a href="?page=1">&laquo; 第一頁</a>
+    <a href="?page={{ page_obj.previous_page_number }}">上一頁</a>
+    {% endif %}
 
-        <span class="current">
-            頁數 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">下一頁</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">最後一頁 &raquo;</a>
-        {% endif %}
+    <span class="current">
+      頁數 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
     </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">下一頁</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">最後一頁 &raquo;</a>
+    {% endif %}
+  </span>
 </div>
 {% endblock %}
