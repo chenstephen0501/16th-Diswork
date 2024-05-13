@@ -11,10 +11,13 @@
 >>>>>>> ae61e1c (fix: calendar crud)
 <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
 <link rel="stylesheet"
-  href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+    href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 
 <section class="bg-blueGray-50">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 076227a (fix: 登入裝飾器)
     <div class="w-full px-4 pt-6 mx-auto lg:w-4/12">
         <div
             class="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-200">
@@ -25,6 +28,7 @@
                     </h6>
                 </div>
                 <div class="text-center btn-wrapper">
+<<<<<<< HEAD
 
 
                     <a href="{% provider_login_url 'github' %}?next=/">
@@ -61,51 +65,65 @@
             <img alt="..." class="w-5 mr-1" src="https://demos.creative-tim.com/notus-js/assets/img/google.svg">Google
           </button>
 >>>>>>> ae61e1c (fix: calendar crud)
+=======
+                    <button
+                        class="inline-flex items-center px-4 py-2 mb-1 mr-2 text-xs font-normal font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
+                        type="button">
+                        <img alt="..." class="w-5 mr-1"
+                            src="https://demos.creative-tim.com/notus-js/assets/img/github.svg">Github</button>
+                    <button
+                        class="inline-flex items-center px-4 py-2 mb-1 mr-1 text-xs font-normal font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
+                        type="button">
+                        <img alt="..." class="w-5 mr-1"
+                            src="https://demos.creative-tim.com/notus-js/assets/img/google.svg">Google
+                    </button>
+>>>>>>> 076227a (fix: 登入裝飾器)
 
+                </div>
+                <hr class="mt-6 border-b-1 border-blueGray-300">
+            </div>
+            <div class="flex-auto px-4 py-10 pt-0 lg:px-10">
+                <div class="mb-3 font-bold text-center text-blueGray-400">
+                    <small>Or sign in with credentials</small>
+                </div>
+                <form action="{% url 'members:login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="relative w-full mb-3">
+                        <label class="block mb-2 text-xs font-bold uppercase text-blueGray-600"
+                            for="grid-password">帳號</label><input type="text" name="username"
+                            class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
+                            placeholder="Email">
+                    </div>
+                    <div class="relative w-full mb-3">
+                        <label class="block mb-2 text-xs font-bold uppercase text-blueGray-600"
+                            for="grid-password">密碼</label><input type="password" name="password"
+                            class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
+                            placeholder="Password">
+                    </div>
+                    <div class="mt-6 text-center">
+                        <button
+                            class="w-full px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-800 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
+                            type="submit"> Sign In </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <hr class="mt-6 border-b-1 border-blueGray-300">
-      </div>
-      <div class="flex-auto px-4 py-10 pt-0 lg:px-10">
-        <div class="mb-3 font-bold text-center text-blueGray-400">
-          <small>Or sign in with credentials</small>
-        </div>
-        <form action="{% url 'members:login' %}" method="post">
-          {% csrf_token %}
-          <div class="relative w-full mb-3">
-            <label class="block mb-2 text-xs font-bold uppercase text-blueGray-600" for="grid-password">帳號</label><input
-              type="text" name="username"
-              class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-              placeholder="Email">
-          </div>
-          <div class="relative w-full mb-3">
-            <label class="block mb-2 text-xs font-bold uppercase text-blueGray-600" for="grid-password">密碼</label><input
-              type="password" name="password"
-              class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-              placeholder="Password">
-          </div>
-          <div class="mt-6 text-center">
-            <button
-              class="w-full px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-800 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
-              type="submit"> Sign In </button>
-          </div>
-        </form>
-      </div>
     </div>
-  </div>
-  <footer class="relative pt-8 pb-6 mt-2">
-    <div class="container px-2 mx-auto">
-      <div class="flex flex-wrap items-center justify-center md:justify-between">
-        <div class="w-full px-4 mx-auto text-center md:w-6/12">
-          <div class="py-1 text-sm font-semibold text-blueGray-500">
-            Made with <a href="https://www.creative-tim.com/product/notus-js"
-              class="text-blueGray-500 hover:text-gray-800" target="_blank">Notus JS</a> by <a
-              href="https://www.creative-tim.com" class="text-blueGray-500 hover:text-blueGray-800" target="_blank">
-              Creative Tim</a>.
-          </div>
+    <footer class="relative pt-8 pb-6 mt-2">
+        <div class="container px-2 mx-auto">
+            <div class="flex flex-wrap items-center justify-center md:justify-between">
+                <div class="w-full px-4 mx-auto text-center md:w-6/12">
+                    <div class="py-1 text-sm font-semibold text-blueGray-500">
+                        Made with <a href="https://www.creative-tim.com/product/notus-js"
+                            class="text-blueGray-500 hover:text-gray-800" target="_blank">Notus JS</a> by <a
+                            href="https://www.creative-tim.com" class="text-blueGray-500 hover:text-blueGray-800"
+                            target="_blank">
+                            Creative Tim</a>.
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </footer>
+    </footer>
 </section>
 
 {% endblock %}
