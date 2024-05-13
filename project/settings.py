@@ -7,22 +7,23 @@ load_dotenv()
 
 # email註冊驗證start
 from django.contrib.messages import constants as messages
+
 MESSAGE_TAGS = {
-    messages.DEBUG: 'debug',
-    messages.INFO: 'info',
-    messages.SUCCESS: 'success',
-    messages.WARNING: 'warning',
-    messages.ERROR: 'error',
+    messages.DEBUG: "debug",
+    messages.INFO: "info",
+    messages.SUCCESS: "success",
+    messages.WARNING: "warning",
+    messages.ERROR: "error",
 }
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # SMTP伺服器
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"  # SMTP伺服器
 EMAIL_PORT = 587  # TLS通訊埠號
 EMAIL_USE_TLS = True  # 開啟TLS(傳輸層安全性)
-EMAIL_HOST_USER = 'dali175666@gmail.com'  # 寄件者電子郵件
-EMAIL_HOST_PASSWORD = 'amdantxbpnrnamrd'  # Gmail應用程式密碼
+EMAIL_HOST_USER = "dali175666@gmail.com"  # 寄件者電子郵件
+EMAIL_HOST_PASSWORD = "amdantxbpnrnamrd"  # Gmail應用程式密碼
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # email註冊驗證end
 
@@ -43,7 +44,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-SITE_ID = 3
+SITE_ID = 5
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -54,27 +55,24 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "members",
     "news_app",
-    'chats',
-    'tasks',
+    "chats",
+    "tasks",
     "events",
     "django.contrib.sites",
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.discord',
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.github",
+    "allauth.socialaccount.providers.discord",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        "SCOPE": [
-            "profile",
-            "email"
-        ],
-        "AUTH_PARAMS":{"access_type":"online"},
+    "google": {
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {"access_type": "online"},
     }
 }
 
@@ -177,7 +175,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTHENTICATION_BACKENDS = {
     "django.contrib.auth.backends.ModelBackend",
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "allauth.account.auth_backends.AuthenticationBackend",
 }
 
 LOGIN_REDIRECT_URL = "/"
