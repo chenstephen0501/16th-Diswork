@@ -42,14 +42,19 @@ class LogoutView(TemplateView):
         messages.success(request, "登出成功！")
         return redirect("index")
 
-
-# 註冊
+# 註冊  
 class RegisterView(FormView):
     template_name = "registration/register.html"
     form_class = SignUpForm
     success_url = reverse_lazy("members:login")
 
     def form_valid(self, form):
+        # 驗證信箱是否被註冊過
+        email = form.cleaned_data.get("email")
+        if Member.objects.filter(email=email).exists():
+            messages.error(self.request, "此電子郵件已被註冊！！！")
+            return self.form_invalid(form)
+        # 創建一個尚未驗證成功的帳號，生成唯一的連結
         user = form.save(commit=False)
         user.is_active = False  # is_activate db column，預設尚未驗證
         user.save()
