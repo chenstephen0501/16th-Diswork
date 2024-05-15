@@ -5,3 +5,4 @@ node_modules/
 static/styles/style.css
 static
 token.json
+.DS_Store
