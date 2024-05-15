@@ -18,12 +18,12 @@ MESSAGE_TAGS = {
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"  # SMTP伺服器
-EMAIL_PORT = 587  # TLS通訊埠號
-EMAIL_USE_TLS = True  # 開啟TLS(傳輸層安全性)
-EMAIL_HOST_USER = "dali175666@gmail.com"  # 寄件者電子郵件
-EMAIL_HOST_PASSWORD = "amdantxbpnrnamrd"  # Gmail應用程式密碼
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND")
+EMAIL_HOST = os.getenv("EMAIL_HOST")  # SMTP伺服器
+EMAIL_PORT = os.getenv("EMAIL_PORT")  # TLS通訊埠號
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")  # 開啟TLS(傳輸層安全性)
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")  # 寄件者電子郵件
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")  # Gmail應用程式密碼
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # email註冊驗證end
 
@@ -44,7 +44,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-SITE_ID = 5
+SITE_ID = 4 # 對應django_site table id
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -63,20 +63,23 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
-    "allauth.socialaccount.providers.github",
-    "allauth.socialaccount.providers.discord",
     "storages",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
+# 第三方登入
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": ["profile", "email"],
         "AUTH_PARAMS": {"access_type": "online"},
+        "APP":{
+            "client_id":os.getenv("CLIENT_ID"),
+            "secret":os.getenv("CLIENT_SECRET"),
+            "key":"",
+        },
     }
 }
-
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

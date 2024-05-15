@@ -1,29 +1,60 @@
 {% block content %}
 <h1>yahoo news</h1>
 <ul>
-  {% for item in page_obj %}
-  <li>
-    <p style="font-size: 14px;">來源出處：{{ item.source }}</p>
-    <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
-  </li>
-  {% endfor %}
+	{% for item in page_obj %}
+	<li>
+		<p style="font-size: 14px;">來源出處：{{ item.source }}</p>
+		<div id="news-title-{{ item.id }}">
+			<a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
+		</div>
+	</li>
+	{% endfor %}
 </ul>
-
 <div class="pagination">
-  <span class="step-links">
-    {% if page_obj.has_previous %}
-    <a href="?page=1">&laquo; 第一頁</a>
-    <a href="?page={{ page_obj.previous_page_number }}">上一頁</a>
-    {% endif %}
-
-    <span class="current">
-      頁數 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
-    </span>
-
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">下一頁</a>
-    <a href="?page={{ page_obj.paginator.num_pages }}">最後一頁 &raquo;</a>
-    {% endif %}
-  </span>
+	<span class="step-links">
+		{% if page_obj.has_previous %}
+		<a href="?page=1">&laquo; 第一頁</a>
+		<a href="?page={{ page_obj.previous_page_number }}">上一頁</a>
+		{% endif %}
+		<span class="current">
+			頁數 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
+		</span>
+		{% if page_obj.has_next %}
+		<a href="?page={{ page_obj.next_page_number }}">下一頁</a>
+		<a href="?page={{ page_obj.paginator.num_pages }}">最後一頁 &raquo;</a>
+		{% endif %}
+	</span>
 </div>
+<script>
+	function refresh(page = 1) {
+		fetch(`/news?page=${page}`).then((response) => response.json()).then((data) => {
+			// 找到第一個ul清空該元素內容，確保頁面更新時不會有之前的資料
+			let newsList = document.querySelector("ul");
+			newsList.innerHTML = "";
+			data.news_item.forEach((news) => {
+				let newsItem = document.createElement("li");
+				newsItem.innerHTML = `
+						<p style="font-size: 14px;">來源出處：${news.source}</p>
+						<div id="news-title-${news.id}">
+							<a href="${news.url}" target="_blank">${news.title}</a>
+						</div>
+					`;
+				newsList.appendChild(newsItem);
+			});
+			updateLinks(data);
+		}).catch(error => console.error("撈取出錯:", error));
+	}
+	function updateLinks(data) {
+		const pagination = document.querySelector(".pagination .step-links");
+		pagination.innerHTML = `
+			${data.has_previous ? `<a href="#" onclick="refresh(${data.previous_page_number})">&laquo; 第一頁</a>
+			<a href="#" onclick="refresh(${data.previous_page_number})">上一頁</a>` : ''}
+			<span class="current">頁數 ${data.current_page} / ${data.total_pages}.</span>
+			${data.has_next ? `<a href="#" onclick="refresh(${data.next_page_number})">下一頁</a>
+			<a href="#" onclick="refresh(${data.total_pages})">最後一頁 &raquo;</a>` : ''}
+		`;
+	}
+	document.addEventListener("DOMContentLoaded", () => refresh());
+	setInterval(() => refresh(), 60000);  
+</script>
 {% endblock %}

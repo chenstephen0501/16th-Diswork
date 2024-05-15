@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.views.generic import ListView
 from django.shortcuts import redirect
 from .models import News
@@ -5,40 +6,33 @@ import requests
 from bs4 import BeautifulSoup
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
+from .news_reptile import update_news
+from django.core.paginator import Paginator
 
 @method_decorator(login_required, name="dispatch")
 class NewsSearchView(ListView):
     model = News
     template_name = "news.html"
-    context_object_name = 'news_items'
+    context_object_name = "news_items"
     paginate_by = 5
-    
+
     def get_queryset(self):
-        self.update_news()
+        update_news()
         return News.objects.all().order_by("-created_at")
 
-    def update_news(self):
-        url = "https://tw.news.yahoo.com/archive/"
-        response = requests.get(url)
-        data = BeautifulSoup(response.text, "html.parser")
-        titles = data.find_all("h3", class_="Mb(5px)")
+def news_json(request):
+    page_number = request.GET.get("page", 1) # 默認第一頁開始
+    news_items = News.objects.all().order_by("-created_at") # 撈取所有資料倒敘顯示
+    paginator = Paginator(news_items, 5)  # 5筆為一頁
+    page_obj = paginator.get_page(page_number)
 
-        for title in titles:
-            news_url = title.find("a", href=True)
-            if news_url:
-                full_url = news_url["href"]
-                if not full_url.startswith("https"):
-                    full_url = url + full_url
-
-                if not News.objects.filter(url=full_url).exists():
-                    source = requests.get(full_url)
-                    source_data = BeautifulSoup(source.text, "html.parser")
-                    source_name_tag = source_data.find("div", class_="source-info")
-                    source_name = source_name_tag.text.strip() if source_name_tag else "出處不明！"
-                    # 儲存進資料庫
-                    News.objects.create(
-                        title=title.text.strip(),
-                        url=full_url,
-                        source=source_name
-                    )
+    data = {
+        "news_item": list(page_obj.object_list.values("id", "title", "source", "url")),
+        "has_previous": page_obj.has_previous(), # 是否有前一頁
+        "has_next": page_obj.has_next(), # 是否有下一頁
+        "previous_page_number": page_obj.previous_page_number() if page_obj.has_previous() else None, # 前一頁頁碼
+        "next_page_number": page_obj.next_page_number() if page_obj.has_next() else None, # 下一頁頁碼
+        "current_page": page_obj.number, # 當前頁數
+        "total_pages": paginator.num_pages # 總頁數
+    }
+    return JsonResponse(data) # 返回json格式
