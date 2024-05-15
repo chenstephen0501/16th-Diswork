@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+
+<div>
+    <h1>{{receiver}} | {{receiver.id}} </h1>
+    <p>{{user.id}} | {{user.name}} | {{user.email}}</p>
+    <h1>private_message</h1>
+    <br>What chat room would you like to enter?<br>
+    <input id="room-name-input" type="text" size="100" hidden value="{{user.id}}_{{receiver.id}}"><br>
+    <input id="room-name-submit" type="button" value="私訊">
+
+    <script>
+        document.querySelector('#room-name-input').focus();
+        roomName = document.querySelector('#room-name-input').value
+        document.querySelector('#room-name-input').onkeyup = function(e) {
+            if (e.key === 'Enter') {  // enter, return
+                console.log('room', roomName)
+                document.querySelector('#room-name-submit').click();
+            }
+        };
+
+        document.querySelector('#room-name-submit').onclick = function(e) {
+            var roomName = document.querySelector('#room-name-input').value;
+            window.location.pathname = '/chat/' + roomName + '/';
+        };
+    </script>
+</div>
+
+{% endblock %}
