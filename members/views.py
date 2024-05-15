@@ -2,9 +2,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
-from django.views.generic import TemplateView, FormView, UpdateView
+from django.views.generic import TemplateView, FormView, UpdateView, ListView
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from .models import Member
 from .forms import MemberUpdateForm
 from django.contrib.auth.decorators import login_required
@@ -42,7 +42,8 @@ class LogoutView(TemplateView):
         messages.success(request, "登出成功！")
         return redirect("index")
 
-# 註冊  
+
+# 註冊
 class RegisterView(FormView):
     template_name = "registration/register.html"
     form_class = SignUpForm
@@ -75,19 +76,33 @@ class RegisterView(FormView):
         return super().form_valid(form)
 
 
+# user profile
+class ProfileView(ListView):
+    model = Member
+    template_name = "registration/profile.html"
+    context_object_name = "members"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = get_object_or_404(Member, pk=self.kwargs["pk"])
+        context["member"] = member
+        return context
+
+
 # 編輯會員資料
 @method_decorator(login_required, name="dispatch")
 class MemberUpdateView(UpdateView):
     model = Member
     form_class = MemberUpdateForm
     template_name = "registration/edit.html"
-    context_object_name = "user"
+    context_object_name = "member"
 
     def get_success_url(self):
-        return reverse_lazy("index")
+        return reverse_lazy("members:profile", kwargs={"pk": self.object.pk})
 
     def get_object(self, queryset=None):
-        return self.request.user
+        pk = self.kwargs.get("pk")
+        return Member.objects.get(pk=pk)
 
 
 # mail驗證 2024/5/9 增加 -- Jeter

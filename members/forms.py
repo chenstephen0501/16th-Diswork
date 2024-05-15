@@ -28,8 +28,8 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = Member
-        fields = ("name", "username", "email", "password1", "password2")
-        
+        fields = ("name", "username", "email", "password1", "password2", "user_img")
+
     # 2024/5/9 增加 -- Jeter
     # def clean_email(self):
     #     email = self.cleaned_data["email"]
@@ -42,8 +42,11 @@ class SignUpForm(UserCreationForm):
         email_domain = email.split("@")[-1]
         if email_domain not in allowed_domains:
             allowed_domains_str = ", ".join(allowed_domains)
-            raise forms.ValidationError(f"只接受以下域名的郵箱註冊：{allowed_domains_str}。")
+            raise forms.ValidationError(
+                f"只接受以下域名的郵箱註冊：{allowed_domains_str}。"
+            )
         return email
+
 
 class MemberUpdateForm(UserChangeForm):
     name = forms.CharField(
@@ -58,8 +61,9 @@ class MemberUpdateForm(UserChangeForm):
         label="信箱：",
         widget=forms.EmailInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
     )
+    user_img = forms.ImageField(label="上傳頭貼")
     password = None
 
     class Meta:
         model = Member
-        fields = ("name", "username", "email")
+        fields = ("name", "username", "email", "user_img")

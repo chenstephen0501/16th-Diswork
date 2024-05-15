@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div>
+    {% if member.user_img %}
+    <img src="{{ member.user_img.url }}" alt="photo" style="width: 150px;" class="border border-gray-200">
+    {% else %}
+    <p>無照片顯示</p>
+    {% endif %}
+    <p>姓名： {{ member.name }} </p>
+    <p>帳號： {{ member.username }} </p>
+    <p>信箱： {{ member.email }} </p>
+</div>
+<div>
+    <a href="{% url 'members:edit' pk=member.pk %}">
+        <button>編輯</button>
+    </a>
+</div>
+{% endblock %}
