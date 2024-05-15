@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import ChatGroup
 from .forms import ChatmessageCreateForm
+from members.models import Member
 
 def chat_home(request):
     chat_groups = ChatGroup.objects.all()
@@ -40,3 +41,16 @@ def chat_create(request):
 
     return redirect('chats:home')
 
+def private_message_home(request):
+    members = Member.objects.all()
+
+    return render(request, "chats/private_message_home.html", {"members": members})
+
+def private_message_receiver(request, pk):
+    receiver = get_object_or_404(Member, pk = pk)
+
+    return render(request, "chats/private_message_receiver.html", {"receiver": receiver})
+
+def private_message_room(request, room_name):
+
+    return render(request, "chats/private_message_room.html", {"room_name": room_name})
