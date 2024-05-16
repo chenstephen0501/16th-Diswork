@@ -21,7 +21,7 @@ RespondType = settings.ENCRYPTION_KEY['RESPOND_TYPE']
 
 orders = {}
 def index(request):
-    return render(request, 'index.html', {'title': 'Express'})
+    return render(request, 'paies/index.html', {'title': 'Express'})
 
 @csrf_exempt
 def create_order(request):
@@ -111,7 +111,7 @@ def check_order(request, TimeStamp):
     sha_encrypt = create_sha_encrypt(encrypted_data)
     
     # 渲染訂單檢查頁面並傳遞相關數據
-    return render(request, 'check.html', {
+    return render(request, 'paies/check.html', {
         'MerchantID': MerchantID,
         'TradeInfo': encrypted_data,
         'TradeSha': sha_encrypt,
@@ -125,7 +125,7 @@ def newebpay_return(request):
         # 在這裡處理從藍新回傳的數據
         # 處理完畢後，重定向到結帳成功頁面
         
-        return render(request, 'success.html')
+        return render(request, 'paies/success.html')
     else:
         # 如果是 GET 請求，可以根據需要進行其他處理
         return HttpResponse("Method Not Allowed", status=405)
@@ -144,7 +144,7 @@ def newebpay_notify(request):
 
 def checkout_success(request):
     # 在這個視圖中，你可以顯示結帳成功的信息
-    return render(request, 'success.html', {'title': 'Checkout Success'})
+    return render(request, 'paies/success.html', {'title': 'Checkout Success'})
 # def decrypt_aes_cbc(data, key, iv):
 #     try:
 #         backend = default_backend()

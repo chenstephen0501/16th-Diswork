@@ -30,6 +30,9 @@ SECRET_KEY = "django-insecure-feikv0pwtpq8vslcadt@)&g@h&l2xmp1g)qenll7=fulvih@1g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ALLOWED_HOSTS = ["127.0.0.1", "e64f-61-220-182-115.ngrok-free.app"]
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -56,6 +59,7 @@ INSTALLED_APPS = [
     "comments",
     "articles",
     "boards",
+    "paies",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
