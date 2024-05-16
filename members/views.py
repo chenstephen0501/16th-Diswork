@@ -2,8 +2,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
-from django.views.generic import TemplateView, FormView, UpdateView, ListView
-from django.urls import reverse_lazy
+from django.views.generic import TemplateView, FormView, UpdateView, DetailView
+from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect, get_object_or_404
 from .models import Member
 from .forms import MemberUpdateForm
@@ -12,12 +12,10 @@ from django.utils.decorators import method_decorator
 
 # email check start
 from django.core.mail import send_mail
-from django.urls import reverse
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes
+from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
-from django.utils.encoding import force_str
 
 # email check end
 
@@ -77,16 +75,10 @@ class RegisterView(FormView):
 
 
 # user profile
-class ProfileView(ListView):
+class ProfileView(DetailView):
     model = Member
     template_name = "registration/profile.html"
-    context_object_name = "members"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        member = get_object_or_404(Member, pk=self.kwargs["pk"])
-        context["member"] = member
-        return context
+    context_object_name = "member"
 
 
 # 編輯會員資料
