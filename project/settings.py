@@ -143,6 +143,18 @@ DATABASES = {
     }
 }
 
+ENCRYPTION_KEY = {
+    'MERCHANT_ID': os.getenv('MERCHANTID'),
+    'HASH_KEY': os.getenv('HASHKEY'),
+    'HASH_IV': os.getenv('HASHIV'),
+    'VERSION': os.getenv('VERSION'),
+    'RETURN_URL': os.getenv('RETURNURL'),
+    'NOTIFY_URL': os.getenv('NOTIFYURL'),
+    'PAY_GATEWAY': os.getenv('PAYGATEWAY'),
+    'RESPOND_TYPE': os.getenv('RESPONDTYPE'),
+}
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
