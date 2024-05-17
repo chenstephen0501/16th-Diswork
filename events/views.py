@@ -32,7 +32,7 @@ def create_my_event(req):
     form = myEventForm(req.POST)
     if form.is_valid():
         form.save()
-        return JsonResponse({"message": "Event created successfully"}, status=201)
+        return redirect("events:calendar")
     else:
         return JsonResponse({"errors": form.errors}, status=400)
 
