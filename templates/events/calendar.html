@@ -1,39 +1,55 @@
 {% extends "layouts/base.html" %}
 {% block head %}
-
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    let calendarEl = document.getElementById('calendar');
-    let calendar = new FullCalendar.Calendar(calendarEl, {
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       height: 600,
       editable: true,
-      events: "/myEvents",
+      events: "/all_events",
       selectable: true,
       selectHelper: true,
-      editable: true,
       eventLimit: true,
+      select: function (start, end, allDay) {
+        const title = prompt("新增活動");
+        if (title) {
+          const startFormatted = calendar.formatIso(start);
+          const endFormatted = calendar.formatIso(end);
+          $.ajax({
+            type: "POST",
+            url: "{% url 'events:add_event' %}",
+            data: { "title": title, "start": startFormatted, "end": endFormatted },
+            dataType: "json",
+            success: function (data) {
+              calendar.refetchEvents();
+              alert("新增成功");
+            },
+            error: function (data) {
+              alert("失敗！");
+            }
+          })
+        }
+      }
     });
 
-    let events = [
-      {% for event in events %}
-      {
-      title: '{{ event.summary }}',
-      start: '{{ event.start }}',
-      end: '{{ event.end }}',
-      description: '{{ event.description }}',
-      color: '#C7B7A3',
-    },
-    {% endfor %}
+    // let events = [
+    //   {% for google_event in google_events %}
+    //   {
+    //   title: '{{ google_event.summary }}',
+    //   start: '{{ google_event.start }}',
+    //   end: '{{ google_event.end }}',
+    //   description: '{{ google_event.description }}',
+    //   color: '#C7B7A3',
+    // },
+    // {% endfor %}
+    // ];
 
-    ];
+    // calendar.addEventSource(events);
 
-  calendar.addEventSource(events);
-  calendar.render();
+    calendar.render();
   });
 </script>
-
-
 {% endblock %}
 {% block content %}
 <a href="{% url 'events:new' %}"><button>新增活動</button></a>

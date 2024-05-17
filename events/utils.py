@@ -42,7 +42,6 @@ def get_calendar_events():
                 SCOPES,
             )
             creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
         with open("token.json", "w") as token:
             token.write(creds.to_json())
 
@@ -61,30 +60,32 @@ def get_calendar_events():
                 calendarId="primary",
                 timeMin=three_years_ago.isoformat() + "Z",  # 從三年前開始
                 timeMax=three_years_later.isoformat() + "Z",  # 到三年後結束
-                maxResults=1000,  # 最多返回 1000 個事件，你可以根據需要調整
+                maxResults=1000,  # 最多返回 1000 個事件，可以根據需要調整
                 singleEvents=True,
                 orderBy="startTime",
             )
             .execute()
         )
-        events = events_result.get("items", [])
+        google_events = events_result.get("items", [])
 
-        if not events:
+        if not google_events:
             return []
 
-        event_list = []
-        for event in events:
-            start = event["start"].get("dateTime", event["start"].get("date"))
-            end = event["end"].get("dateTime", event["end"].get("date"))
-            event_list.append(
+        google_event_list = []
+        for google_event in google_events:
+            start = google_event["start"].get(
+                "dateTime", google_event["start"].get("date")
+            )
+            end = google_event["end"].get("dateTime", google_event["end"].get("date"))
+            google_event_list.append(
                 {
                     "start": start,
                     "end": end,
-                    "summary": event["summary"],
+                    "summary": google_event["summary"],
                 }
             )
 
-        return event_list
+        return google_event_list
 
     except HttpError as error:
         print(f"An error occurred: {error}")

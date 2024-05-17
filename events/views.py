@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .utils import get_calendar_events
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
 from django.views.generic import FormView
 from .forms import myEventForm
+from .models import my_event
 from django.http import JsonResponse
 from django.views.generic import FormView
 from .forms import myEventForm
@@ -12,58 +12,71 @@ from .forms import myEventForm
 
 @login_required
 def calendar_events(req):
-    events = get_calendar_events()  # 從 Google Calendar API 獲取資料
-    return render(req, "events/calendar.html", {"events": events})
+    google_events = get_calendar_events()  # 從 Google Calendar API 獲取資料
+    return render(req, "events/calendar.html", {"google_events": google_events})
 
 
-# 自己新增活動的頁面
+# 新增活動的頁面
 class NewView(FormView):
     form_class = myEventForm
     template_name = "events/new.html"
+    success_url = "/events/"
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
-@require_POST
+# @require_POST
 def create_my_event(req):
     form = myEventForm(req.POST)
     if form.is_valid():
         form.save()
-        messages.success(req, "新增成功")
-    return redirect("events:calendar")
+        return JsonResponse({"message": "Event created successfully"}, status=201)
+    else:
+        return JsonResponse({"errors": form.errors}, status=400)
 
 
 # 編輯自己新增的活動
 def edit(req, id):
-    myEvents = get_object_or_404(myEvent, pk=id)
-    return render(req, "events/edit.html", {"myEvents": myEvents})
+    event = get_object_or_404(my_event, pk=id)
+    if req.method == "POST":
+        form = myEventForm(req.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect("events:calendar")
+    else:
+        form = myEventForm(instance=event)
+    return render(req, "events/edit.html", {"form": form})
 
 
 # 自己新增的活動出現在日曆中
 def my_event_calendar(req):
-    myEvents = myEvent.objects.all()
-    return render(req, "events/calendar.html", {"myEvents": myEvents})
+    my_events = my_event.objects.all()
+    return render(req, "events/calendar.html", {"my_events": my_events})
 
 
-# def myEvents(req):
-#     myEvents = myEvent.objects.all()
-#     out = []
-#     for myevent in myEvents:
-#         out.append(
-#             {
-#                 "title": myevent.summary,
-#                 "id": myevent.id,
-#                 "start": myevent.start_time.strftime("%m/%d/%y, %H,%M,%S"),
-#                 "end": myevent.end_time.strftime("%m/%d/%y, %H,%M,%S"),
-#                 "description": myevent.description,
-#             }
-#         )
-#     return JsonResponse({"events": out}, safe=False)
+def all_events(req):
+    all_events = my_event.objects.all()
+    out = []
+    for event in all_events:
+        out.append(
+            {
+                "title": event.summary,
+                "id": event.id,
+                "start": event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "end": event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "description": event.description,
+            }
+        )
+    return JsonResponse({"all_events": out}, safe=False)
 
 
-# def add_event(req):
-#     start = req.GET.get("start", None)
-#     end = req.GET.get("end", None)
-#     title = req.GET.get("title", None)
-#     event = myEvents(name=str(title), start=start, end=end)
-#     event.save()
-#     data = {}
-#     return JsonResponse(data)
+def add_event(req):
+    start = req.POST.get("start", None)
+    end = req.POST.get("end", None)
+    title = req.POST.get("title", None)
+    event = my_event(summary=str(title), start_time=start, end_time=end)
+    event.save()
+    data = {}
+    return JsonResponse(data)
