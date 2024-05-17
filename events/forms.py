@@ -12,3 +12,7 @@ class myEventForm(forms.ModelForm):
             "end_time": "結束時間",
             "description": "描述",
         }
+        widgets = {
+            "start_time": forms.DateTimeInput(attrs={"type": "datetime-local"}),
+            "end_time": forms.DateTimeInput(attrs={"type": "datetime-local"}),
+        }

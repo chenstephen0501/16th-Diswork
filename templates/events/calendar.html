@@ -2,56 +2,55 @@
 {% block head %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const calendarEl = document.getElementById('calendar');
-    const calendar = new FullCalendar.Calendar(calendarEl, {
+    let calendarEl = document.getElementById('calendar');
+    let calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       height: 600,
       editable: true,
-      events: "/all_events",
       selectable: true,
-      selectHelper: true,
-      eventLimit: true,
-      select: function (start, end, allDay) {
-        const title = prompt("新增活動");
-        if (title) {
-          const startFormatted = calendar.formatIso(start);
-          const endFormatted = calendar.formatIso(end);
-          $.ajax({
-            type: "POST",
-            url: "{% url 'events:add_event' %}",
-            data: { "title": title, "start": startFormatted, "end": endFormatted },
-            dataType: "json",
-            success: function (data) {
-              calendar.refetchEvents();
-              alert("新增成功");
-            },
-            error: function (data) {
-              alert("失敗！");
-            }
-          })
+      customButtons: {
+        myCustomButton: {
+          text: 'custom!',
+          click: function () {
+            alert('clicked the custom button!');
+          }
         }
-      }
+      },
+      headerToolbar: {
+        left: 'prev,next today myCustomButton',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      eventSources: [{ url: '/calendar/all_events/', color: '#C7B7A3' }],
+      events: [
+        {% for google_event in google_events %}
+  {
+        title: '{{ google_event.summary }}',
+        start: '{{ google_event.start }}',
+        end: '{{ google_event.end }}',
+        description: '{{ google_event.description }}',
+        color: '#B5C18E',
+      },
+      {% endfor %}
+  ],
+
     });
-
-    // let events = [
-    //   {% for google_event in google_events %}
-    //   {
-    //   title: '{{ google_event.summary }}',
-    //   start: '{{ google_event.start }}',
-    //   end: '{{ google_event.end }}',
-    //   description: '{{ google_event.description }}',
-    //   color: '#C7B7A3',
-    // },
-    // {% endfor %}
-    // ];
-
-    // calendar.addEventSource(events);
-
-    calendar.render();
+  calendar.render();
   });
 </script>
+<!-- 下面這段script是google calendar的內容，我先註解掉～ -->
+<script>
+
+</script>
+
+
 {% endblock %}
+
+
+
+
 {% block content %}
+
 <a href="{% url 'events:new' %}"><button>新增活動</button></a>
 <div class="flex items-center justify-center min-h-screen mt-1">
   <div id="calendar" class="w-full p-4 sm:w-2/3 md:w-2/3 lg:w-2/3 xl:w-2/3">

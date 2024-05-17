@@ -60,16 +60,23 @@ def all_events(req):
     all_events = my_event.objects.all()
     out = []
     for event in all_events:
+        start_time = (
+            event.start_time.strftime("%Y-%m-%dT%H:%M:%S") if event.start_time else None
+        )
+        end_time = (
+            event.end_time.strftime("%Y-%m-%dT%H:%M:%S") if event.end_time else None
+        )
         out.append(
             {
                 "title": event.summary,
                 "id": event.id,
-                "start": event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
-                "end": event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "start": start_time,
+                "end": end_time,
                 "description": event.description,
+                "url": "",
             }
         )
-    return JsonResponse({"all_events": out}, safe=False)
+    return JsonResponse(out, safe=False)
 
 
 def add_event(req):
