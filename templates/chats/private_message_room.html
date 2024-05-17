@@ -7,7 +7,9 @@
 </head>
 <body>
     
-    <h2>使用者{{user.username}}</h2>
+    <h2>使用者: {{user.username}}</h2>
+    <p>聊天室代號: {{room_name}}</p>
+    <input type="text" id="chat-message-userId" value="{{user.id}}">
     <textarea id="chat-log" cols="100" rows="20"></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
@@ -23,8 +25,7 @@
             + '/'
         );
 
-        chatSocket.onmessage = function(e) {
-            
+        chatSocket.onmessage = function(e) {          
             const data = JSON.parse(e.data);
             document.querySelector('#chat-log').value += (data.message + '\n');
         };
@@ -35,7 +36,7 @@
 
         document.querySelector('#chat-message-input').focus();
         document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.key === 'Enter') {  // enter, return
+            if (e.key === 'Enter') {  
                 document.querySelector('#chat-message-submit').click();
             }
         };
@@ -43,9 +44,16 @@
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
+            const currentUserId = document.querySelector("#chat-message-userId").value
+            const privateUsers = roomName.split("_")
+            const receiverId = privateUsers[0] == currentUserId ? privateUsers[1] : privateUsers[0]
+
             chatSocket.send(JSON.stringify({
-                'message': message
+                "senderId": currentUserId,
+                "receiverId": receiverId,
+                "message": message
             }));
+            
             messageInputDom.value = '';
         };
     </script>
