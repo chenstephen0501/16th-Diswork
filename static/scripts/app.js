@@ -1,5 +1,5 @@
 (() => {
-  // ../../node_modules/alpinejs/dist/module.esm.js
+  // node_modules/alpinejs/dist/module.esm.js
   var flushPending = false;
   var flushing = false;
   var queue = [];
@@ -1588,7 +1588,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     get raw() {
       return raw;
     },
-    version: "3.13.9",
+    version: "3.13.10",
     flushAndStopDeferringMutations,
     dontAutoEvaluateFunctions,
     disableEffectScheduling,
@@ -2497,8 +2497,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     };
     mutateDom(() => {
       placeInDom(clone2, target, modifiers);
-      initTree(clone2);
-      clone2._x_ignore = true;
+      skipDuringClone(() => {
+        initTree(clone2);
+        clone2._x_ignore = true;
+      })();
     });
     el._x_teleportPutBack = () => {
       let target2 = getTarget(expression);
@@ -2672,6 +2674,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       "left": "arrow-left",
       "right": "arrow-right",
       "period": ".",
+      "comma": ",",
       "equal": "=",
       "minus": "-",
       "underscore": "_"
@@ -2726,7 +2729,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       setValue(getInputValue(el, modifiers, e, getValue()));
     });
     if (modifiers.includes("fill")) {
-      if ([void 0, null, ""].includes(getValue()) || el.type === "checkbox" && Array.isArray(getValue())) {
+      if ([void 0, null, ""].includes(getValue()) || el.type === "checkbox" && Array.isArray(getValue()) || el.tagName.toLowerCase() === "select" && el.multiple) {
         setValue(
           getInputValue(el, modifiers, { target: el }, getValue())
         );
@@ -2738,7 +2741,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     cleanup2(() => el._x_removeModelListeners["default"]());
     if (el.form) {
       let removeResetListener = on(el.form, "reset", [], (e) => {
-        nextTick(() => el._x_model && el._x_model.set(el.value));
+        nextTick(() => el._x_model && el._x_model.set(getInputValue(el, modifiers, { target: el }, getValue())));
       });
       cleanup2(() => removeResetListener());
     }
@@ -2778,7 +2781,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           } else {
             newValue = event.target.value;
           }
-          return event.target.checked ? currentValue.concat([newValue]) : currentValue.filter((el2) => !checkedAttrLooseCompare2(el2, newValue));
+          return event.target.checked ? currentValue.includes(newValue) ? currentValue : currentValue.concat([newValue]) : currentValue.filter((el2) => !checkedAttrLooseCompare2(el2, newValue));
         } else {
           return event.target.checked;
         }

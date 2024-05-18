@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.github",
     "storages",
     "members",
     "news_app",
@@ -71,6 +72,12 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # 第三方登入
 SOCIALACCOUNT_PROVIDERS = {
+    "github": {
+        "APP":{
+            "client_id":os.getenv("GITHUB_CLIENT_ID"),
+            "secret":os.getenv("GITHUB_CLIENT_SECRET"),
+        },
+    },
     "google": {
         "SCOPE": ["profile", "email"],
         "AUTH_PARAMS": {"access_type": "online"},

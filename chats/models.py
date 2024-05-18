@@ -23,7 +23,7 @@ class PrivateChatRoom(models.Model):
     room_name = models.CharField(max_length=128, unique = True)
 
     def __str__(self):
-        return self.group_name        
+        return self.room_name        
 
 class PrivateMessage(models.Model):
     room = models.ForeignKey(PrivateChatRoom, on_delete = models.CASCADE, related_name = 'private_messages')
