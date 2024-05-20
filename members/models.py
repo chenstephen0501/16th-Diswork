@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 
 class Member(AbstractUser):
@@ -7,7 +8,7 @@ class Member(AbstractUser):
     member_status = models.CharField(max_length=50, default="")
     user_img = models.ImageField(null=True, blank=True)
     email = models.EmailField(unique=True)
-    tasks = models.ManyToManyField("Task", through="MemberTask")
+
     friends = models.ManyToManyField(
         "self", through="Friend", symmetrical=False, related_name="related_to"
     )  # symmetrical=False：設定兩者好友關係不是自動對稱的
@@ -22,6 +23,10 @@ class Status(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     expired_at = models.DateTimeField(null=True, blank=True)
     deleted_at = models.DateTimeField(null=True)
+
+    def delete(self, using=None, keep_parents=False):
+        self.deleted_at = timezone.now()
+        self.save()
 
 
 class Friend(models.Model):

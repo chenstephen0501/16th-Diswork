@@ -44,7 +44,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-SITE_ID = 4 # 對應django_site table id
+SITE_ID = 4  # 對應django_site table id
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -53,17 +53,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "members",
-    "news_app",
-    "chats",
-    "tasks",
-    "events",
     "django.contrib.sites",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "storages",
+    "members",
+    "news_app",
+    "chats",
+    "tasks",
+    "events",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
@@ -73,10 +73,10 @@ SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": ["profile", "email"],
         "AUTH_PARAMS": {"access_type": "online"},
-        "APP":{
-            "client_id":os.getenv("CLIENT_ID"),
-            "secret":os.getenv("CLIENT_SECRET"),
-            "key":"",
+        "APP": {
+            "client_id": os.getenv("CLIENT_ID"),
+            "secret": os.getenv("CLIENT_SECRET"),
+            "key": "",
         },
     }
 }
