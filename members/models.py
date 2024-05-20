@@ -8,3 +8,4 @@ class Member(AbstractUser):
     vip_date_expiry = models.DateTimeField(null=True, blank=True)
     user_img = models.ImageField(null=True, blank=True)
     email = models.EmailField(unique=True)
+    tasks = models.ManyToManyField("Task", through="MemberTask")
