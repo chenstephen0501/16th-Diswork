@@ -6,7 +6,6 @@ class TaskManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(deleted_at=None)
 
-
 class Task(models.Model):
     created_user = models.CharField(max_length=20)
     title = models.CharField(max_length=20)
@@ -19,9 +18,7 @@ class Task(models.Model):
     level = models.CharField(max_length=1, default="")
     situations_m2m = models.ManyToManyField("Situation", through="TakeTask")
     member_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
-
     objects = TaskManager()
-
     def delete(self):
         self.deleted_at = timezone.now()
         self.save()
