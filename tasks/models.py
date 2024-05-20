@@ -27,12 +27,12 @@ class Task(models.Model):
         return self.title
 
 class Situation(models.Model):
-    col_name = models.CharField(max_length=20, default="")
+    swimlane = models.CharField(max_length=20, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.col_name
+        return self.swimlane
 
 class MemberTask(models.Model):
     tasks = models.ForeignKey("Task", on_delete=models.CASCADE, default=1)
