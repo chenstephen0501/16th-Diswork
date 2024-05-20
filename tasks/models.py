@@ -16,7 +16,7 @@ class Task(models.Model):
     end_time = models.DateTimeField(null=True)
     deleted_at = models.DateTimeField(null=True)
     level = models.CharField(max_length=1, default="")
-    situations_m2m = models.ManyToManyField("Situation", through="TakeTask")
+    situations_m2m = models.ManyToManyField("Situation", through="MemberTask")
     member_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
     objects = TaskManager()
     def delete(self):
@@ -27,9 +27,9 @@ class Situation(models.Model):
     col_name = models.CharField(max_length=20, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    tasks_m2m = models.ManyToManyField("Task", through="TakeTask")
+    tasks_m2m = models.ManyToManyField("Task", through="MemberTask")
 
-class TakeTask(models.Model):
+class MemberTask(models.Model):
     task = models.ForeignKey("Task", on_delete=models.CASCADE, default=1)
     situation = models.ForeignKey("Situation", on_delete=models.CASCADE, default=1)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
