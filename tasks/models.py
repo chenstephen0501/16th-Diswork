@@ -48,8 +48,8 @@ class Situation(models.Model):
 
 
 class MemberTask(models.Model):
-    tasks = models.ForeignKey("Task", on_delete=models.CASCADE, default=1)
-    members = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    task = models.ForeignKey("Task", on_delete=models.CASCADE, default=1)
+    member = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.member}, {self.task}"

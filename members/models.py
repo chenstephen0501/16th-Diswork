@@ -8,7 +8,7 @@ class Member(AbstractUser):
     member_status = models.CharField(max_length=50, default="")
     user_img = models.ImageField(null=True, blank=True)
     email = models.EmailField(unique=True)
-
+    tasks = models.ManyToManyField("tasks.Task", through="tasks.MemberTask")
     friends = models.ManyToManyField(
         "self", through="Friend", symmetrical=False, related_name="related_to"
     )  # symmetrical=False：設定兩者好友關係不是自動對稱的
