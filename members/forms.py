@@ -30,12 +30,6 @@ class SignUpForm(UserCreationForm):
         model = Member
         fields = ("name", "username", "email", "password1", "password2", "user_img")
 
-    # 2024/5/9 增加 -- Jeter
-    # def clean_email(self):
-    #     email = self.cleaned_data["email"]
-    #     if not email.endswith("@gmail.com"):
-    #         raise forms.ValidationError("只接受 Gmail 格式註冊，請使用 Gmail 作為您的信箱。")
-    #     return email
     def clean_email(self):
         email = self.cleaned_data["email"]
         allowed_domains = ["gmail.com", "yahoo.com.tw", "outlook.com"]
