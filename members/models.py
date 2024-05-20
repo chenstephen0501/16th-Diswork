@@ -8,13 +8,14 @@ class Member(AbstractUser):
     user_img = models.ImageField(null=True, blank=True)
     email = models.EmailField(unique=True)
     tasks = models.ManyToManyField("Task", through="MemberTask")
-    friends = models.ManyToManyField("self")
+    friends = models.ManyToManyField(
+        "self", through="Friend", symmetrical=False, related_name="related_to"
+    )  # symmetrical=False：設定兩者好友關係不是自動對稱的
 
 
 class Status(models.Model):
     member = models.ForeignKey(
-        Member,
-        on_delete=models.CASCADE,
+        Member, on_delete=models.CASCADE, related_name="statuses"
     )
     plan = models.CharField(max_length=20, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -25,10 +26,10 @@ class Status(models.Model):
 
 class Friend(models.Model):
     from_member = models.ForeignKey(
-        Member, related_name="from_member", on_delete=models.CASCADE
+        Member, related_name="friend_requests_sent", on_delete=models.CASCADE
     )
     to_member = models.ForeignKey(
-        Member, related_name="to_member", on_delete=models.CASCADE
+        Member, related_name="friend_requests_received", on_delete=models.CASCADE
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -41,3 +42,4 @@ class Friend(models.Model):
         ],
         default="等待確認",
     )
+    deleted_at = models.DateTimeField(null=True)
