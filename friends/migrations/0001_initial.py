@@ -12,15 +12,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='News',
+            name='Friend',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100)),
-                ('url', models.URLField(max_length=1024)),
-                ('source', models.CharField(max_length=255)),
-                ('published_at', models.DateTimeField(null=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
+                ('status', models.CharField(choices=[('等待確認', '等待確認'), ('確認', '確認'), ('拒絕', '拒絕')], default='等待確認', max_length=20)),
                 ('deleted_at', models.DateTimeField(null=True)),
             ],
         ),

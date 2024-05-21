@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<h2>刪除好友確認</h2>
+<p>你確定要刪除{{ object.sender.username }}這個好友嗎？</p>
+<form method="post" action="{% url 'friends:friend_delete' object.pk %}">
+    {% csrf_token %}
+    <button type="submit">確定</button>
+    <a href="{% url 'friends:friend_list' %}">取消</a>
+</form>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+
+<section class="mt-8">
+  {% for member in member_list %}
+  <div class="flex items-center justify-between p-4 mb-4 border rounded">
+    <div>
+      <p class="mb-2 text-lg font-semibold">ＩＤ：{{ member.id }}</p>
+      <p class="text-gray-700">會員帳號：{{ member.username }}</p>
+    </div>
+    <form method="post" action="{% url 'friends:send_friend_request' receiver_id=member.id %}">
+      {% csrf_token %}
+      <input type="hidden" name="member_id" value="{{ member.id }}">
+      <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">發送好友請求</button>
+    </form>
+  </div>
+  {% endfor %}
+</section>
+
+{% endblock %}

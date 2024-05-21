@@ -16,5 +16,21 @@ class MemberAdmin(UserAdmin):
         ),
     )
 
+    add_fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "username",
+                    "email",
+                    "name",
+                    "user_img",
+                    "password1",
+                    "password2",
+                ),
+            },
+        ),
+    )
+
 
 admin.site.register(Member, MemberAdmin)

@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.views.generic import TemplateView, FormView, UpdateView, DetailView
 from django.urls import reverse_lazy, reverse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from .models import Member
 from .forms import MemberUpdateForm
 from django.contrib.auth.decorators import login_required
