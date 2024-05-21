@@ -45,13 +45,21 @@
       <div class="mb-4 text-center">
         <h2 class="text-xl font-bold text-white">Log in with</h2>
       </div>
-      <a href="{% provider_login_url 'google' %}?next=/">
-        <button
-          class="inline-flex items-center px-4 py-2 mb-1 mr-1 text-xs font-normal font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
-          type="button">
-          <img alt="Google" class="w-5 mr-1" src="https://demos.creative-tim.com/notus-js/assets/img/google.svg">Google
-        </button>
-      </a>
+      <div class="flex flex-col">
+        <a href="{% provider_login_url 'google' %}?next=/">
+          <button
+            class="inline-flex items-center w-full px-4 py-2 mb-6 mr-1 text-xs font-normal font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
+            type="button">
+            <img alt="Google" class="w-5 mr-1"
+              src="https://demos.creative-tim.com/notus-js/assets/img/google.svg">Google
+          </button></a>
+        <a href="">
+          <button
+            class="inline-flex items-center w-full px-4 py-2 mb-1 mr-1 text-xs font-normal font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
+            type="button">
+            <img alt="..." class="w-5 mr-1" src="https://demos.creative-tim.com/notus-js/assets/img/github.svg">Github
+          </button></a>
+      </div>
     </div>
   </div>
 
