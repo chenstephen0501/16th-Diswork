@@ -12,7 +12,7 @@ class Member(AbstractUser):
     friends = models.ManyToManyField(
         "self", through="friends.Friend", symmetrical=False, related_name="related_to"
     )  # symmetrical=False：設定兩者好友關係不是自動對稱的
-    like_sender = models.ManyToManyField("comments.Comment", through="comments.LikeComment", related_name="like_sender")
+    like_by = models.ManyToManyField("comments.Comment", through="comments.LikeComment", related_name="like_sender")
 
 
 class Status(models.Model):

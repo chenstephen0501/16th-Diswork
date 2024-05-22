@@ -21,4 +21,4 @@ class Comment(models.Model):
         
 class LikeComment(models.Model):
     like_comment = models.ForeignKey("Comment", related_name="comment", on_delete=models.CASCADE)
-    like_sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sender", on_delete=models.CASCADE)
+    like_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sender", on_delete=models.CASCADE)

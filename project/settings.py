@@ -4,6 +4,9 @@ import os
 
 load_dotenv()
 
+# 時區設定
+TIME_ZONE = "Asia/Taipei"
+USE_TZ = True
 
 # email註冊驗證start
 from django.contrib.messages import constants as messages

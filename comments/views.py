@@ -1,21 +1,51 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DeleteView
+from django.contrib import messages
 from members.models import Member
-from .forms import CommentForm
 from .models import Comment
-from django.views.generic import DeleteView
-from django.urls import reverse
+from .forms import CommentForm
 
-@require_POST
-def create(request, id):
-    member = get_object_or_404(Member, id=id)
-    form = CommentForm(request.POST)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.member = member
-        comment.save()
-    return redirect("article:show", id=member.id)
-
-class deleteMemberView(DeleteView):
-    model = Member
+class CommentListView(ListView):
+    model = Comment
+    template_name = "comments/comment_area.html"
+    context_object_name = "comments"
+    def get_queryset(self):
+        member_id = self.kwargs["id"]
+        self.member = get_object_or_404(Member, id=member_id)
+        return Comment.objects.filter(member=self.member).order_by("-created_at")
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["member_id"] = self.member.id
+        context["form"] = CommentForm()
+        return context
+
+class CommentCreateView(CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = "comments/comment_area.html"
+    
+    def form_valid(self, form):
+        member_id = self.kwargs["id"]
+        member = get_object_or_404(Member, id=member_id)
+        form.instance.member = member
+        self.object = form.save()
+        messages.success(self.request, "已新增留言！！！")
+        return redirect("comments:comment_area", id=member_id)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member_id = self.kwargs["id"]
+        member = get_object_or_404(Member, id=member_id)
+        context["member_id"] = member_id
+        context["comments"] = Comment.objects.filter(member=member).order_by("-created_at")
+        return context
+
+class CommentDeleteView(DeleteView):
+    model = Comment
+    def get_success_url(self):
+        comment = self.get_object()
+        member_id = comment.member.id
+        messages.success(self.request, "留言已刪除！！！")
+        return reverse_lazy("comments:comment_area", kwargs={"id": member_id})
