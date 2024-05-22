@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     "tasks",
     "events",
     "friends",
+    "comments",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True

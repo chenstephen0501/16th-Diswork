@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from tasks.models import Task, MemberTask
 
-
 class Member(AbstractUser):
     name = models.CharField(max_length=100, default="")
     member_status = models.CharField(max_length=50, default="")
@@ -13,6 +12,7 @@ class Member(AbstractUser):
     friends = models.ManyToManyField(
         "self", through="friends.Friend", symmetrical=False, related_name="related_to"
     )  # symmetrical=False：設定兩者好友關係不是自動對稱的
+    like_sender = models.ManyToManyField("comments.Comment", through="comments.LikeComment", related_name="like_sender")
 
 
 class Status(models.Model):
