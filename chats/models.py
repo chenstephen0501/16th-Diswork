@@ -26,7 +26,7 @@ class PrivateChatRoom(models.Model):
         return self.room_name        
 
 class PrivateMessage(models.Model):
-    room = models.ForeignKey(PrivateChatRoom, on_delete = models.CASCADE, related_name = 'private_messages')
+    private_room = models.ForeignKey(PrivateChatRoom, on_delete = models.CASCADE, related_name = 'private_messages')
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name ='sent_messages')
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name ='received_messages')
     content = models.TextField()
