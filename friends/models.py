@@ -34,14 +34,6 @@ class Friend(models.Model):
 
     objects = FriendManager()
 
-    def get_friends(self):
-        sent_friends = Friend.objects.filter(sender=self.sender, deleted_at=None)
-        received_friends = Friend.objects.filter(receiver=self.sender, deleted_at=None)
-        return sent_friends | received_friends
-
-    def get_how_many_friends(self):
-        return self.get_friends().count()
-
     def delete(self):
         self.deleted_at = timezone.now()
         self.save()
