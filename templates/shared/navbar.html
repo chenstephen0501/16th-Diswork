@@ -1,12 +1,21 @@
+<<<<<<< HEAD
 <nav
   class="flex flex-col w-full px-6 py-4 font-sans text-center bg-white shadow sm:flex-row sm:text-left sm:justify-between sm:items-baseline">
   <div class="flex items-center justify-between w-full">
+=======
+{% load static %}
+
+<nav <<<<<<< HEAD
+  class="flex flex-col w-full px-6 py-4 font-sans text-center bg-gray-900 shadow sm:flex-row sm:text-left sm:justify-center sm:items-baseline backdrop-blur-sm">
+  <div class="flex items-center justify-between w-full max-w-screen-lg">
+>>>>>>> d0ac569 (feat: 討論板討論板CRUD)
     <div class="flex items-center">
       <a href="{% url 'index' %}">
         <img class="w-24 h-auto" src="/static/image/logo_2.png" alt="logo"></a>
     </div>
     <div class="flex items-center">
       <!-- 登入/註冊連結 -->
+<<<<<<< HEAD
       {% if user.is_authenticated %}
       <a href="{% url 'articles:index' %}" class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">討論版</a>
       <a href="{% url 'chats:home' %}" class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">聊天室</a>
@@ -29,6 +38,23 @@
         class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">登入</a>
       <a href="{% url 'members:register' %}"
         class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">註冊</a>
+=======
+      <a href="{% url 'chats:home' %}" class="ml-2 text-lg text-white no-underline">聊天室</a>
+      <a href="{% url 'news:search' %}" class="ml-2 text-lg text-white no-underline">新聞快報</a>
+      <a href="{% url 'events:calendar' %}" class="ml-2 text-lg text-white no-underline">行事曆</a>
+      <a href="{% url 'members:profile' pk=user.id %}" class="ml-2 text-lg text-white no-underline">會員資料</a>
+      <a href="{% url 'chats:private_message_home' %}" class="ml-2 text-lg text-white no-underline">成員名單</a>
+      <a href="{% url 'friends:member_list' %}" class="ml-2 text-lg text-white no-underline">會員列表</a>
+      <a href="{% url 'friends:friend_list' %}" class="ml-2 text-lg text-white no-underline">好友</a>
+    </div>
+    <div class="flex items-center gap-4">
+      {% if user.is_authenticated %}
+      <a href="{% url 'members:logout' %}" class="ml-2 text-lg text-white no-underline">登出</a>
+      {% else %}
+      <a href="{% url 'members:login' %}" class="ml-2 text-lg text-white no-underline">登入</a>
+      <a href="{% url 'members:register' %}" class="ml-2 text-lg text-white no-underline">註冊</a>
+
+>>>>>>> d0ac569 (feat: 討論板討論板CRUD)
       {% endif %}
     </div>
   </div>

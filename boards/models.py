@@ -22,6 +22,8 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True)
 
-    def deleted(self):
+    object = CategoryManager()
+
+    def delete(self):
         self.deleted_at = timezone.now()
         self.save()
