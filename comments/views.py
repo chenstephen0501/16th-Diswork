@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DeleteView
 from django.contrib import messages
 from members.models import Member
@@ -45,7 +45,5 @@ class CommentCreateView(CreateView):
 class CommentDeleteView(DeleteView):
     model = Comment
     def get_success_url(self):
-        comment = self.get_object()
-        member_id = comment.member.id
-        messages.success(self.request, "留言已刪除！！！")
-        return reverse_lazy("comments:comment_area", kwargs={"id": member_id})
+        member_id = self.object.member.id
+        return reverse_lazy("comments:comment_area", kwargs={"id":member_id})
