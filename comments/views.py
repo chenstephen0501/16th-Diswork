@@ -7,6 +7,7 @@ from members.models import Member
 from .models import Comment, LikeComment
 from .forms import CommentForm
 from articles.models import Article
+from django.contrib.auth.decorators import login_required
 
 
 class CommentListView(ListView):
@@ -55,3 +56,19 @@ def delete(req, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
     return redirect("articles:show", pk=comment.article_id)
+
+@login_required
+@require_POST
+def add_like(req, pk):
+    LikeComment.objects.create(like_by_id = req.user.id, like_comment_id = pk)
+    return redirect(req.META.get('HTTP_REFERER'))
+
+@login_required
+@require_POST
+def remove_like(req, pk):
+    try:
+        like = LikeComment.objects.get(like_by_id = req.user.id, like_comment_id = pk)
+        like.delete()
+    except:
+        pass
+    return redirect(req.META.get('HTTP_REFERER'))
