@@ -44,6 +44,19 @@
                     {% csrf_token %}
                     <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">刪除</button>
                 </form>
+                <div class="mt-4 flex">
+                    comment_id: {{comment.id}}
+                    <form action="{% url 'comments:add_like' comment.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="py-2 px-4 bg-blue-400 rounded-lg text-white">按讚</button>
+                    </form>
+
+                    <form action="{% url 'comments:remove_like' comment.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="py-2 px-4 bg-red-400 rounded-lg text-white">取消讚</button>
+                    </form>
+                    <p>按讚數: <span>{{comment_count}}</span></p>
+                </div>
             </li>
             {% empty %}
             <li class="text-gray-500">尚無留言</li>

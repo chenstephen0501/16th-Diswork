@@ -1,12 +1,17 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, redirect, HttpResponse, render
+from django.urls import reverse_lazy, reverse
+from django.views.decorators.http import require_POST
 from django.views.generic import ListView, CreateView, DeleteView
 from django.contrib import messages
 from members.models import Member
-from articles.models import Article
-from .models import Comment
+from .models import Comment, LikeComment
 from .forms import CommentForm
+<<<<<<< HEAD
 from django.views.decorators.http import require_POST
+=======
+from django.contrib.auth.decorators import login_required
+from articles.models import Article
+>>>>>>> 28579a1 (feat: 新增 comment 按讚/取消讚功能)
 
 
 class CommentListView(ListView):
