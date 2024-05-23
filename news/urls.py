@@ -5,6 +5,6 @@ from . import views
 app_name = "news"
 
 urlpatterns = [
-    path("news/", NewsSearchView.as_view(), name="news_search"),
+    path("news/", NewsSearchView.as_view(), name="search"),
     path("", views.news_json, name="news_json"),
 ]
