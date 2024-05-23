@@ -8,7 +8,7 @@ class CategoryForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"class": "mx-1 border-2 border-gray-300 w-full"}),
     )
     rule = forms.CharField(
-        label="板規",
+        label="版規",
         widget=forms.TextInput(
             attrs={"class": "mx-1 border-2 border-gray-300 h-32 w-full"}
         ),
