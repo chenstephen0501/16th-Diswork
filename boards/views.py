@@ -28,7 +28,7 @@ class BoardDetailView(DetailView):
 
 class BoardNewView(FormView):
     form_class = CategoryForm
-    template_name = "boards/board_new.html"
+    template_name = "boards/new.html"
 
 
 @require_POST
@@ -37,17 +37,17 @@ def create(req):
     if form.is_valid():
         form.save()
         messages.success(req, "新增成功！")
-    return redirect("boards:board_list")
+    return redirect("boards:list")
 
 
 @method_decorator(login_required, name="dispatch")
 class CategoryUpdateView(UpdateView):
     model = Category
     form_class = CategoryUpdateForm
-    template_name = "boards/board_edit.html"
+    template_name = "boards/edit.html"
 
     def get_success_url(self):
-        return reverse_lazy("boards:board_detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy("boards:detail", kwargs={"pk": self.object.pk})
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get("pk")
@@ -60,4 +60,4 @@ class BoardDeleteView(DeleteView):
 
     def get_success_url(self):
         messages.success(self.request, "已刪除")
-        return reverse_lazy("boards:board_list")
+        return reverse_lazy("boards:list")
