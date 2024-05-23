@@ -7,18 +7,36 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Friend',
+            name="Friend",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('status', models.CharField(choices=[('等待確認', '等待確認'), ('確認', '確認'), ('拒絕', '拒絕')], default='等待確認', max_length=20)),
-                ('deleted_at', models.DateTimeField(null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("等待確認", "等待確認"),
+                            ("確認", "確認"),
+                            ("拒絕", "拒絕"),
+                        ],
+                        default="等待確認",
+                        max_length=20,
+                    ),
+                ),
+                ("deleted_at", models.DateTimeField(null=True)),
             ],
         ),
     ]

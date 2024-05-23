@@ -11,8 +11,15 @@ from django.urls import reverse_lazy
 @method_decorator(login_required, name="dispatch")
 class MemberListView(ListView):
     model = Member
-    template_name = "friends/member_list.html"
-
+    template_name = "friends/search_list.html"
+    context_object_name = "search_list"
+    def get_queryset(self):
+            query = super().get_queryset()
+            keyword = self.request.GET.get("username", "").strip()
+            if keyword:
+                return query.filter(name__icontains=keyword)
+            return query
+    
 
 @method_decorator(login_required, name="dispatch")
 class FriendListView(ListView):

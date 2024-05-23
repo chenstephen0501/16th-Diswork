@@ -4,6 +4,9 @@ import os
 
 load_dotenv()
 
+# 時區設定
+TIME_ZONE = "Asia/Taipei"
+USE_TZ = True
 
 # email註冊驗證start
 from django.contrib.messages import constants as messages
@@ -44,7 +47,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-SITE_ID = 4  # 對應django_site table id
+SITE_ID = 5  # 對應django_site table id
 
 INSTALLED_APPS = [
     "daphne",
@@ -67,6 +70,7 @@ INSTALLED_APPS = [
     "tasks",
     "events",
     "friends",
+    "comments",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True

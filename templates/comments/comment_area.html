@@ -1,0 +1,54 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<script src="https://cdn.tailwindcss.com/"></script>
+<div class="flex justify-center items-center w-full min-h-screen bg-white">
+    <div>
+        <div class="flex justify-between">
+            <div class="mb-4">
+                <span class="bg-[#F3F4F6] rounded-md font-semibold cursor-pointer p-2">填寫</span>
+                <span class="bg-transparent font-semibold text-[#7E8490] cursor-pointer p-2">預覽</span>
+            </div>
+            <div class="flex gap-3 text-[#9CA3AF]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                </svg>
+            </div>
+        </div>
+        <form method="post" action="{% url 'comments:comment_add' member_id %}">
+            {% csrf_token %}
+            {{ form }}
+            <div class="flex justify-end">
+                <button type="submit"
+                    class="text-sm font-semibold bg-[#4F46E5] text-white py-2 rounded px-3">Post</button>
+            </div>
+        </form>
+        <h2 class="text-xl font-bold mt-8 mb-2">留言列表</h2>
+        <ul class="mt-4">
+            {% for comment in comments %}
+            <li class="bg-white shadow-md rounded p-4 mb-4">
+                <p>{{ comment.content }}</p>
+                <p class="text-sm text-gray-500">時間：{{ comment.created_at|date:"Y-m-d H:i:s" }}</p>
+                <form action="{% url 'comments:delete' pk=comment.id %}" method="post" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">刪除</button>
+                </form>
+            </li>
+            {% empty %}
+            <li class="text-gray-500">尚無留言</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

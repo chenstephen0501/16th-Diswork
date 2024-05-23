@@ -1,0 +1,39 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white shadow-md rounded-lg mt-10">
+    <div class="flex items-center justify-between p-4 border-b">
+        <span class="material-symbols-outlined">home</span>
+        <div class="text-lg font-medium">好友</div>
+        <div class="flex space-x-2">
+            <button class="px-2 py-2 bg-gray-200 rounded">線上</button>
+            <button class="px-2 py-1 bg-gray-200 rounded">所有</button>
+            <button class="px-2 py-1 bg-gray-200 rounded">等待中</button>
+            <button class="px-2 py-1 bg-gray-200 rounded">已封鎖</button>
+            <button class="px-2 py-1 bg-green-500 text-white rounded">新增好友</button>
+        </div>
+    </div>
+
+    <form>
+        <input type="search" name="username" class="px-2 py-1 border-2 border-gray-500" placeholder="search">
+        <button class="bg-gray-300 px-2 py-1">搜尋</button>
+    </form>
+
+    <div class="p-4">
+        <div class="space-y-4">
+            {% if search_list %}
+            {% for search in search_list %}
+            <div class="flex items-center space-x-4">
+                <img src="https://via.placeholder.com/50" alt="頭貼" class="w-12 h-12 rounded-full">
+                <div class="flex-1">
+                    <div class="font-semibold">{{ search.username }}</div>
+                </div>
+                <button class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined">add</span>
+                </button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
