@@ -4,31 +4,17 @@ import os
 
 load_dotenv()
 
-# 時區設定
-TIME_ZONE = "Asia/Taipei"
-USE_TZ = True
-
-# email註冊驗證start
 from django.contrib.messages import constants as messages
-
-MESSAGE_TAGS = {
-    messages.DEBUG: "debug",
-    messages.INFO: "info",
-    messages.SUCCESS: "success",
-    messages.WARNING: "warning",
-    messages.ERROR: "error",
-}
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 EMAIL_BACKEND = os.getenv("EMAIL_BACKEND")
-EMAIL_HOST = os.getenv("EMAIL_HOST")  # SMTP伺服器
-EMAIL_PORT = os.getenv("EMAIL_PORT")  # TLS通訊埠號
-EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")  # 開啟TLS(傳輸層安全性)
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")  # 寄件者電子郵件
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")  # Gmail應用程式密碼
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-# email註冊驗證end
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -65,7 +51,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "storages",
     "members",
-    "news_app",
+    "news",
     "chats",
     "tasks",
     "events",

@@ -2,7 +2,7 @@ import time, datetime, os, requests, django
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.utils import timezone
-from news_app.models import News
+from news.models import News
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
 django.setup()
@@ -28,7 +28,6 @@ def update_news():
                             source_data = BeautifulSoup(source.text, "html.parser")
                             source_name_tag = source_data.find("div", class_="source-info")
                             source_name = source_name_tag.text.strip() if source_name_tag else "來源不明"
-                            # 存進資料庫
                             News.objects.create(
                                 title=title.text.strip(),
                                 url=full_url,
@@ -42,7 +41,6 @@ def update_news():
             print("無法從網路取得資料。")
     except Exception as e:
         print(f"取得新聞列表發生錯誤{e}")   
-    # 刪除超過三天以上的資料
     delete_three_day = timezone.now() - datetime.timedelta(days=3)
     old_news = News.objects.filter(created_at__lt=delete_three_day)
     count = old_news.count()
@@ -54,7 +52,7 @@ if __name__ == "__main__":
             try:
                 update_news()
                 print("等待五分鐘...")
-                time.sleep(60)  # 300 --> 每五分鐘更新
+                time.sleep(60)
             except Exception as e:
                 print(f"發生錯誤：{e}")
     except KeyboardInterrupt:
