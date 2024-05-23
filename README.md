@@ -5,10 +5,25 @@ DisWork
 
 
 ## 功能
+1. 討論版
+
+2. 活動行事曆功能
+- 串接Google行事曆
+- 即時建立事件
+- 查看未來行程
+
+3. 新聞
+- 自動更新每日頭條新聞
+
+4. 會員系統
+- 第三方登入，快速方便
+- 劃分會員等級，解鎖付費功能
+
+5. 即時聊天互動
+- 
 
 
-## Setup Steps 設定步驟
-
+## 專案初始化
 #### 虛擬環境:
 ```
 $ pip install poetry
@@ -26,10 +41,23 @@ $ npm run dev
 $ make server
 ```
 
-### 使用私人聊天設定步驟
-1. 到 Docker 官方下載 [Docker](https://www.docker.com/) 
-2. $ docker run -p 6379:6379 -d redis:7
-3. 再來安裝 channels_redis，以便 Channels 與 Redis 互動。
-4. $ poetry add channels_redis
+## 使用技術
+- 前端：Tailwindcss/Alpine.js/HTMX
+- 後端：Python Django
+- 資料庫：mySQL
+- 第三方串接：Google Calendar/Google OAuth 2.0/藍新金流
+- 部署：AWS S3
 
-### 成員
+### 開發團隊 DM us!
+- 劉芳潔 FionaLiu
+    Email: tomato870208@gmail.com
+    GitHub ID: chiehhhaa
+- 陳冠宇 JeterChen
+    Email: dali1756@gmail.com
+    GitHub ID: dali1756
+- 巫爾均 LeoWu
+    Email: defyto13579@gmail.com
+    GitHub ID: Bunny1780
+- 陳志誠 StephenChen
+    Email: tom9876555@gmail.com
+    GitHub ID: chenstephen0501

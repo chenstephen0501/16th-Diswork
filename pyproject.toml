@@ -2,7 +2,7 @@
 name = "diswork"
 version = "0.1.0"
 description = ""
-authors = ["chiehhhaa <tomato870208@gmail.com>"]
+authors = ["FionaLiu <tomato870208@gmail.com>", "JeterChen <dali1756@gmail.com>", "StephenChen <tom9876555@gmail.com>", "LeoWu <defyto13579@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -12,8 +12,6 @@ mysqlclient = "^2.2.4"
 python-dotenv = "^1.0.1"
 requests = "^2.31.0"
 beautifulsoup4 = "^4.12.3"
-selenium = "^4.20.0"
-webdriver-manager = "^4.0.1" 
 google-api-python-client = "1.7.9"
 google-auth-httplib2 = "0.0.3"
 google-auth-oauthlib = "0.4.0"
@@ -25,9 +23,6 @@ boto3 = "^1.34.104"
 pillow = "^10.3.0"
 
 channels = {extras = ["daphne"], version = "^4.1.0"}
-channels-redis = "^4.2.0"
-
-
 
 [build-system]
 requires = ["poetry-core"]
