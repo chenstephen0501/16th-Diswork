@@ -1,6 +1,78 @@
 {% extends 'layouts/base.html' %}
-{% block title %}Diswork{% endblock %}
-
+{% load static %}
 {% block content %}
+
+<main>
+    <section class="bg-gray-900 text-white py-20 px-6 md:px-12 flex flex-col-reverse items-center justify-between">
+        <div class="flex w-full max-w-xl text-center mt-10">
+            <div class="bg-white w-1/2 mr-2 rounded-3xl">
+                <a href="#" class="block text-black w-full py-3">下載DISWORK</a>
+            </div>
+
+            <div class="w-1/2 ml-2 rounded-3xl" style="background: #fa0;">
+                <a href="#" class="block text-white w-full py-3">現在使用DISWORK</a>
+            </div>
+        </div>
+        <div class="w-full max-w-xl" style="aspect-ratio: 48 / 19;">
+            <img src="{% static 'image/logo.png' %}" alt="Discord Hero" class="w-full h-full"
+                style="object-fit: cover;" />
+        </div>
+    </section>
+    <section class="bg-white text-black py-20 px-6 md:px-12">
+        <div class="flex flex-col md:flex-row max-w-screen-lg items-center justify-between mx-auto">
+            <img src="https://picsum.photos/300/200/?random=10" width="600" height="400" alt="Discord Voice"
+                class="mb-8 md:mb-0 md:mr-12" style="aspect-ratio: 600 / 400; object-fit: cover;" />
+            <div class="space-y-6 max-w-md">
+                <h2 class="text-3xl font-bold">Where hanging out is easy</h2>
+                <p class="text-lg">
+                    Grab a seat in a voice channel when you're free. Friends can see you're around and instantly pop in
+                    to talk
+                    without having to call.
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="bg-gray-900 text-white py-20 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between">
+        <div class="flex flex-col md:flex-row max-w-screen-lg items-center justify-between mx-auto">
+            <div class="space-y-6 max-w-md">
+                <h2 class="text-3xl font-bold">Where hanging out is easy</h2>
+                <p class="text-lg">
+                    Grab a seat in a voice channel when you're free. Friends can see you're around and instantly pop in
+                    to talk
+                    without having to call.
+                </p>
+            </div>
+            <img src="https://picsum.photos/300/200/?random=10" width="600" height="400" alt="Discord Voice"
+                class="mb-8 md:mb-0 md:mr-12" style="aspect-ratio: 600 / 400; object-fit: cover;" />
+        </div>
+    </section>
+    <section class="bg-white text-black py-20 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between">
+        <div class="flex flex-col md:flex-row max-w-screen-lg items-center justify-between mx-auto">
+            <img src="https://picsum.photos/300/200/?random=10" width="600" height="400" alt="Discord Voice"
+                class="mb-8 md:mb-0 md:mr-12" style="aspect-ratio: 600 / 400; object-fit: cover;" />
+            <div class="space-y-6 max-w-md">
+                <h2 class="text-3xl font-bold">Where hanging out is easy</h2>
+                <p class="text-lg">
+                    Grab a seat in a voice channel when you're free. Friends can see you're around and instantly pop in
+                    to talk
+                    without having to call.
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="bg-gray-900 text-white py-8 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center">
+    <div class="flex items-center">
+        <a href="{% url 'index' %}">
+            <img class="w-32 h-auto" src="{% static 'image/logo_row.png' %}" alt="logo">
+        </a>
+    </div>
+    <nav class="flex flex-col md:flex-row items-center gap-4">
+        <a class="hover:underline" href="#">Download</a>
+        <a class="hover:underline" href="#">Nitro</a>
+        <a class="hover:underline" href="#">Safety</a>
+        <a class="hover:underline" href="#">Support</a>
+    </nav>
+</footer>
 
 {% endblock %}
