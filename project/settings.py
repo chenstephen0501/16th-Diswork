@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-SITE_ID = 5  # 對應django_site table id
+SITE_ID = int(os.getenv("SITE_ID"))
 
 INSTALLED_APPS = [
     "daphne",
