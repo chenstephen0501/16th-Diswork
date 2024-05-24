@@ -28,13 +28,6 @@ class NewView(FormView):
 
 class ShowView(DetailView):
     model = Article
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # 获取 Member 实例，这里假设你只获取一个，可能需要根据你的逻辑进行修改
-        member = get_object_or_404(Member, pk=1)  # 这里的 pk=1 只是一个示例
-        context['member'] = member
-        return context
     
     def post(self, request, pk):
         article = self.get_object()
