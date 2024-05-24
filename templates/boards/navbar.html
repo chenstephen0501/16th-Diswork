@@ -1,0 +1,34 @@
+<nav
+  class="flex flex-col w-full px-6 py-4 font-sans text-center bg-white shadow sm:flex-row sm:text-left sm:justify-between sm:items-baseline">
+  <div class="flex items-center justify-between w-full">
+    <div class="flex items-center">
+      <a href="{% url 'index' %}">
+        <img class="w-24 h-auto" src="/static/image/logo_row.png" alt="logo"></a>
+    </div>
+    <div class="flex items-center">
+      <!-- 登入/註冊連結 -->
+      {% if user.is_authenticated %}
+      <a href="{% url 'chats:home' %}" class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">聊天室</a>
+      <a href="{% url 'news:search' %}"
+        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">新聞快報</a>
+      <a href="{% url 'events:calendar' %}"
+        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">行事曆</a>
+      <a href="{% url 'members:profile' pk=user.id %}"
+        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">會員資料</a>
+      <a href="{% url 'chats:private_message_home' %}"
+        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">成員名單</a>
+      <a href="{% url 'friends:member_list' %}"
+        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">會員列表</a>
+      <a href="{% url 'friends:friend_list' %}"
+        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">好友</a>
+      <a href="{% url 'members:logout' %}"
+        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">登出</a>
+      {% else %}
+      <a href="{% url 'members:login' %}"
+        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">登入</a>
+      <a href="{% url 'members:register' %}"
+        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">註冊</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
