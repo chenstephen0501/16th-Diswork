@@ -1,0 +1,51 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="bg-gray-100 dark:bg-gray-900">
+    <div class="container mx-auto py-12 md:py-16 lg:py-20">
+        <article class="prose prose-gray mx-auto max-w-3xl dark:prose-invert">
+            <div class="space-y-4">
+                <h1 class="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">{{ article.title }}</h1>
+                <div class="mt-4 flex items-center gap-2 space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                    <div>{{ article.author }}</div>
+                    <div class="flex items-center space-x-1">
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="h-4 w-4"
+                        >
+                            <path d="M8 2v4"></path>
+                            <path d="M16 2v4"></path>
+                            <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                            <path d="M3 10h18"></path>
+                        </svg>
+                        <span>{{ article.created_at }}</span>
+                    </div>
+                    {% if user.is_authenticated %}
+                        {% if user == article.author %}
+                            <div class="flex gap-2">
+                                <a href="{% url 'articles:edit' article.id %}">編輯</a>
+                                <form action="{% url 'articles:delete' article.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit">刪除</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <article class="flex flex-col gap-4 border border-blueGray-600" style="min-height: 300px;">
+                    {{ article.content }}
+                </article>
+            </div>
+        </article>
+    </div>
+</div>
+
+{% endblock %}

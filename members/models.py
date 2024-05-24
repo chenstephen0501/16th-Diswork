@@ -14,6 +14,7 @@ class Member(AbstractUser):
     )  # symmetrical=False：設定兩者好友關係不是自動對稱的
     like_by = models.ManyToManyField("comments.Comment", through="comments.LikeComment", related_name="like_sender")
 
+    liking_article_mambers = models.ManyToManyField("articles.Article", through="articles.LikeArticle", related_name="liking_article_mambers")
 
 class Status(models.Model):
     member = models.ForeignKey(

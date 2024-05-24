@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "events",
     "friends",
     "comments",
+    "articles",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
