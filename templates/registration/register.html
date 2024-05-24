@@ -1,38 +1,40 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
-<div class="flex justify-center mt-5">
-  <div class="w-3/4 md:w-1/2 sm:w-1/2">
+
+<div class="register-container w-4/12 h-lvh text-white border-2 mx-auto bg-gray-600 rounded-lg">
+  <h1 class="mt-4 text-3xl text-center">Welcome to Diswork</h1>
+<p class="mt-1  text-center">Discuss your work!</p>
+  <div class="w-full">
     <form action="{% url 'members:register' %}" method="post">
       {% csrf_token %}
-      <div class="flex flex-col items-center justify-center mt-8">
-        <div class="mb-4">
-          <label for="name" class="mb-1 text-lg font-medium">姓名</label>
-          {{ form.name }}
-          {{ form.name.errors }}
-        </div>
-        <div class="mb-4">
-          <label for="username" class="mb-1 text-lg font-medium">帳號</label>
-          {{ form.username }}
-          {{ form.username.errors }}
-        </div>
-        <div class="mb-4">
-          <label for="email" class="mb-1 text-lg font-medium">信箱</label>
-          {{ form.email }}
-          <!-- 2024/5/9 增加 -- Jeter -->
-          {{ form.email.errors }}
-        </div>
-        <div class="mb-4">
-          <label for="password1" class="mb-1 text-lg font-medium">密碼</label>
-          {{ form.password1 }}
-          {{ form.password1.errors }}
-        </div>
-        <div class="mb-8">
-          <label for="password2" class="mb-1 text-lg font-medium">密碼確認</label>
-          {{ form.password2 }}
-          {{ form.password2.errors }}
-        </div>
-        <button type="submit"
-          class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline">註冊</button>
+      <div class="mt-3 mx-auto w-9/12">
+        <label  for="name">姓名:
+          {{form.name}}
+          {{form.name.errors}}
+      </div>
+      <div class="mt-3 mx-auto w-9/12">
+        <label class="" for="username">帳號:</label>
+          {{form.username}}
+          {{form.username.errors}}
+      </div>
+      <div class="mt-3 mx-auto  w-9/12">
+        <label class="" for="email">信箱:</label>
+          {{form.email}}
+          {{form.email.errors}}
+      </div>
+      <div class="mt-3 mx-auto  w-9/12">
+        <label class=" " for="password1">密碼:</label>
+          {{form.password1}}
+          {{form.password1.errors}}
+      </div>
+      <div class="mt-3 mx-auto  w-9/12">
+        <label class=" " for="password2">確認密碼:</label>
+          {{form.password2}}
+          {{form.password2.errors}}
+      </div>
+      <div class="flex mt-4 justify-evenly">
+        <button class="py-2 px-6 bg-orange-500 rounded hover:bg-amber-700 font-bold focus:outline-none shadow">註冊</button>
+        <a class="px-6 py-2 bg-green-500 rounded hover:bg-green-700 font-bold focus:outline-none shadow" href="{% url 'members:login' %}">登入</a>
       </div>
     </form>
   </div>

@@ -6,24 +6,48 @@ from .models import Member
 class SignUpForm(UserCreationForm):
     name = forms.CharField(
         label="姓名",
-        widget=forms.TextInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
+        widget=forms.TextInput(attrs={"class": "rounded-lg h-9 w-full mt-1 bg-white border-blue-300 focus:outline-none focus:ring text-slate-900", "placeholder": "請輸入名稱"})
     )
     username = forms.CharField(
         label="帳號",
-        widget=forms.TextInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
+        widget=forms.TextInput(attrs={"class": "rounded-lg h-9 w-full mt-1 bg-white border-blue-300 focus:outline-none focus:ring text-slate-900", "placeholder": "請輸入帳號"})
     )
-    email = forms.EmailField(
+    email = forms.CharField(
         label="信箱",
-        widget=forms.EmailInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
+        widget=forms.EmailInput(attrs={"class": "rounded-lg h-9 w-full mt-1 bg-white border-blue-300 focus:outline-none focus:ring text-slate-900", "placeholder": "請輸入信箱"})
     )
     password1 = forms.CharField(
         label="密碼",
-        widget=forms.PasswordInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
+        widget=forms.PasswordInput(attrs={"class": "rounded-lg h-9 w-full mt-1 bg-white border-blue-300 focus:outline-none focus:ring text-slate-900", "placeholder": "請輸入密碼"})
     )
     password2 = forms.CharField(
         label="密碼確認",
-        widget=forms.PasswordInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
+        widget=forms.PasswordInput(attrs={"class": "rounded-lg h-9 w-full mt-1 bg-white border-blue-300 focus:outline-none focus:ring text-slate-900", "placeholder": "請輸入確認密碼"})
     )
+
+    class Meta:
+        model = Member
+        field = ("name", "username", "email", "password", "password2", "user_img")
+    # name = forms.CharField(
+    #     label="姓名",
+    #     widget=forms.TextInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
+    # )
+    # username = forms.CharField(
+    #     label="帳號",
+    #     widget=forms.TextInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
+    # )
+    # email = forms.EmailField(
+    #     label="信箱",
+    #     widget=forms.EmailInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
+    # )
+    # password1 = forms.CharField(
+    #     label="密碼",
+    #     widget=forms.PasswordInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
+    # )
+    # password2 = forms.CharField(
+    #     label="密碼確認",
+    #     widget=forms.PasswordInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
+    # )
 
     class Meta:
         model = Member
