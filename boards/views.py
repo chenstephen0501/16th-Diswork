@@ -37,8 +37,6 @@ def create(req):
     if form.is_valid():
         form.save()
         messages.success(req, "新增成功！")
-    else:
-        print(form.errors)
     return redirect("boards:list")
 
 
