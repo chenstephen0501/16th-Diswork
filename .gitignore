@@ -4,5 +4,9 @@ node_modules/
 *__pycache__/
 static/styles/style.css
 static/scripts/app.js
+<<<<<<< HEAD
+=======
+static
+>>>>>>> 59df316 (fix: 修改 .gitignore)
 token.json
 .DS_Store
