@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-SITE_ID = os.getenv("SITE_ID")
+SITE_ID = int(os.getenv("SITE_ID"))
 
 INSTALLED_APPS = [
     "daphne",
