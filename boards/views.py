@@ -34,26 +34,12 @@ class BoardNewView(FormView):
 @require_POST
 def create(req):
     form = CategoryForm(req.POST, req.FILES)
-    print("______________")
-    print(req.POST)
     if form.is_valid():
         form.save()
         messages.success(req, "新增成功！")
     else:
         print(form.errors)
     return redirect("boards:list")
-
-
-@require_POST
-def upload_picture(request):
-    form = CategoryForm(request.POST, request.FILES)
-    if form.is_valid():
-        form.save()
-        messages.success(request, "圖片上傳成功！")
-        return redirect("boards:list")
-    else:
-        messages.error(request, "圖片上傳失敗，請檢查輸入")
-        return redirect("boards:new")
 
 
 @method_decorator(login_required, name="dispatch")

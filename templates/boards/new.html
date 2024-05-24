@@ -9,11 +9,6 @@
       {% csrf_token %}
       <div>
         <label for="picture" class="mb-1 text-lg font-medium">看板圖片：</label>
-        {% if form.picture.value %}
-        <img src="{{ category.picture.url }}" alt="photo" style="width:150px">
-        {% else %}
-        <p>無照片顯示</p>
-        {% endif %}
         <input type="file" id="picture" name="picture" accept="image/*" class="border-solid">
       </div>
       <div class="mb-4">
