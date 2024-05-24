@@ -20,9 +20,9 @@
         </svg>
     </a>
 
-    <main class="grid grid-cols-1 p-4 md:p-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <main class="flex flex-col p-4 md:p-6">
         {% for article in article_list %}
-            <article class="rounded-lg overflow-hidden shadow-lg bg-white dark:bg-gray-950 mb-3">
+            <article class="w-full overflow-hidden shadow-lg bg-white dark:bg-gray-950 mb-3">
                 <a class="block p-4 text-xl font-bold" href="{% url 'articles:show' article.id %}">{{ article.title }}</a>
             </article>
         {% endfor %}

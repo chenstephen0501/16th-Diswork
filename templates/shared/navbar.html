@@ -10,7 +10,7 @@
       {% if user.is_authenticated %}
       <a href="{% url 'articles:index' %}" class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">討論版</a>
       <a href="{% url 'chats:home' %}" class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">聊天室</a>
-      <a href="{% url 'news:news_search' %}"
+      <a href="{% url 'news:search' %}"
         class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">新聞快報</a>
       <a href="{% url 'events:calendar' %}"
         class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">行事曆</a>

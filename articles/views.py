@@ -21,7 +21,7 @@ class NewView(FormView):
         form = ArticleForm(request.POST)
         if form.is_valid():
             article = form.save(commit=False)
-            article.author = request.user  # 设置当前用户为作者
+            article.author = self.request.user
             article.save()
             return redirect("articles:index")
         return render(request, "articles/new.html", {"form": form})
