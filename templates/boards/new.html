@@ -3,13 +3,33 @@
 
 {% block content %}
 <div class="flex justify-center">
-    <div class="w-full p-8 lg:w-2/3 xl:w-1/2">
-        <h1 class="mb-4 text-2xl font-bold text-orange-500">新增看板</h1>
-        <form action="{% url 'boards:add' %}" method="post" class="space-y-4">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="新增" class="px-4 py-2 text-white bg-orange-500 rounded hover:bg-orange-600">
-        </form>
-    </div>
+  <div class="w-full p-8 lg:w-2/3 xl:w-1/2">
+    <h1 class="mb-4 text-2xl font-bold text-orange-500">新增看板</h1>
+    <form action="{% url 'boards:add' %}" method="post" enctype="multipart/form-data" class="space-y-4">
+      {% csrf_token %}
+      <div>
+        <label for="picture" class="mb-1 text-lg font-medium">看板圖片：</label>
+        {% if form.picture.value %}
+        <img src="{{ category.picture.url }}" alt="photo" style="width:150px">
+        {% else %}
+        <p>無照片顯示</p>
+        {% endif %}
+        <input type="file" id="picture" name="picture" accept="image/*" class="border-solid">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="mb-1 text-lg font-medium">看板</label>
+        {{ form.title }}
+      </div>
+      <div class="mb-4">
+        <label for="rule" class="mb-1 text-lg font-medium">板規</label>
+        {{ form.rule }}
+      </div>
+      <div class="mb-4">
+        <label for="status" class="mb-1 text-lg font-medium">看板狀態</label>
+        {{ form.status }}
+      </div>
+      <input type="submit" value="新增" class="px-4 py-2 text-white bg-orange-500 rounded hover:bg-orange-600">
+    </form>
+  </div>
 </div>
 {% endblock %}

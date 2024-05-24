@@ -5,41 +5,37 @@
 {% include './navbar.html' %}
 
 {% for category in category_list %}
-<div class="mt-5">
+<div class="mx-10 mt-5">
   <div class="flex flex-col overflow-hidden border rounded-lg shadow-lg forum_list md:flex-row">
     <div class="flex-shrink-0 forum_list_pic">
       <a href="#">
-        <img src="https://via.placeholder.com/360x108.png" class="object-cover w-full h-full lazyloaded">
+        <p>{{ category_list }}</p>
+        <p>{{ category }}</p>
+        <img src="{{ category.picture.url }}" class="object-cover w-full h-full lazyloaded">
       </a>
     </div>
     <div class="flex flex-col justify-between p-4 forum_list_info">
-      <div class="category_card"> <!-- 添加卡片樣式 -->
+      <div class="category_card">
         <div class="flex items-center text-lg font-semibold forum_list_title">
-          <span class="mr-2">10</span>
           <span>
-            <a data-gtm-page="熱門哈啦區" data-gtm-area="主要列表" data-gtm-service="forum" data-gtm-link-click="點擊哈啦板"
-              href="A.php?bsn=36730" class="text-blue-600 hover:underline">{{
-              category.title }}</a>
+            <a href="{% url 'boards:detail' category.pk %}" class="text-black hover:underline">
+              {{ category.title }}</a>
+            <a href="{% url 'boards:edit' pk=category.pk %}">
+              <button class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">編輯</button>
+            </a>
           </span>
         </div>
-        <div class="mt-2 text-gray-500 forum_arrow forum_down">▼</div>
         <p class="mt-2">
-          <a data-gtm-page="熱門哈啦區" data-gtm-area="主要列表" data-gtm-service="forum" data-gtm-link-click="點擊文章"
-            href="C.php?bsn=36730&amp;snA=38706" class="text-gray-800 hover:text-blue-600">{{ category.rule
-            }}</a>
+          <a href="{% url 'boards:detail' category.pk %}" class="text-gray-800 hover:text-orange-600">
+            {{ category.rule }}</a>
         </p>
       </div>
       <div class="mt-4 text-sm text-gray-500">
         <span>板主：cat2602063</span>
-        <span class="ml-4"><i class="text-red-500 fa fa-fire" aria-hidden="true" title="昨日人氣"></i> 166398</span>
-        <span class="ml-4"><i class="text-gray-600 fa fa-file-text-o" aria-hidden="true" title="昨日文章"></i>
-          127</span>
+
       </div>
     </div>
   </div>
-  {% endfor %}
 </div>
-</div>
-
 {% endfor %}
 {% endblock %}

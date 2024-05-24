@@ -17,4 +17,5 @@ urlpatterns = [
     path("<int:pk>/edit/", CategoryUpdateView.as_view(), name="edit"),
     path("<int:pk>/delete", BoardDeleteView.as_view(), name="delete"),
     path("add/", views.create, name="add"),
+    path("upload_picture/", views.upload_picture, name="upload_picture"),
 ]
