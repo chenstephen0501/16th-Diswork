@@ -18,7 +18,7 @@ class Article(models.Model):
     objects = ArticleManager()
 
     def __str__(self):
-        return f"123{self.title}"
+        return f"{self.title}"
 
     def delete(self):
         self.deleted_at = timezone.now()
