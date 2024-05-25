@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, FormView, DetailView, DeleteView
 from django.contrib import messages
-from .models import Article
+from .models import Article, LikeArticle
 from .forms import ArticleForm
 from comments.forms import CommentForm
+from django.contrib.auth.decorators import login_required
 
 
 class ArticleIndexView(ListView):
@@ -70,3 +71,21 @@ class DeleteView(DeleteView):
     def get_success_url(self):
         messages.success(self.request, "已刪除")
         return reverse("articles:index")
+
+@login_required
+@require_POST
+def add_like(req, pk):
+    LikeArticle.objects.create(like_by_article_id = req.user.id ,like_article_id = int(pk))
+    
+    return HttpResponse("")
+
+@login_required
+@require_POST
+def remove_like(req, pk):
+    try:
+        like = LikeArticle.objects.get(like_by_article_id = req.user.id ,like_article_id = pk)
+        print("like", like)
+        like.delete()
+    except:
+        pass    
+    return HttpResponse("")
