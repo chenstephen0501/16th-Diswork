@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -6,7 +7,7 @@ from django.views.generic import FormView
 from .forms import EventForm
 from .models import Event
 from django.http import JsonResponse
-from django.views.generic import FormView, ListView, DetailView
+from django.views.generic import FormView, ListView, UpdateView, DeleteView
 
 
 @method_decorator(login_required, name="dispatch")
@@ -43,16 +44,30 @@ def create(req):
         return JsonResponse({"errors": form.errors}, status=400)
 
 
-def edit(req, id):
-    event = get_object_or_404(Event, pk=id)
-    if req.method == "POST":
-        form = EventForm(req.POST, instance=event)
-        if form.is_valid():
-            form.save()
-            return redirect("events:calendar")
-    else:
-        form = EventForm(instance=event)
-    return render(req, "events/edit.html", {"form": form})
+@method_decorator(login_required, name="dispatch")
+class EventUpdateView(UpdateView):
+    model = Event
+    form_class = EventForm
+    template_name = "events/edit.html"
+
+    def get_success_url(self):
+        return reverse_lazy("events:list")
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get("pk")
+        return get_object_or_404(Event, pk=pk)
+
+    def form_invalid(self, form):
+        print("Form is invalid")
+        print(form.errors)
+        return super().form_invalid(form)
+
+
+class EventDeleteView(DeleteView):
+    model = Event
+
+    def get_success_url(self):
+        return reverse("events:list")
 
 
 def all_events(req):

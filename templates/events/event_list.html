@@ -2,7 +2,17 @@
 {% block title %}{% endblock %}
 
 {% block content %}
+<div class="flex justify-center">
+  <div class="mt-8 text-center">
+    <h1 class="text-2xl">版主大大你好</h1>
+    <p>以下是您板上的活動事件們</p>
+  </div>
+</div>
 
+<div class="flex justify-end mr-10">
+  <a href="{% url 'events:calendar' %}"
+    class="px-4 py-3 mt-5 text-white bg-orange-500 rounded hover:bg-orange-600">回行事曆</a>
+</div>
 <div class="flex justify-end mb-4 mr-10">
   <a href="{% url 'events:new' %}" class="px-4 py-3 mt-5 text-white bg-orange-500 rounded hover:bg-orange-600">新增活動</a>
 </div>
@@ -23,8 +33,15 @@
           <p class="text-sm text-gray-600">結束： {{ event.end_time }} </p>
         </div>
         <div class="ml-auto">
-          <a href="#">
-            <button class="px-4 py-2 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">編輯</button>
+          <a href="{% url 'events:edit' event.id %}">
+            <button class="px-4 py-2 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">
+              編輯
+            </button>
+          </a>
+          <a href="{% url 'events:delete' event.id %}">
+            <button class="px-4 py-2 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">
+              刪除
+            </button>
           </a>
         </div>
       </div>
