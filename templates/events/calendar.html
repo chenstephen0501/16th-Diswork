@@ -10,9 +10,9 @@
       selectable: true,
       "allDay": event.is_all_day,
       headerToolbar: {
-        left: 'prev,next today',
+        left: 'prev,next',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'today'
       },
       eventSources: [{ url: '/events/all_events/', color: '#C7B7A3' }],
       eventClick: function (info) {

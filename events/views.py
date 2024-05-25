@@ -6,7 +6,7 @@ from django.views.generic import FormView
 from .forms import EventForm
 from .models import Event
 from django.http import JsonResponse
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView, ListView, DetailView
 
 
 @method_decorator(login_required, name="dispatch")
@@ -16,6 +16,11 @@ class CalendarView(ListView):
 
     def get_queryset(self):
         return Event.objects.all()
+
+
+class EventListView(ListView):
+    model = Event
+    template_name = "events/event_detail.html"
 
 
 class NewView(FormView):
