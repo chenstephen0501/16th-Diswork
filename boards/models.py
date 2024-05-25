@@ -21,6 +21,7 @@ class Category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True)
+    picture = models.ImageField(null=True, blank=True, upload_to="images/")
 
     object = CategoryManager()
 

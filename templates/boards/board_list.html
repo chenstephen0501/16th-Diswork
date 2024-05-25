@@ -2,18 +2,53 @@
 {% block title %}討論板{% endblock %}
 
 {% block content %}
-<div class="flex justify-center">
-    <div class="w-full p-8 lg:w-2/3 xl:w-1/2">
-        <a href="{% url 'boards:new' %}"
-            class="block px-4 py-2 mb-4 text-white bg-orange-400 rounded-lg hover:bg-orange-600">新增</a>
-        <h1 class="mb-4 text-2xl font-bold">Forum category</h1>
-        {% for category in category_list %}
-        <div class="flex items-center py-2 border-b border-gray-200">
-            <a href="{% url 'boards:detail' category.pk %}"
-                class="block w-full px-4 py-2 text-gray-900 hover:bg-gray-100">{{ category.title }}</a>
-            <a href="{% url 'boards:delete'  category.pk %}" class="px-4 py-2 text-red-500 hover:text-red-700">刪除</a>
-        </div>
-        {% endfor %}
-    </div>
+{% include './navbar.html' %}
+
+<div class="flex justify-end mb-4 mr-10">
+  <a href="{% url 'boards:new' %}" class="px-4 py-3 mt-5 text-white bg-orange-500 rounded hover:bg-orange-600">新增看板</a>
 </div>
+
+{% for category in category_list %}
+<div class="w-5/6 mx-auto my-8 mt-5">
+  <div class="flex flex-col overflow-hidden border rounded-lg shadow-lg forum_list md:flex-row">
+    <div class="flex-shrink-0 forum_list_pic">
+      <a href="#">
+        {% if category.picture %}
+        <div style="height: 150px; width: 380px;">
+          <img src="{{ category.picture.url }}" class="object-cover w-full h-full lazyloaded">
+        </div>
+        {% else %}
+        <div style="height: 150px; width: 380px;">
+          <p>無照片顯示</p>
+        </div>
+        {% endif %}
+      </a>
+    </div>
+    <div class="flex flex-col justify-between w-full p-4 forum_list_info">
+      <div class="flex items-center justify-between category_card">
+        <div>
+          <div class="text-lg font-semibold forum_list_title">
+            <a href="{% url 'boards:detail' category.pk %}" class="text-black hover:underline">
+              {{ category.title }}
+            </a>
+          </div>
+          <p class="mt-2">
+            <a href="{% url 'boards:detail' category.pk %}" class="text-gray-800 hover:text-orange-600">
+              {{ category.rule }}
+            </a>
+          </p>
+          <div class="mt-4 text-sm text-gray-500">
+            <span>板主：cat2602063</span>
+          </div>
+        </div>
+        <div class="ml-auto">
+          <a href="{% url 'boards:edit' pk=category.pk %}">
+            <button class="px-4 py-2 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">編輯</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 {% endblock %}

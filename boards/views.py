@@ -33,7 +33,7 @@ class BoardNewView(FormView):
 
 @require_POST
 def create(req):
-    form = CategoryForm(req.POST)
+    form = CategoryForm(req.POST, req.FILES)
     if form.is_valid():
         form.save()
         messages.success(req, "新增成功！")
