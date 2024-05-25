@@ -3,7 +3,7 @@
 {% block content %}
 
 <h1>Edit</h1>
-<form action="{% url 'events:edit_event' my_event.id %}" method="post">
+<form action="{% url 'events:edit' event.id %}" method="post">
     {% csrf_token %}
 
     <label for="summary">活動</label>

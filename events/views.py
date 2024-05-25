@@ -3,26 +3,23 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.views.generic import FormView
-from .forms import myEventForm
-from .models import my_event
+from .forms import EventForm
+from .models import Event
 from django.http import JsonResponse
 from django.views.generic import FormView, ListView
-from .forms import myEventForm
-
-
-@login_required
-def calendar_events(req):
-    return render(req, "events/calendar.html")
 
 
 @method_decorator(login_required, name="dispatch")
 class CalendarView(ListView):
     template_name = "events/calendar.html"
+    context_object_name = "events"
+
+    def get_queryset(self):
+        return Event.objects.all()
 
 
-# 新增活動的頁面
 class NewView(FormView):
-    form_class = myEventForm
+    form_class = EventForm
     template_name = "events/new.html"
     success_url = "/events/"
 
@@ -31,9 +28,9 @@ class NewView(FormView):
         return super().form_valid(form)
 
 
-# @require_POST
-def create_my_event(req):
-    form = myEventForm(req.POST)
+@require_POST
+def create(req):
+    form = EventForm(req.POST)
     if form.is_valid():
         form.save()
         return redirect("events:calendar")
@@ -41,27 +38,20 @@ def create_my_event(req):
         return JsonResponse({"errors": form.errors}, status=400)
 
 
-# 編輯自己新增的活動
 def edit(req, id):
-    event = get_object_or_404(my_event, pk=id)
+    event = get_object_or_404(Event, pk=id)
     if req.method == "POST":
-        form = myEventForm(req.POST, instance=event)
+        form = EventForm(req.POST, instance=event)
         if form.is_valid():
             form.save()
             return redirect("events:calendar")
     else:
-        form = myEventForm(instance=event)
+        form = EventForm(instance=event)
     return render(req, "events/edit.html", {"form": form})
 
 
-# 自己新增的活動出現在日曆中
-def my_event_calendar(req):
-    my_events = my_event.objects.all()
-    return render(req, "events/calendar.html", {"my_events": my_events})
-
-
 def all_events(req):
-    all_events = my_event.objects.all()
+    all_events = Event.objects.all()
     out = []
     for event in all_events:
         start_time = (
@@ -87,7 +77,7 @@ def add_event(req):
     start = req.POST.get("start", None)
     end = req.POST.get("end", None)
     title = req.POST.get("title", None)
-    event = my_event(summary=str(title), start_time=start, end_time=end)
+    event = Event(summary=str(title), start_time=start, end_time=end)
     event.save()
     data = {}
     return JsonResponse(data)
