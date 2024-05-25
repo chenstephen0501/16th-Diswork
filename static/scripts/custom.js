@@ -17,7 +17,7 @@ $('.slick-carousel').slick({
     slidesToScroll: 1,
     arrows:false,
     dots:false,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 1000,
     autoplayHoverPause:true,
     cssEase:"ease-out",
