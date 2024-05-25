@@ -22,33 +22,16 @@
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
       eventSources: [{ url: '/calendar/all_events/', color: '#C7B7A3' }],
-      events: [
-        {% for google_event in google_events %}
-  {
-        title: '{{ google_event.summary }}',
-        start: '{{ google_event.start }}',
-        end: '{{ google_event.end }}',
-        description: '{{ google_event.description }}',
-        color: '#B5C18E',
-      },
-      {% endfor %}
-  ],
 
     });
-  calendar.render();
+    calendar.render();
   });
-</script>
-<!-- 下面這段script是google calendar的內容，我先註解掉～ -->
-<script>
 
 </script>
+
 
 
 {% endblock %}
-
-
-
-
 {% block content %}
 
 <a href="{% url 'events:new' %}"><button>新增活動</button></a>

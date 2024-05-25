@@ -1,19 +1,23 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .utils import get_calendar_events
+from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.views.generic import FormView
 from .forms import myEventForm
 from .models import my_event
 from django.http import JsonResponse
-from django.views.generic import FormView
+from django.views.generic import FormView, ListView
 from .forms import myEventForm
 
 
 @login_required
 def calendar_events(req):
-    google_events = get_calendar_events()  # 從 Google Calendar API 獲取資料
-    return render(req, "events/calendar.html", {"google_events": google_events})
+    return render(req, "events/calendar.html")
+
+
+@method_decorator(login_required, name="dispatch")
+class CalendarView(ListView):
+    template_name = "events/calendar.html"
 
 
 # 新增活動的頁面
