@@ -1,51 +1,70 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-<div class="bg-gray-100 dark:bg-gray-900">
-    <div class="container mx-auto py-12 md:py-16 lg:py-20">
-        <article class="prose prose-gray mx-auto max-w-3xl dark:prose-invert">
-            <div class="space-y-4">
-                <h1 class="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">{{ article.title }}</h1>
-                <div class="mt-4 flex items-center gap-2 space-x-4 text-sm text-gray-500 dark:text-gray-400">
-                    <div>{{ article.author }}</div>
-                    <div class="flex items-center space-x-1">
-                        <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="h-4 w-4"
-                        >
-                            <path d="M8 2v4"></path>
-                            <path d="M16 2v4"></path>
-                            <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-                            <path d="M3 10h18"></path>
-                        </svg>
-                        <span>{{ article.created_at }}</span>
-                    </div>
-                    {% if user.is_authenticated %}
-                        {% if user == article.author %}
-                            <div class="flex gap-2">
-                                <a href="{% url 'articles:edit' article.id %}">編輯</a>
-                                <form action="{% url 'articles:delete' article.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit">刪除</button>
-                                </form>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                </div>
-                <article class="flex flex-col gap-4 border border-blueGray-600" style="min-height: 300px;">
-                    {{ article.content }}
-                </article>
+<div class="flex items-center justify-center w-full min-h-screen">
+  <div class="w-full max-w-3xl">
+    <div class="container py-12 mx-auto md:py-16 lg:py-20">
+      <article class="prose prose-gray dark:prose-invert">
+        <div class="space-y-8">
+          <h1 class="text-xl font-bold tracking-tight sm:text-3xl md:text-4xl">{{ article.title }}</h1>
+          <div class="flex items-center gap-4 mt-4 space-x-4 text-sm text-gray-500 dark:text-gray-400">
+            <div>樓主：{{ article.author }}</div>
+            <div class="flex items-center space-x-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                <path d="M8 2v4"></path>
+                <path d="M16 2v4"></path>
+                <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                <path d="M3 10h18"></path>
+              </svg>
+              <span>{{ article.created_at }}</span>
             </div>
-        </article>
+            {% if user.is_authenticated %}
+            {% if user == article.author %}
+            <div class="flex gap-2">
+              <a href="{% url 'articles:edit' article.id %}">編輯</a>
+              <form action="{% url 'articles:delete' article.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">刪除</button>
+              </form>
+            </div>
+            {% endif %}
+            {% endif %}
+          </div>
+          <article class="prose prose-gray dark:prose-invert">
+            {{ article.content }}
+          </article>
+        </div>
+      </article>
     </div>
+    <div class="container py-12 mx-auto md:py-16 lg:py-20">
+      <h2 class="mb-4 text-xl font-bold">留言列表</h2>
+      {% for comment in comments %}
+      <div class="w-full mx-auto mb-4 bg-white rounded-lg shadow-md">
+        <div class="p-4">
+          <p>{{ comment.member }}</p>
+          <p class="text-sm text-gray-500">時間：{{ comment.created_at|date:"Y-m-d H:i:s" }}</p>
+          <p>{{ comment.content }}</p>
+        </div>
+        <div class="flex justify-end px-4 py-2">
+          <form action="{% url 'comments:delete' pk=comment.id %}" method="post" class="inline">
+            {% csrf_token %}
+            <button type="submit" class="px-2 py-1 text-white bg-red-500 rounded">刪除</button>
+          </form>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-gray-500">尚無留言</p>
+      {% endfor %}
+      <form method="post" action="{% url 'articles:comment' pk=article.pk %}" class="mt-8">
+        {% csrf_token %}
+        {{ comment_form }}
+        <div class="flex justify-end">
+          <button type="submit"
+            class="px-3 py-2 mr-5 text-sm font-semibold text-white bg-orange-500 rounded ">送出</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
-
 {% endblock %}

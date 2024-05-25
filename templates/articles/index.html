@@ -1,31 +1,35 @@
 {% extends 'layouts/base.html' %}
-
 {% block content %}
-    <h1 class="text-3xl my-2">文章列表</h1>
-    <a href="{% url 'articles:new' %}" class="inline-flex items-center justify-center whitespace-nowrap font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 rounded-full">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="w-5 h-5"
-        >
-            <path d="M5 12h14"></path>
-            <path d="M12 5v14"></path>
-        </svg>
-    </a>
-
-    <main class="flex flex-col p-4 md:p-6">
-        {% for article in article_list %}
-            <article class="w-full overflow-hidden shadow-lg bg-white dark:bg-gray-950 mb-3">
-                <a class="block p-4 text-xl font-bold" href="{% url 'articles:show' article.id %}">{{ article.title }}</a>
-            </article>
-        {% endfor %}
-    </main>
-
+<main class="flex flex-col w-5/6 p-4 mx-auto md:p-6">
+  <h1 class="my-2 text-3xl">文章列表</h1>
+  <a href="{% url 'articles:new' %}"
+    class="inline-flex items-center justify-center w-10 h-10 font-medium transition-colors rounded-full whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+      <path d="M5 12h14"></path>
+      <path d="M12 5v14"></path>
+    </svg>
+  </a>
+  {% for article in article_list %}
+  <div class="w-full mb-3 bg-white border-gray-500 shadow-lg hover:bg-orange-700 hover:bg-opacity-25 ">
+    <div class="flex flex-col p-4 md:flex-row">
+      <div class="flex-shrink-0 h-10 ml-5 mr-5 overflow-hidden bg-gray-300 rounded-lg w-36 md:w-auto md:h-auto">
+        <a href="{% url 'articles:show' article.id %}">
+          <img src="https://fakeimg.pl/360x150/" alt="{{ article.title }}" class="object-cover w-full h-full">
+        </a>
+      </div>
+      <div class="md:ml-4">
+        <div class="text-lg font-semibold forum_list_title">
+          <a href="{% url 'articles:show' article.id %}" class="text-black hover:underline">
+            {{ article.title }}
+          </a>
+        </div>
+        <div class="mt-2 text-sm text-gray-600">
+          {{ article.content }}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</main>
 {% endblock %}

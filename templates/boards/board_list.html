@@ -9,10 +9,10 @@
 </div>
 
 {% for category in category_list %}
-<div class="w-5/6 mx-auto my-8 mt-5">
+<div class="w-3/4 mx-auto my-8 mt-5">
   <div class="flex flex-col overflow-hidden border rounded-lg shadow-lg forum_list md:flex-row">
     <div class="flex-shrink-0 forum_list_pic">
-      <a href="#">
+      <a href="{% url 'articles:index' %}">
         {% if category.picture %}
         <div style="height: 150px; width: 380px;">
           <img src="{{ category.picture.url }}" class="object-cover w-full h-full lazyloaded">
@@ -28,12 +28,12 @@
       <div class="flex items-center justify-between category_card">
         <div>
           <div class="text-lg font-semibold forum_list_title">
-            <a href="{% url 'boards:detail' category.pk %}" class="text-black hover:underline">
+            <a href="{% url 'articles:index' %}" class="text-black hover:underline">
               {{ category.title }}
             </a>
           </div>
           <p class="mt-2">
-            <a href="{% url 'boards:detail' category.pk %}" class="text-gray-800 hover:text-orange-600">
+            <a href="{% url 'articles:index' %}" class="text-gray-800 hover:text-orange-600">
               {{ category.rule }}
             </a>
           </p>

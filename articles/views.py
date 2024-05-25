@@ -1,16 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, FormView, DetailView, DeleteView
 from django.contrib import messages
 from .models import Article
-from members.models import Member
 from .forms import ArticleForm
+from comments.forms import CommentForm
 
-# Create your views here.
+
 class ArticleIndexView(ListView):
     model = Article
     template_name = "articles/index.html"
+
 
 class NewView(FormView):
     def get(self, request):
@@ -26,16 +27,22 @@ class NewView(FormView):
             return redirect("articles:index")
         return render(request, "articles/new.html", {"form": form})
 
+
 class ShowView(DetailView):
     model = Article
-    
+    extra_context = {"comment_form": CommentForm()}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["comments"] = self.object.comment_set.all().order_by("-id")
+        return context
+
     def post(self, request, pk):
         article = self.get_object()
-        form = ArticleForm(request.POST, instance=article)
-
+        form = CommentForm(request.POST, instance=article)
         if form.is_valid():
             form.save()
-            messages.success(request, "新增成功")
+            messages.success(request, "更新成功")
         return redirect("articles:show", pk=article.id)
 
 
@@ -48,10 +55,13 @@ def create(request):
         messages.success(request, "文章新增成功")
     return redirect("articles:index")
 
+
 def edit(request, id):
-    article = get_object_or_404(Article, pk = id)
+    article = get_object_or_404(Article, pk=id)
     form = ArticleForm(instance=article)
-    return render(request, "articles/edit.html", {"article": article, "form": form})
+    return render(
+        request, "articles/article_detail.html", {"article": article, "form": form}
+    )
 
 
 class DeleteView(DeleteView):
