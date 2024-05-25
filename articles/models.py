@@ -15,7 +15,7 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True)
     like_article = models.ManyToManyField(settings.AUTH_USER_MODEL, through="LikeArticle", related_name="like_article")
-    label = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    member = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
 
     objects = ArticleManager()
 
