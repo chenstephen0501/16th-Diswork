@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from boards.models import Category
 
 class ArticleManager(models.Manager):
     def get_queryset(self):
@@ -14,6 +15,7 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True)
     like_article = models.ManyToManyField(settings.AUTH_USER_MODEL, through="LikeArticle", related_name="like_article")
+    label = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
 
     objects = ArticleManager()
 

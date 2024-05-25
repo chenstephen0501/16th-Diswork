@@ -11,7 +11,7 @@ class CommentManager(models.Manager):
 
 class Comment(models.Model):
     member = models.ForeignKey("members.Member", on_delete=models.CASCADE)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, default="")
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, default="", related_name="comments")
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     deleted_at = models.DateTimeField(null=True)
