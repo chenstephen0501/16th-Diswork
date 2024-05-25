@@ -23,10 +23,17 @@
       },
       eventSources: [{ url: '/events/all_events/', color: '#C7B7A3' }],
 
+      eventClick: function (info) {
+        Swal.fire({
+          icon: info.event.allDay ? "success" : "info",
+          title: info.event.title,
+          text: [info.event.startStr, info.event.description],
+          confirmButtonText: "OK",
+        })
+      },
     });
     calendar.render();
   });
-
 </script>
 
 
