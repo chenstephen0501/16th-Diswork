@@ -6,8 +6,6 @@ load_dotenv()
 
 from django.contrib.messages import constants as messages
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 EMAIL_BACKEND = os.getenv("EMAIL_BACKEND")
 EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_PORT = os.getenv("EMAIL_PORT")
@@ -15,6 +13,7 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -57,6 +56,8 @@ INSTALLED_APPS = [
     "events",
     "friends",
     "comments",
+    "articles",
+    "boards",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
@@ -64,9 +65,9 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 # 第三方登入
 SOCIALACCOUNT_PROVIDERS = {
     "github": {
-        "APP":{
-            "client_id":os.getenv("GITHUB_CLIENT_ID"),
-            "secret":os.getenv("GITHUB_CLIENT_SECRET"),
+        "APP": {
+            "client_id": os.getenv("GITHUB_CLIENT_ID"),
+            "secret": os.getenv("GITHUB_CLIENT_SECRET"),
         },
     },
     "google": {
@@ -77,7 +78,7 @@ SOCIALACCOUNT_PROVIDERS = {
             "secret": os.getenv("GOOGLE_CLIENT_SECRET"),
             "key": "",
         },
-    }
+    },
 }
 
 MIDDLEWARE = [
@@ -117,7 +118,9 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(os.getenv("CHANNEL_LAYERS_URL"), os.getenv("CHANNEL_LAYERS_PORT"))],
+            "hosts": [
+                (os.getenv("CHANNEL_LAYERS_URL"), os.getenv("CHANNEL_LAYERS_PORT"))
+            ],
         },
     },
 }

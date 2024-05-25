@@ -9,8 +9,10 @@ urlpatterns = [
     path("calendar/", include("events.urls")),
     path("news/", include("news.urls")),
     path("chat/", include("chats.urls")),
-    path("admin/", admin.site.urls),
     path("tasks/", include("tasks.urls")),
+    path("boards/", include("boards.urls")),
     path("accounts/", include("allauth.urls")),
     path("comments/", include("comments.urls")),
+    path("articles/", include("articles.urls")),
+    path("admin/", admin.site.urls),
 ]

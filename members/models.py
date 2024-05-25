@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
-from tasks.models import Task, MemberTask
 
 class Member(AbstractUser):
     name = models.CharField(max_length=100, default="")
@@ -14,6 +13,7 @@ class Member(AbstractUser):
     )  # symmetrical=False：設定兩者好友關係不是自動對稱的
     like_by = models.ManyToManyField("comments.Comment", through="comments.LikeComment", related_name="like_sender")
 
+    liking_article_mambers = models.ManyToManyField("articles.Article", through="articles.LikeArticle", related_name="liking_article_mambers")
 
 class Status(models.Model):
     member = models.ForeignKey(

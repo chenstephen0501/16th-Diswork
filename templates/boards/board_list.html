@@ -1,0 +1,19 @@
+{% extends 'boards/base.html' %}
+{% block title %}討論板{% endblock %}
+
+{% block content %}
+<div class="flex justify-center">
+    <div class="w-full p-8 lg:w-2/3 xl:w-1/2">
+        <a href="{% url 'boards:new' %}"
+            class="block px-4 py-2 mb-4 text-white bg-orange-400 rounded-lg hover:bg-orange-600">新增</a>
+        <h1 class="mb-4 text-2xl font-bold">Forum category</h1>
+        {% for category in category_list %}
+        <div class="flex items-center py-2 border-b border-gray-200">
+            <a href="{% url 'boards:detail' category.pk %}"
+                class="block w-full px-4 py-2 text-gray-900 hover:bg-gray-100">{{ category.title }}</a>
+            <a href="{% url 'boards:delete'  category.pk %}" class="px-4 py-2 text-red-500 hover:text-red-700">刪除</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
