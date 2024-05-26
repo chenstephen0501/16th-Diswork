@@ -57,11 +57,6 @@ class EventUpdateView(UpdateView):
         pk = self.kwargs.get("pk")
         return get_object_or_404(Event, pk=pk)
 
-    def form_invalid(self, form):
-        print("Form is invalid")
-        print(form.errors)
-        return super().form_invalid(form)
-
 
 class EventDeleteView(DeleteView):
     model = Event
