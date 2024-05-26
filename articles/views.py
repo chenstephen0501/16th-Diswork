@@ -84,7 +84,6 @@ def add_like(req, pk):
 def remove_like(req, pk):
     try:
         like = LikeArticle.objects.get(like_by_article_id = req.user.id ,like_article_id = pk)
-        print("like", like)
         like.delete()
     except:
         pass    
