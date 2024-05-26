@@ -1,0 +1,452 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+    <div class="w-full border-2 border-red-950">
+        <section class="w-full h-screen mx-auto  bg-pink-200 flex">
+            <div class=" w-5/12 self-center text-slate-50 py-28 px-14 ">
+                <h2 class=" text-5xl">DisWork 讓你找到更多的歡樂!</h2>
+                <p class=" mt-4 text-xl">訂閱 Dis Work 來升級表情符號，自訂您的個人資料，分享更大的檔案等等。</p>
+            </div>
+            <div class="w-7/12 flex items-center">
+                <img src="https://picsum.photos/500/340/?random=40">
+            </div>
+        </section>
+
+        <section class=" h-96">
+            <div class="w-11/12 -mt-14 mx-auto grid grid-cols-2 gap-6 text-slate-50">
+                <div class="py-5 px-6 flex flex-col content-between rounded-lg bg-blue-300">
+                    <div>
+                        <h3 class="text-3xl">DISWORK BASIC</h3>
+                        <p class="mt-4 text-xl">30 MB 的上傳量</p>
+                        <p class="mt-4 text-xl">在任何地方均可自訂表情符號</p>
+                        <p class="mt-4 text-xl">不限次數的超級反應</p>
+                        <p class="mt-4 text-xl">在個人資料上展示特殊 Nitro 徽章</p>
+                    </div>
+                    <div class="grow flex">
+
+                        <a class="w-full h-12 mt-3 inline-block self-end font-bold text-2xl bg-white text-center leading-loose rounded-full text-neutral-950" href="#">訂閱</a>
+                    </div>
+                </div>
+                <div class="py-5 px-6 flex flex-col content-between rounded-lg bg-purple-300">
+                    <div>
+                        <h3 class="text-3xl">DISWORK </h3>
+                        <p class="mt-4 text-xl">300 MB 的上傳量</p>
+                        <p class="mt-4 text-xl">在任何地方均可自訂表情符號</p>
+                        <p class="mt-4 text-xl">不限次數的超級反應</p>
+                        <p class="mt-4 text-xl">HD 影片直播</p>
+                        <p class="mt-4 text-xl">兩次伺服器加成</p>
+                        <p class="mt-4 text-xl">自訂個人檔案與更多功能！</p>
+                    </div>
+                    <div class="grow flex">
+
+                        <a class="w-full h-12 mt-3 inline-block self-end font-bold text-2xl bg-white text-center leading-loose rounded-full text-neutral-950" href="#">訂閱</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <div class="w-11/12 mx-auto pt-24 pb-24">
+                <h2 class="text-center text-5xl">熱門 Dis Work 福利</h2>
+                <div class="mt-14 grid grid-cols-2 gap-5">
+                    <div class="h-96 py-12 px-20 rounded-lg text-center bg-slate-100 ">
+                        <h4 class="text-2xl font-bold">不管是短片或圖片，您都可以上傳更大的檔案</h4>
+                        <div class="pic mt-10">
+                            <img class="rounded-lg w-full" src="https://picsum.photos/600/290/?random=10">
+                        </div>
+                    </div>
+
+                    <div class="h-96 py-12 px-28 pl rounded-lg text-center bg-slate-100 ">
+                        <h4 class="text-2xl font-bold">用超棒 HD 直播應用程式和遊戲</h4>
+                        <div class="pic mt-10">
+                            <img class="rounded-lg mx-auto" src="https://picsum.photos/300/232/?random=12">
+                        </div>
+                    </div>
+
+                    <div class="h-96 py-12 px-20 rounded-lg text-center bg-slate-100 ">
+                        <h4 class="text-2xl font-bold">在任何地方用自訂表情符號 hype 並張貼梗圖</h4>
+                        <div class="pic mt-10">
+                            <img class="rounded-lg" src="https://picsum.photos/600/290/?random=14">
+                        </div>
+                    </div>
+
+                    <div class="h-96 py-12 px-28 rounded-lg text-center bg-slate-100 ">
+                        <h4 class="text-2xl font-bold">用兩次伺服器加成來解鎖福利</h4>
+                        <div class="pic mt-10">
+                            <img class="rounded-lg mx-auto" src="https://picsum.photos/300/232/?random=16">
+                        </div>
+                    </div>
+                </div>
+                    <div class="p-6 grid grid-cols-3 gap-4">
+                        <div class="py-10 bg-slate-100 rounded-lg flex flex-col items-center justify-center">
+                            <div class="pic ">
+                                <img class="rounded-lg" src="https://picsum.photos/200/140/?random=20">
+                            </div>
+                            <div class="mt-8 text-center">
+                                <h5 class="text-xl">色彩主題</h5>
+                                <p class="mt-2 text-sm">使用獨特主題色彩將個人風格帶入 Discord。</p>
+                            </div>
+                        </div>
+
+                        <div class="py-10 bg-slate-100 rounded-lg flex flex-col items-center justify-center">
+                            <div class="pic ">
+                                <img class="rounded-lg" src="https://picsum.photos/200/140/?random=22">
+                            </div>
+                            <div class="mt-8 text-center">
+                                <h5 class="text-xl">商店特別福利</h5>
+                                <p class="mt-2 text-sm">在商店內享有會員優惠與 Nitro 專屬物品。</p>
+                            </div>
+                        </div>
+
+                        <div class="py-10 bg-slate-100 rounded-lg flex flex-col items-center justify-center">
+                            <div class="pic ">
+                                <img class="rounded-lg" src="https://picsum.photos/200/140/?random=24">
+                            </div>
+                            <div class="mt-8 text-center">
+                                <h5 class="text-xl">自訂個人資料</h5>
+                                <p class="mt-2 text-sm">在各個伺服器使用不同的頭像、個人資料主題、橫幅及簡介。</p>
+                            </div>
+                        </div>
+
+                        <div class="py-10 bg-slate-100 rounded-lg flex flex-col items-center justify-center">
+                            <div class="pic ">
+                                <img class="rounded-lg" src="https://picsum.photos/200/140/?random=26">
+                            </div>
+                            <div class="mt-8 text-center">
+                                <h5 class="text-xl">隨處可用的自訂音效</h5>
+                                <p class="mt-2 text-sm">Use custom sounds and personalized entrance sounds across voice channels.</p>
+                            </div>
+                        </div>
+
+                        <div class="py-10 bg-slate-100 rounded-lg flex flex-col items-center justify-center">
+                            <div class="pic ">
+                                <img class="rounded-lg" src="https://picsum.photos/200/140/?random=28">
+                            </div>
+                            <div class="mt-8 text-center">
+                                <h5 class="text-xl">不限次數的超級反應</h5>
+                                <p class="mt-2 text-sm">用動感十足的動態反應來炒熱聊天室。</p>
+                            </div>
+                        </div>
+
+                        <div class="py-10 bg-slate-100 rounded-lg flex flex-col items-center justify-center">
+                            <div class="pic ">
+                                <img class="rounded-lg" src="https://picsum.photos/200/140/?random=30">
+                            </div>
+                            <div class="mt-8 text-center">
+                                <h5 class="text-xl">更多背景</h5>
+                                <p class="mt-2 text-sm">使用自己的視訊背景自訂視訊通話。</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="mt-5 flex justify-center ">
+                        <button class=" px-8 py-4 text-white font-bold rounded-full bg-slate-900">顯示所有福利</button>
+                    </div>
+            </div>
+        </section>
+
+        <section >
+            <div class="w-11/12  pt-20 pl-24 pr-20  pb-20 mx-auto bg-slate-100 rounded-lg ">
+                <h2 class=" text-5xl text-center">挑選最適合您的方案</h2>
+                <div class="mt-16">
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 font-bold text-xl ">功能</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-4xl font-bold">Basic</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-4xl font-bold">Nitro</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">不限次數的超級反應</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✔</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">不論在何處都能自訂表情符號，並讓表情符號動起來。</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✔</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">隨處可用的自訂貼圖</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✔</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">自訂應用程式圖示</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✔</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">分享更大的檔案</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">50 MB</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">500 Mb</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">HD 直播</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✖</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">多達 4k 和 60fps</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">兩次免費加成額外加成享 30% 折扣</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✖</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">動態頭像、橫幅，和個人資料主題</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✖</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">搶先體驗 Clips</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✖</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">自訂伺服器資料</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✖</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">在個人資料上展示 Nitro 徽章</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✔</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">自訂視訊背景</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✔</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">加入最多 200 個伺服器</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✖</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">更長的訊息，最多可達 4000 個字元</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✖</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">專為 Discord Work 主題設計的色彩</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✖</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">隨時隨地使用自訂音效</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✖</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">個人化進場音效</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✖</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 h-16 border-b-2 border-gray-300">
+                        <div class="col-span-6 text-xl flex items-center">商店會員優惠和專屬物品</div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold ">✖</h3>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <h3 class="text-xl font-bold">✔</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 mt-3 h-16 ">
+                        <div class="col-span-6 text-xl flex items-center"></div>
+                        <div class="col-span-6 flex">
+                            <div class="w-1/2 flex items-center justify-center">
+                                <a class="py-2 px-14 text-bold text-white rounded-full bg-indigo-500" href="#">訂閱  Basic</a>
+                            </div>
+                            <div class="w-1/2 flex items-center justify-center">
+                                <a class="py-2 px-14 text-bold text-white rounded-full bg-indigo-500" href="#">訂閱  Nitro</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="">
+            <div class="w-11/12 mx-auto">
+                <h2 class="mt-32 text-5xl text-center">常見問題</h2>
+                <div class="mt-14">
+                    <div class="w-4/12  mx-auto flex justify-evenly">
+                        <a href="#" class="font-medium focus:text-indigo-500 focus:underline-offset-8 focus:underline">一般</a>
+                        <a href="#" class="font-medium focus:text-indigo-500 focus:underline-offset-8 focus:underline">付款方式</a>
+                        <a href="#" class="font-medium focus:text-indigo-500 focus:underline-offset-8 focus:underline">贈禮和促銷</a>
+                        <a href="#" class="font-medium focus:text-indigo-500 focus:underline-offset-8 focus:underline">其他</a>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <a href="#">
+                        <div class="h-20 mb-4 px-6 flex items-center justify-between bg-slate-100 rounded-lg pointer-events-auto">
+                            <p>DisWork Nitro 訂閱禮物是真的嗎？</p>
+                            <p class="text-4xl">+</p>
+                        </div>
+                    </a>
+
+                    <a href="#">
+                        <div class="h-20 mb-4 px-6 flex items-center justify-between bg-slate-100 rounded-lg pointer-events-auto">
+                            <p>如何在 Amazon.com 上購買 Discord Nitro 禮品卡？</p>
+                            <p class="text-4xl">+</p>
+                        </div>
+                    </a>
+
+                    <a href="#">
+                        <div class="h-20 mb-4 px-6 flex items-center justify-between bg-slate-100 rounded-lg pointer-events-auto">
+                            <p>在哪裡兌換 Nitro 代碼？</p>
+                            <p class="text-4xl">+</p>
+                        </div>
+                    </a>
+
+                    <a href="#">
+                        <div class="h-20 mb-4 px-6 flex items-center justify-between bg-slate-100 rounded-lg pointer-events-auto">
+                            <p>我可以從機器人或贈品活動中獲得免費 Nitro？</p>
+                            <p class="text-4xl">+</p>
+                        </div>
+                    </a>
+
+                    <a href="#">
+                        <div class="h-20 mb-4 px-6 flex items-center justify-between bg-slate-100 rounded-lg pointer-events-auto">
+                            <p>Discord 有提供 Nitro 訂閱的促銷嗎？</p>
+                            <p class="text-4xl">+</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class=" bg-pink-400">
+            <div class="mt-28 py-32 flex flex-col items-center justify-center">
+                <h2 class="text-5xl text-white">DisWork 讓你找到更多的歡樂!</h2>
+                <a href="#" class="mt-10 px-24 py-4 text-xl bg-white rounded-full">訂閱</a>
+            </div>
+        </section>
+    </div>
+{% endblock %}
