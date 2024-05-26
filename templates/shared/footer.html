@@ -1,0 +1,14 @@
+{% load static %}
+<footer class="flex flex-col items-center justify-between px-6 py-8 text-white bg-gray-900 md:px-12 md:flex-row">
+    <div class="flex items-center">
+        <a href="{% url 'index' %}">
+            <img class="w-32 h-auto" src="{% static 'image/logo_row.png' %}" alt="logo">
+        </a>
+    </div>
+    <nav class="flex flex-col items-center gap-4 md:flex-row">
+        <a class="hover:underline" href="#">Download</a>
+        <a class="hover:underline" href="#">Nitro</a>
+        <a class="hover:underline" href="#">Safety</a>
+        <a class="hover:underline" href="#">Support</a>
+    </nav>
+</footer>
