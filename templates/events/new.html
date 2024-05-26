@@ -3,7 +3,7 @@
 {% block title %}Calendar{% endblock %}
 
 {% block content %}
-<form action="{% url 'events:add_event' %}" method="post">
+<form action="{% url 'events:add' %}" method="post">
   {% csrf_token %}
   <div class="min-h-screen pt-6 md:px-20">
     <div class="max-w-2xl px-6 py-10 mx-auto bg-white border border-gray-300 rounded-md">
@@ -12,30 +12,6 @@
         <div>
           {{ form.as_p }}
         </div>
-        <!-- <div>
-                    <label for="summary" class="font-semibold text-lx">活動:</label>
-                    <input type="text" placeholder="title" id="title" name="summary"
-                        class="px-2 py-1 ml-2 border-2 rounded-md outline-none text-md" />
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <label for="start_time" class="font-semibold text-lx">開始時間:</label>
-                        <input type="datetime-local" placeholder="start_time" id="start_time" name="start_time"
-                            class="px-2 py-1 ml-2 border-2 rounded-md outline-none text-md" />
-                    </div>
-                    <div>
-                        <label for="end_time" class="font-semibold text-lx">結束時間:</label>
-                        <input type="datetime-local" placeholder="end_time" id="end_time" name="end_time"
-                            class="px-2 py-1 ml-2 border-2 rounded-md outline-none text-md" />
-                    </div>
-                    <div>
-                        <label for="description" class="block mb-2 text-lg font-semibold">描述:</label>
-                        <textarea id="description" cols="30" rows="10" placeholder="write here..."
-                            class="w-full p-4 font-serif text-gray-600 rounded-md outline-none bg-rose-50"></textarea>
-                    </div>
-                    <!-- <button
-                        class="block px-6 py-2 mx-auto text-lg font-semibold text-white bg-orange-600 rounded-md ">新增</button> -->
-        -->
         <button>新增</button>
       </div>
     </div>

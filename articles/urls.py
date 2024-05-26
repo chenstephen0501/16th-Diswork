@@ -11,6 +11,6 @@ urlpatterns = [
     path("new/", NewView.as_view(), name="new"),
     path("<id>/edit/", views.edit, name="edit"),
     path("<pk>/delete/", DeleteView.as_view(), name="delete"),
-    path("<pk>/", ShowView.as_view(), name="show"),
     path("<pk>/comment/", CommentCreateView.as_view(), name="comment"),
+    path("<pk>/", ShowView.as_view(), name="show"),
 ]

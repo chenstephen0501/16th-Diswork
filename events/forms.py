@@ -1,10 +1,10 @@
 from django import forms
-from .models import my_event
+from .models import Event
 
 
-class myEventForm(forms.ModelForm):
+class EventForm(forms.ModelForm):
     class Meta:
-        model = my_event
+        model = Event
         fields = ["summary", "start_time", "end_time", "description"]
         labels = {
             "summary": "活動",

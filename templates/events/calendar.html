@@ -6,52 +6,59 @@
     let calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       height: 600,
-      editable: true,
       selectable: true,
-      customButtons: {
-        myCustomButton: {
-          text: 'custom!',
-          click: function () {
-            alert('clicked the custom button!');
-          }
-        }
-      },
+      "allDay": event.is_all_day,
       headerToolbar: {
-        left: 'prev,next today myCustomButton',
+        left: 'prev,next',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'today'
       },
-      eventSources: [{ url: '/calendar/all_events/', color: '#C7B7A3' }],
-      events: [
-        {% for google_event in google_events %}
-  {
-        title: '{{ google_event.summary }}',
-        start: '{{ google_event.start }}',
-        end: '{{ google_event.end }}',
-        description: '{{ google_event.description }}',
-        color: '#B5C18E',
+      eventSources: [{ url: '/events/all_events/', color: '#C7B7A3' }],
+      eventClick: function (info) {
+        let startDateTime = formatDate(info.event.startStr);
+        let endDateTime = formatDate(info.event.endStr);
+        let textContent = `<div style="border: 2px solid #ccc; border-radius: 5px; padding: 10px; margin: 0 20px">
+  <div style="display: flex; justify-center: center;">
+    <div style="text-align: left;">
+      <p style="text-indent: 0; margin: 10px 0; line-height: 1.5;">開始: ${startDateTime}</p>
+      <p style="text-indent: 0; margin: 10px 0; line-height: 1.5;">結束: ${endDateTime}</p>
+      <p style="text-indent: 0; margin: 10px 0; line-height: 1.5;">活動資訊: ${info.event.extendedProps.description}</p>
+    </div>
+  </div>
+</div>`;
+        Swal.fire({
+          icon: info.event.allDay,
+          title: info.event.title,
+          html: textContent,
+          confirmButtonText: "OK",
+          allowHtml: true
+        });
       },
-      {% endfor %}
-  ],
-
     });
-  calendar.render();
+    calendar.render();
   });
-</script>
-<!-- 下面這段script是google calendar的內容，我先註解掉～ -->
-<script>
 
-</script>
+  function formatDate(dateTimeStr) {
+    const none = "沒有設定"
+    if (!dateTimeStr) return none;
 
+    const dateTime = new Date(dateTimeStr);
+    const year = dateTime.getFullYear();
+    const month = String(dateTime.getMonth() + 1).padStart(2, '0');
+    const day = String(dateTime.getDate()).padStart(2, '0');
+    const hours = String(dateTime.getHours()).padStart(2, '0');
+    const minutes = String(dateTime.getMinutes()).padStart(2, '0');
+
+    return `${year}/${month}/${day} ${hours}:${minutes}`;
+  }
+</script>
 
 {% endblock %}
-
-
-
-
 {% block content %}
 
-<a href="{% url 'events:new' %}"><button>新增活動</button></a>
+<div class="flex justify-end mr-10">
+  <a href="{% url 'events:list' %}" class="px-4 py-3 mt-5 text-white bg-orange-500 rounded hover:bg-orange-600">活動列表</a>
+</div>
 <div class="flex items-center justify-center min-h-screen mt-1">
   <div id="calendar" class="w-full p-4 sm:w-2/3 md:w-2/3 lg:w-2/3 xl:w-2/3">
   </div>

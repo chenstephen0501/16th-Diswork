@@ -6,6 +6,7 @@ from members.models import Member
 from articles.models import Article
 from .models import Comment
 from .forms import CommentForm
+from django.views.decorators.http import require_POST
 
 
 class CommentListView(ListView):
@@ -49,9 +50,8 @@ class CommentCreateView(CreateView):
         return context
 
 
-class CommentDeleteView(DeleteView):
-    model = Comment
-
-    def get_success_url(self):
-        member_id = self.object.member.id
-        return reverse_lazy("comments:list", kwargs={"id": member_id})
+@require_POST
+def delete(req, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.delete()
+    return redirect("articles:show", pk=comment.article_id)

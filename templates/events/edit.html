@@ -1,23 +1,35 @@
 {% extends 'layouts/base.html' %}
-
 {% block content %}
-
-<h1>Edit</h1>
-<form action="{% url 'events:edit_event' my_event.id %}" method="post">
-    {% csrf_token %}
-
-    <label for="summary">活動</label>
-    <input type="text" id="title" name="summary" value="{{ my_event.summary }}">
-
-    <label for="start_time">開始時間</label>
-    <input type="datetime-local" id="start_time" name="start_time" value="{{ my_event.start_time }}>
-
-    <label for=" end_time">結束時間</label>
-    <input type="datetime-local" id="end_time" name="end_time" value="{{ my_event.end_time }}>
-
-    <label for=" description">描述</label>
-    <textarea type="text" id="description" name="description">{{ my_event.description }}</textarea>
-
-    <button type="submit">submit</button>
-</form>
+<div class="flex justify-center">
+    <div class="w-full p-8 lg:w-2/3 xl:w-1/2">
+        <a href="{% url 'events:list' %}" class="text-orange-500 hover:text-orange-600">
+            <h1 class="mb-4 text-2xl font-bold">編輯活動</h1>
+        </a>
+        <form action="{% url 'events:edit' event.id %}" method="post" class="space-y-4">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="summary" class="mb-1 text-lg font-medium">活動</label>
+                <input type="text" id="summary" name="summary" value="{{ event.summary }}"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="start_time" class="mb-1 text-lg font-medium">開始時間</label>
+                <input type="datetime-local" id="start_time" name="start_time" value="
+                {{ event.start_time }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="end_time" class="mb-1 text-lg font-medium">結束時間</label>
+                <input type="datetime-local" id="end_time" name="end_time" value="
+                {{ event.end_time }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="description" class="mb-1 text-lg font-medium">描述</label>
+                <textarea id="description" name="description"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                    {{ event.description }}</textarea>
+            </div>
+            <input type="submit" value="儲存編輯" class="px-4 py-2 text-white bg-orange-500 rounded hover:bg-orange-600">
+        </form>
+    </div>
+</div>
 {% endblock %}
