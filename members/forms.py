@@ -5,24 +5,49 @@ from .models import Member
 
 class SignUpForm(UserCreationForm):
     name = forms.CharField(
-        label="姓名",
-        widget=forms.TextInput(attrs={"class": "rounded-lg h-9 w-full mt-1 bg-white border-blue-300 focus:outline-none focus:ring text-slate-900", "placeholder": "請輸入名稱"})
+        label="暱稱",
+        widget=forms.TextInput(
+            attrs={
+                "class": "p-2 border-2 border-gray-300 w-full",
+                "placeholder": "請輸入暱稱",
+            }
+        ),
     )
     username = forms.CharField(
         label="帳號",
-        widget=forms.TextInput(attrs={"class": "rounded-lg h-9 w-full mt-1 bg-white border-blue-300 focus:outline-none focus:ring text-slate-900", "placeholder": "請輸入帳號"})
+        widget=forms.TextInput(
+            attrs={
+                "class": "p-2 border-2 border-gray-300 w-full",
+                "placeholder": "請輸入帳號",
+            }
+        ),
     )
     email = forms.CharField(
         label="信箱",
-        widget=forms.EmailInput(attrs={"class": "rounded-lg h-9 w-full mt-1 bg-white border-blue-300 focus:outline-none focus:ring text-slate-900", "placeholder": "請輸入信箱"})
+        widget=forms.EmailInput(
+            attrs={
+                "class": "p-2 border-2 border-gray-300 w-full",
+                "placeholder": "請輸入信箱",
+            }
+        ),
     )
     password1 = forms.CharField(
         label="密碼",
-        widget=forms.PasswordInput(attrs={"class": "rounded-lg h-9 w-full mt-1 bg-white border-blue-300 focus:outline-none focus:ring text-slate-900", "placeholder": "請輸入密碼"})
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "p-2 border-2 border-gray-300 w-full",
+                "placeholder": "請輸入密碼",
+            }
+        ),
     )
     password2 = forms.CharField(
         label="密碼確認",
-        widget=forms.PasswordInput(attrs={"class": "rounded-lg h-9 w-full mt-1 bg-white border-blue-300 focus:outline-none focus:ring text-slate-900", "placeholder": "請輸入確認密碼"})
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "p-2 border-2 border-gray-300 w-full",
+                "placeholder": "確認密碼",
+            }
+        ),
     )
 
     class Meta:

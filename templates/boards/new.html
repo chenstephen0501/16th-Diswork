@@ -2,7 +2,7 @@
 {% block title %}討論板{% endblock %}
 
 {% block content %}
-<div class="flex justify-center">
+<div class="flex justify-center mt-2">
   <div class="w-full p-8 lg:w-2/3 xl:w-1/2">
     <h1 class="mb-4 text-2xl font-bold text-orange-500">新增看板</h1>
     <form action="{% url 'boards:add' %}" method="post" enctype="multipart/form-data" class="space-y-4">

@@ -2,12 +2,9 @@
 {% block title %}討論板{% endblock %}
 
 {% block content %}
-{% include './navbar.html' %}
-
 <div class="flex justify-end mb-4 mr-10">
   <a href="{% url 'boards:new' %}" class="px-4 py-3 mt-5 text-white bg-orange-500 rounded hover:bg-orange-600">新增看板</a>
 </div>
-
 {% for category in category_list %}
 <div class="w-3/4 mx-auto my-8 mt-5">
   <div class="flex flex-col overflow-hidden border rounded-lg shadow-lg forum_list md:flex-row">

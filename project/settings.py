@@ -34,7 +34,6 @@ ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
-SITE_ID = int(os.getenv("SITE_ID"))
 
 INSTALLED_APPS = [
     "daphne",
@@ -44,7 +43,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.sites",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",

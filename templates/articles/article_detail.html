@@ -1,6 +1,6 @@
-{% extends 'layouts/base.html' %}
-
+{% extends 'boards/base.html' %}
 {% block content %}
+
 <div class="flex items-center justify-center w-full min-h-screen">
   <div class="w-full max-w-3xl">
     <div class="container py-12 mx-auto md:py-16 lg:py-20">
@@ -31,9 +31,9 @@
             {% endif %}
             {% endif %}
           </div>
-          <article class="prose prose-gray dark:prose-invert">
+          <div class="prose prose-gray dark:prose-invert">
             {{ article.content }}
-          </article>
+          </div>
         </div>
       </article>
     </div>
@@ -47,17 +47,19 @@
           <p>{{ comment.content }}</p>
         </div>
 
-        
+
         <div class="flex justify-end px-4 py-2">
           <div class="flex">
             <form hx-post="{% url 'comments:add_like' comment.id %}" hx-swap="none">
-                {% csrf_token %}
-                <button class="px-2 py-1 mx-2 mb-1 font-bold shadow duration-150  text-white ease-linear active:bg-slate-700 text-slate-700 rounded bg-sky-400 focus:outline-none uppercase focus:shadow-sky-800 ">點讚</button>
+              {% csrf_token %}
+              <button
+                class="px-2 py-1 mx-2 mb-1 font-bold text-white uppercase duration-150 ease-linear rounded shadow active:bg-slate-700 text-slate-700 bg-sky-400 focus:outline-none focus:shadow-sky-800 ">點讚</button>
             </form>
             <form hx-post="{% url 'comments:remove_like' comment.id %}" hx-swap="none">
-                {% csrf_token %}    
-                <button class="px-2 py-1 mx-2 mb-1 font-bold shadow duration-150  text-white ease-linear active:bg-slate-700 text-slate-700 rounded bg-red-400 focus:outline-none uppercase focus:shadow-sky-800 ">取消讚</button>
-            </form>    
+              {% csrf_token %}
+              <button
+                class="px-2 py-1 mx-2 mb-1 font-bold text-white uppercase duration-150 ease-linear bg-red-400 rounded shadow active:bg-slate-700 text-slate-700 focus:outline-none focus:shadow-sky-800 ">取消讚</button>
+            </form>
           </div>
 
           <form action="{% url 'comments:delete' pk=comment.id %}" method="post" class="inline">

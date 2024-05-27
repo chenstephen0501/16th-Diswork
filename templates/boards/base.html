@@ -14,8 +14,13 @@
 </head>
 
 <body>
-    {% block content %}
-    {% endblock %}
+    {% include 'shared/message.html' %}
+    {% include 'boards/navbar.html' %}
+    {% include 'shared/news.html' %}
+    <main style="min-height: calc(100vh - 173.36px);">
+        {% block content %}
+        {% endblock %}
+    </main>
     {% include "shared/footer.html" %}
 </body>
 
