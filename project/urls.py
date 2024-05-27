@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import IndexView
+from .views import IndexView, PremiumView
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
+    path("premium/", PremiumView.as_view(), name="premium"),
     path("members/", include("members.urls")),
     path("friends/", include("friends.urls")),
     path("events/", include("events.urls")),
