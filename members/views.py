@@ -9,14 +9,12 @@ from .models import Member
 from .forms import MemberUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
-# email check start
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
-
+from django.contrib.auth import get_backends
 
 class LoginView(FormView):
     template_name = "registration/login.html"
@@ -58,10 +56,7 @@ class RegisterView(FormView):
 
         send_mail(
             "Diswork會員驗證信件",
-            "點擊此連結驗證您的帳戶： {}".format(link),
-            "dali175666@gmail.com",
-            [user.email],
-            fail_silently=False,
+            "點擊此連結驗證您的帳戶：{}".format(link), [user.email], fail_silently=False,
         )
         messages.success(self.request, "請至您的註冊信箱查看信件並完成註冊。")
         return super().form_valid(form)
@@ -92,11 +87,14 @@ def activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = Member.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+    except (TypeError, ValueError, OverflowError, Member.DoesNotExist):
         user = None
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
+        backends = get_backends()
+        if backends:
+            user.backend = "{}.{}".format(backends[0].__module__, backends[0].__class__.__name__)
         login(request, user)
         messages.success(request, "您的帳號已驗證成功！")
         return redirect("members:login")
