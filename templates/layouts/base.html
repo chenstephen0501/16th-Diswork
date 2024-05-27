@@ -32,8 +32,10 @@
   {% include 'shared/navbar.html' %}
   {% include 'shared/news.html' %}
   {% include 'shared/message.html' %}
-  {% block content %}
-  {% endblock %}
+  <main style="min-height: calc(100vh - 205.36px);">
+    {% block content %}
+    {% endblock %}
+  </main>
   {% include "shared/footer.html" %}
 </body>
 
