@@ -1,14 +1,16 @@
 {% extends 'boards/base.html' %}
 {% block content %}
 
-<div class="flex items-center justify-center w-full min-h-screen">
+<div class="flex items-center justify-center w-3/4 min-h-screen m-auto">
   <div class="w-full max-w-3xl">
-    <div class="container py-12 mx-auto md:py-16 lg:py-20">
+    <div class="container py-12 mx-auto md:py-16 lg:py-15">
       <article class="prose prose-gray dark:prose-invert">
-        <div class="space-y-8">
-          <h1 class="text-xl font-bold tracking-tight sm:text-3xl md:text-4xl">{{ article.title }}</h1>
+        <div class="p-6 space-y-8 border-2 border-gray-500">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">{{ article.title }}</h1>
+          </div>
           <div class="flex items-center gap-4 mt-4 space-x-4 text-sm text-gray-500 dark:text-gray-400">
-            <div>樓主：{{ article.author }}</div>
+            <div>樓主：{{ article.author.name }} {{ article.author }}</div>
             <div class="flex items-center space-x-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
@@ -32,19 +34,19 @@
             {% endif %}
           </div>
           <div class="prose prose-gray dark:prose-invert">
-            {{ article.content }}
+            {{ article.content|linebreaksbr }}
           </div>
         </div>
       </article>
     </div>
-    <div class="container py-12 mx-auto md:py-16 lg:py-20">
+    <div class="container py-12 mx-auto md:py-14 lg:py-1">
       <h2 class="mb-4 text-xl font-bold">留言列表</h2>
       {% for comment in comments %}
       <div class="w-full mx-auto mb-4 bg-white rounded-lg shadow-md">
         <div class="p-4">
-          <p>{{ comment.member }}</p>
-          <p class="text-sm text-gray-500">時間：{{ comment.created_at|date:"Y-m-d H:i:s" }}</p>
-          <p>{{ comment.content }}</p>
+          <p>{{ comment.member.name }} {{ comment.member }}</p>
+          <p class="text-sm text-gray-500">時間：{{ comment.created_at|date:"Y-m-d H:i" }}</p>
+          <p>{{ comment.content|linebreaksbr }}</p>
         </div>
 
 

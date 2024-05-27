@@ -2,14 +2,14 @@
   class="sticky top-0 flex flex-col w-full px-6 py-5 font-sans text-center text-white bg-gray-900 shadow sm:flex-row sm:text-left sm:justify-between sm:items-baseline">
   <div class="flex items-center justify-between w-full">
     <div class="flex items-center">
-      <a href="{% url 'boards:list' %}">
+      <a href="{% url 'root' %}">
         <img class="w-24 h-auto" src="/static/image/logo_2.png" alt="logo"></a>
     </div>
     <div class="flex items-center">
       <div class="flex items-center">
         <!-- 登入/註冊連結 -->
         {% if user.is_authenticated %}
-        <a href="{% url 'articles:index' %}"
+        <a href="{% url 'boards:list' %}"
           class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">討論區</a>
         <a href="{% url 'friends:member_list' %}"
           class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">會員列表</a>

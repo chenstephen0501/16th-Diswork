@@ -9,10 +9,12 @@ from comments.forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
     model = Article
     template_name = "articles/index.html"
+
 
 @method_decorator(login_required, name="dispatch")
 class NewView(FormView):
@@ -28,6 +30,7 @@ class NewView(FormView):
             article.save()
             return redirect("articles:index")
         return render(request, "articles/new.html", {"form": form})
+
 
 @method_decorator(login_required, name="dispatch")
 class ShowView(DetailView):
@@ -47,6 +50,7 @@ class ShowView(DetailView):
             messages.success(request, "更新成功")
         return redirect("articles:show", pk=article.id)
 
+
 @login_required
 @require_POST
 def create(request):
@@ -56,6 +60,7 @@ def create(request):
         form.save()
         messages.success(request, "文章新增成功")
     return redirect("articles:index")
+
 
 @login_required
 def edit(request, id):
@@ -73,18 +78,22 @@ class DeleteView(DeleteView):
         messages.success(self.request, "已刪除")
         return reverse("articles:index")
 
+
 @login_required
 @require_POST
 def add_like(req, pk):
-    LikeArticle.objects.create(like_by_article_id = req.user.id ,like_article_id = int(pk))
+    LikeArticle.objects.create(like_by_article_id=req.user.id, like_article_id=int(pk))
     return HttpResponse("")
+
 
 @login_required
 @require_POST
 def remove_like(req, pk):
     try:
-        like = LikeArticle.objects.get(like_by_article_id = req.user.id ,like_article_id = pk)
+        like = LikeArticle.objects.get(
+            like_by_article_id=req.user.id, like_article_id=pk
+        )
         like.delete()
     except:
-        pass    
+        pass
     return HttpResponse("")
