@@ -17,7 +17,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
 
-@method_decorator(login_required, name="dispatch")
+
 class LoginView(FormView):
     template_name = "registration/login.html"
     form_class = AuthenticationForm
@@ -27,7 +27,7 @@ class LoginView(FormView):
         login(self.request, form.get_user())
         return super().form_valid(form)
 
-@method_decorator(login_required, name="dispatch")
+
 class LogoutView(TemplateView):
     template_name = "registration/logout.html"
 
@@ -36,7 +36,7 @@ class LogoutView(TemplateView):
         messages.success(request, "登出成功！")
         return redirect("index")
 
-@method_decorator(login_required, name="dispatch")
+
 class RegisterView(FormView):
     template_name = "registration/register.html"
     form_class = SignUpForm
@@ -66,7 +66,7 @@ class RegisterView(FormView):
         messages.success(self.request, "請至您的註冊信箱查看信件並完成註冊。")
         return super().form_valid(form)
 
-@method_decorator(login_required, name="dispatch")
+
 class ProfileView(DetailView):
     model = Member
     template_name = "registration/profile.html"
