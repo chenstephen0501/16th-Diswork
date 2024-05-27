@@ -8,15 +8,19 @@
     <form action="{% url 'boards:add' %}" method="post" enctype="multipart/form-data" class="space-y-4">
       {% csrf_token %}
       <div>
-        <label for="picture" class="mb-1 text-lg font-medium">看板圖片：</label>
+        <label for="picture" class="mb-1 text-lg font-medium">看版圖片：</label>
         <input type="file" id="picture" name="picture" accept="image/*" class="border-solid">
       </div>
       <div class="mb-4">
-        <label for="title" class="mb-1 text-lg font-medium">看板</label>
+        <label for="title" class="mb-1 text-lg font-medium">看版</label>
         {{ form.title }}
       </div>
       <div class="mb-4">
-        <label for="rule" class="mb-1 text-lg font-medium">板規</label>
+        <label for="title" class="mb-1 text-lg font-medium">版主</label>
+        {{ form.member }}
+      </div>
+      <div class="mb-4">
+        <label for="rule" class="mb-1 text-lg font-medium">版規</label>
         {{ form.rule }}
       </div>
       <div class="mb-4">

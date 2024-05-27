@@ -48,7 +48,7 @@ class CategoryUpdateView(UpdateView):
     template_name = "boards/edit.html"
 
     def get_success_url(self):
-        return reverse_lazy("boards:detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy("boards:list")
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get("pk")
