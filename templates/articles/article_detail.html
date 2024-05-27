@@ -62,7 +62,8 @@
 
 
         <div class="flex justify-end px-4 py-2">
-          <div class="flex">
+          <div class="flex items-center">
+            <p class="mr-3">留言按讚總數: {{comment.like_count}}</p>
             <form hx-post="{% url 'comments:add_like' comment.id %}" hx-swap="none">
               {% csrf_token %}
               <button
