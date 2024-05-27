@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.urls import reverse
 from django.views.decorators.http import require_POST
@@ -8,12 +10,15 @@ from .forms import ArticleForm
 from comments.forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
+from django.db.models import Count
 
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
     model = Article
     template_name = "articles/index.html"
+
+    def get_queryset(self):
+        return Article.objects.annotate(like_count=Count("article"))
 
 
 @method_decorator(login_required, name="dispatch")
