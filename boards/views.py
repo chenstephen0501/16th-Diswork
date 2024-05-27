@@ -20,17 +20,18 @@ class BoardIndexView(ListView):
 
         return queryset.filter(title__icontains=keyword)
 
-
+@method_decorator(login_required, name="dispatch")
 class BoardDetailView(DetailView):
     model = Category
     template_name = "boards/board_detail.html"
 
-
+@method_decorator(login_required, name="dispatch")
 class BoardNewView(FormView):
     form_class = CategoryForm
     template_name = "boards/new.html"
 
 
+@login_required
 @require_POST
 def create(req):
     form = CategoryForm(req.POST, req.FILES)

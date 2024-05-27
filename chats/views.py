@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -7,13 +6,16 @@ from .models import ChatGroup
 from .forms import ChatmessageCreateForm
 from members.models import Member
 
+@login_required
 def chat_home(request):
     chat_groups = ChatGroup.objects.all()
     return render(request, "chats/chat_home.html", {"chat_groups": chat_groups})
 
+@login_required
 def chat_new(request):
     return render(request, "chats/chat_create.html")
 
+@login_required
 def chat_show(request, id):
     chat_group = get_object_or_404(ChatGroup, pk = id)
     chat_messages = chat_group.chat_messages.all()[:30]
@@ -29,6 +31,7 @@ def chat_show(request, id):
             return redirect('chats:show', id=chat_group.id)
     return render(request, "chats/chat_group.html", {'chat_messages': chat_messages, 'form': form})
 
+@login_required
 def chat_create(request):
     if request.method == 'POST':
         group_name = request.POST['group_name']
@@ -38,19 +41,18 @@ def chat_create(request):
             chat_group.save()
         else:
             messages.error(request, '群組名稱重複請更換名稱')
-
     return redirect('chats:home')
 
+@login_required
 def private_message_home(request):
     members = Member.objects.all()
-
     return render(request, "chats/private_message_home.html", {"members": members})
 
+@login_required
 def private_message_receiver(request, pk):
     receiver = get_object_or_404(Member, pk = pk)
-
     return render(request, "chats/private_message_receiver.html", {"receiver": receiver})
 
+@login_required
 def private_message_room(request, room_name):
-
     return render(request, "chats/private_message_room.html", {"room_name": room_name})
