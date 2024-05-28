@@ -102,11 +102,14 @@ class ShowView(DetailView):
 @require_POST
 def create(request):
     form = ArticleForm(request.POST)
-
     if form.is_valid():
-        form.save()
+        article = form.save(commit=False)
+        article.author = request.user
+        article.category_id = request.POST.get("category_id")
+        article.save()
         messages.success(request, "文章新增成功")
-    return redirect("articles:index")
+        return redirect("articles:index", category_id=article.category_id)
+    return redirect("articles:new", category_id=request.POST.get("category_id"))
 
 
 @method_decorator(login_required, name="dispatch")

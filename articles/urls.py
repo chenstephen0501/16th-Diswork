@@ -14,8 +14,8 @@ from . import views
 app_name = "articles"
 
 urlpatterns = [
-    path("category/category_id/", ArticleIndexView.as_view(), name="index"),
-    path("category/category_id/new/", NewView.as_view(), name="new"),
+    path("category/<int:category_id>/", ArticleIndexView.as_view(), name="index"),
+    path("category/<int:category_id>/new/", NewView.as_view(), name="new"),
     path("add/", views.create, name="add"),
     path("new/", NewView.as_view(), name="new"),
     path("<pk>/edit/", ArticleUpdateView.as_view(), name="edit"),
