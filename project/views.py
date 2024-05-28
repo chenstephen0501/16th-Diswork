@@ -6,6 +6,3 @@ class IndexView(TemplateView):
 
 class PremiumView(TemplateView):
     template_name = "pages/premium.html"
-
-def custom_page_not_found_view(request, exception):
-    return render(request, "shared/404.html", {}, status=404)

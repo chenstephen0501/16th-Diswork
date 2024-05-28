@@ -1,11 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import IndexView, PremiumView, custom_page_not_found_view
+from .views import IndexView, PremiumView
 from django.conf import settings
 from django.conf.urls.static import static
-from django.conf.urls import handler404
-
-
 
 urlpatterns = [
     path("", IndexView.as_view(), name="root"),
@@ -22,5 +19,3 @@ urlpatterns = [
     path("articles/", include("articles.urls")),
     path("admin/", admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-handler404 = custom_page_not_found_view
