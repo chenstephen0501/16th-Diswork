@@ -22,26 +22,11 @@ class ArticleIndexView(ListView):
     def get_queryset(self):
         category_id = self.kwargs.get("category_id")
         return Article.objects.filter(category_id=category_id).annotate(like_count=Count("article"))
-        # return Article.objects.annotate(like_count=Count("article"))
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category'] = get_object_or_404(Category, id=self.kwargs.get('category_id'))
         return context
-
-# @method_decorator(login_required, name="dispatch")
-# class NewView(FormView):
-#     def get(self, request):
-#         form = ArticleForm()
-#         return render(request, "articles/new.html", {"form": form})
-
-#     def post(self, request):
-#         form = ArticleForm(request.POST)
-#         if form.is_valid():
-#             article = form.save(commit=False)
-#             article.author = self.request.user
-#             article.save()
-#             return redirect("articles:index")
-#         return render(request, "articles/new.html", {"form": form})
 
 @method_decorator(login_required, name="dispatch")
 class NewView(FormView):
@@ -59,8 +44,6 @@ class NewView(FormView):
         article.category_id = self.kwargs.get('category_id')
         article.save()
         return redirect("articles:index", category_id=self.kwargs.get('category_id'))
-
-
 
 @method_decorator(login_required, name="dispatch")
 class ShowView(DetailView):
@@ -97,7 +80,6 @@ class ShowView(DetailView):
             messages.success(request, "更新成功")
         return redirect("articles:show", pk=article.id)
 
-
 @login_required
 @require_POST
 def create(request):
@@ -120,7 +102,13 @@ class ArticleUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("articles:show", kwargs={"pk": self.object.id})
-
+@login_required
+def edit(request, id):
+    article = get_object_or_404(Article, pk=id)
+    form = ArticleForm(instance=article)
+    return render(
+        request, "articles/article_detail.html", {"article": article, "form": form}
+    )
 
 class DeleteView(DeleteView):
     model = Article
@@ -129,13 +117,11 @@ class DeleteView(DeleteView):
         messages.success(self.request, "已刪除")
         return reverse("articles:index")
 
-
 @login_required
 @require_POST
 def add_like(req, pk):
     LikeArticle.objects.create(like_by_article_id=req.user.id, like_article_id=int(pk))
     return HttpResponse("")
-
 
 @login_required
 @require_POST
