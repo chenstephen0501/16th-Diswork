@@ -19,13 +19,14 @@ class ArticleForm(forms.ModelForm):
                     "class": "border border-gray-300 text-black rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
                 },
             ),
+            "author": forms.TextInput(
+                attrs={
+                    "class": "text-black px-4 py-2 bg-transparent focus:outline-none", "readonly": "readonly"
+                },
+            ),
             "content": forms.Textarea(
                 attrs={
                     "class": "border border-gray-300 text-black rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
                 },
             ),
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['author'].widget.attrs['readonly'] = True

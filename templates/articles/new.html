@@ -7,6 +7,7 @@
         <button class="inline-flex items-center justify-center text-sm bg-gray-900 hover:bg-gray-700 text-white rounded-md py-2">
             工作版
         </button>
+        <!-- {{ form.category }} -->
     </div>
     <div>
         <form action="{% url 'articles:add' %}" method="POST">
@@ -17,12 +18,14 @@
             </div>
             <div class="mb-4">
                 <label class="block text-xl text-black font-medium mb-1" for="id_author">{{ form.author.label }}</label>
-                <p>{{ author.username }}</p>
+                {{ form.author }}
             </div>
             <div class="mb-4">
                 <label class="block text-xl text-black font-medium mb-1" for="id_content">{{ form.content.label }}</label>
                 {{ form.content }}
             </div>
+            {{ form.category }}
+
             <div class="flex justify-center gap-2">
                 <a class="inline-flex items-center justify-center text-sm hover:bg-slate-400 text-black rounded-md px-6 py-3" value="取消" href="{% url 'articles:index' %}">取消</a>
                 <button class="inline-flex items-center justify-center text-sm bg-sky-500 hover:bg-sky-300 text-white rounded-md px-6 py-3" type="submit" value="新增">新增</button>
