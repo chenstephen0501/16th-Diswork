@@ -1,3 +1,4 @@
+from django.db.models import Exists, OuterRef
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.urls import reverse
 from django.views.decorators.http import require_POST
@@ -9,6 +10,7 @@ from comments.forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.db.models import Count
+from comments.models import LikeComment
 
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
@@ -17,7 +19,7 @@ class ArticleIndexView(ListView):
 
     def get_queryset(self):
         return Article.objects.annotate(like_count=Count("article"))
-
+        
 
 @method_decorator(login_required, name="dispatch")
 class NewView(FormView):
@@ -40,9 +42,16 @@ class ShowView(DetailView):
     model = Article
     extra_context = {"comment_form": CommentForm()}
 
+    def get_queryset(self):
+        like_subquery = LikeArticle.objects.filter(like_by_article_id = self.request.user.id, like_article_id = OuterRef("pk"))
+        return Article.objects.annotate(is_like=Exists(like_subquery))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["comments"] = self.object.comments.annotate(like_count=Count("like_comment"))
+        like_comment_subquery = LikeComment.objects.filter(like_by_id = self.request.user.id, like_comment_id = OuterRef("pk")).values("pk")
+        comments_with_likes = self.object.comments.annotate(is_like = Exists(like_comment_subquery))
+        context["comments"] = comments_with_likes
+        
         return context
 
     def post(self, request, pk):

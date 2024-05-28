@@ -36,15 +36,18 @@
                 <p>
                   {{ article.content }}
                 </p>
-                <div class="button-group flex items-end">
+                <div class="flex items-end">
+                  {% if article.is_like %}
+                  <form hx-post="{% url 'articles:remove_like' article.id %}" hx-swap="none">
+                  {% csrf_token %}    
+                    <button class="py-2 px-4 mx-2 mb-1 font-bold shadow duration-150  text-white ease-linear active:bg-slate-700 text-slate-700 rounded bg-red-400 focus:outline-none uppercase focus:shadow-sky-800 ">取消讚</button>
+                  </form>
+                  {% else %}
                   <form hx-post="{% url 'articles:add_like' article.id %}" hx-swap="none">
-                  {% csrf_token %}
+                    {% csrf_token %}
                     <button class="py-2 px-4 mx-2 mb-1 font-bold shadow duration-150  text-white ease-linear active:bg-slate-700 text-slate-700 rounded bg-sky-400 focus:outline-none uppercase focus:shadow-sky-800 ">點讚</button>
                   </form>
-                  <form hx-post="{% url 'articles:remove_like' article.id %}" hx-swap="none">
-                    {% csrf_token %}    
-                    <button class="py-2 px-4 mx-2 mb-1 font-bold shadow duration-150  text-white ease-linear active:bg-slate-700 text-slate-700 rounded bg-red-400 focus:outline-none uppercase focus:shadow-sky-800 ">取消讚</button>
-                  </form>     
+                  {% endif %}     
                 </div>
               </div>
             </div>
@@ -60,20 +63,21 @@
           <p>{{ comment.content|linebreaksbr }}</p>
         </div>
 
-
         <div class="flex justify-end px-4 py-2">
-          <div class="flex items-center">
-            <p class="mr-3">留言按讚總數: {{comment.like_count}}</p>
-            <form hx-post="{% url 'comments:add_like' comment.id %}" hx-swap="none">
-              {% csrf_token %}
-              <button
-                class="px-2 py-1 mx-2 mb-1 font-bold text-white uppercase duration-150 ease-linear rounded shadow active:bg-slate-700 text-slate-700 bg-sky-400 focus:outline-none focus:shadow-sky-800 ">點讚</button>
-            </form>
+          <div class="flex">
+            {% if comment.is_like %}
             <form hx-post="{% url 'comments:remove_like' comment.id %}" hx-swap="none">
               {% csrf_token %}
               <button
                 class="px-2 py-1 mx-2 mb-1 font-bold text-white uppercase duration-150 ease-linear bg-red-400 rounded shadow active:bg-slate-700 text-slate-700 focus:outline-none focus:shadow-sky-800 ">取消讚</button>
             </form>
+            {% else %}
+            <form hx-post="{% url 'comments:add_like' comment.id %}" hx-swap="none">
+              {% csrf_token %}
+              <button
+                class="px-2 py-1 mx-2 mb-1 font-bold text-white uppercase duration-150 ease-linear rounded shadow active:bg-slate-700 text-slate-700 bg-sky-400 focus:outline-none focus:shadow-sky-800 ">點讚</button>
+            </form>
+            {% endif %}
           </div>
 
           <form action="{% url 'comments:delete' pk=comment.id %}" method="post" class="inline">
