@@ -22,7 +22,3 @@ class ArticleForm(forms.ModelForm):
                 },
             ),
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['author'].widget.attrs['readonly'] = True
