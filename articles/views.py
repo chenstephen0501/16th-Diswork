@@ -95,7 +95,6 @@ class ShowView(DetailView):
 @require_POST
 def create(request):
     form = ArticleForm(request.POST)
-    print(form.is_valid())
     if form.is_valid():
         article = form.save(commit=False)
         article.author = request.user
