@@ -32,9 +32,16 @@ class ArticleIndexView(ListView):
 class NewView(FormView):
     template_name = "articles/new.html"
     form_class = ArticleForm
+    success_url = reverse_lazy("artucles:index")
+    
+    def form_valid(self, form):
+        article = form.save(commit=False)
+        article.save()
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['author'] = self.request.user
         context['category'] = get_object_or_404(Category, id=self.kwargs.get('category_id'))
         return context
 

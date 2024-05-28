@@ -11,25 +11,20 @@
     <div>
         <form action="{% url 'articles:add' %}" method="POST">
             {% csrf_token %}
-
             <div class="my-4">
                 <label class="block text-xl text-black font-medium mb-1" for="id_title">{{ form.title.label }}</label>
                 {{ form.title }}
             </div>
             <div class="mb-4">
                 <label class="block text-xl text-black font-medium mb-1" for="id_author">{{ form.author.label }}</label>
-                {{ form.author }}
-            </div>
-            <div class="mb-4">
-                <label class="block text-xl text-black font-medium mb-1" for="id_author">{{ form.categroy.label }}</label>
-                {{ form.categroy }}
+                <p>{{ author.username }}</p>
             </div>
             <div class="mb-4">
                 <label class="block text-xl text-black font-medium mb-1" for="id_content">{{ form.content.label }}</label>
                 {{ form.content }}
             </div>
             <div class="flex justify-center gap-2">
-                <button class="inline-flex items-center justify-center text-sm hover:bg-slate-400 text-black rounded-md px-6 py-3" type="submit" value="新增">取消</button>
+                <a class="inline-flex items-center justify-center text-sm hover:bg-slate-400 text-black rounded-md px-6 py-3" value="取消" href="{% url 'articles:index' %}">取消</a>
                 <button class="inline-flex items-center justify-center text-sm bg-sky-500 hover:bg-sky-300 text-white rounded-md px-6 py-3" type="submit" value="新增">新增</button>
             </div>
         </form>
