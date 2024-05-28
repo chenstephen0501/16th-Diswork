@@ -8,8 +8,9 @@ from .models import Comment, LikeComment
 from .forms import CommentForm
 from articles.models import Article
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
-
+@method_decorator(login_required, name="dispatch")
 class CommentListView(ListView):
     model = Comment
     template_name = "comments/article_detail.html"
@@ -26,7 +27,7 @@ class CommentListView(ListView):
         context["form"] = CommentForm()
         return context
 
-
+@method_decorator(login_required, name="dispatch")
 class CommentCreateView(CreateView):
     model = Comment
     form_class = CommentForm

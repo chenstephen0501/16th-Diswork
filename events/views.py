@@ -18,12 +18,12 @@ class CalendarView(ListView):
     def get_queryset(self):
         return Event.objects.all()
 
-
+@method_decorator(login_required, name="dispatch")
 class EventListView(ListView):
     model = Event
     template_name = "events/event_detail.html"
 
-
+@method_decorator(login_required, name="dispatch")
 class NewView(FormView):
     form_class = EventForm
     template_name = "events/new.html"
@@ -34,6 +34,7 @@ class NewView(FormView):
         return super().form_valid(form)
 
 
+@login_required
 @require_POST
 def create(req):
     form = EventForm(req.POST)
@@ -65,6 +66,7 @@ class EventDeleteView(DeleteView):
         return reverse("events:list")
 
 
+@login_required
 def all_events(req):
     all_events = Event.objects.all()
     out = []
@@ -88,6 +90,7 @@ def all_events(req):
     return JsonResponse(out, safe=False)
 
 
+@login_required
 def add_event(req):
     start = req.POST.get("start", None)
     end = req.POST.get("end", None)
