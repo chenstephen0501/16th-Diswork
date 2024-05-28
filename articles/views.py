@@ -12,6 +12,7 @@ from django.utils.decorators import method_decorator
 from django.db.models import Count
 from comments.models import LikeComment
 
+from .models import Category
 
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
@@ -19,23 +20,46 @@ class ArticleIndexView(ListView):
     template_name = "articles/index.html"
 
     def get_queryset(self):
-        return Article.objects.annotate(like_count=Count("article"))
+        category_id = self.kwargs.get("category_id")
+        return Article.objects.filter(category_id=category_id).annotate(like_count=Count("article"))
+        # return Article.objects.annotate(like_count=Count("article"))
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = get_object_or_404(Category, id=self.kwargs.get('category_id'))
+        return context
 
+# @method_decorator(login_required, name="dispatch")
+# class NewView(FormView):
+#     def get(self, request):
+#         form = ArticleForm()
+#         return render(request, "articles/new.html", {"form": form})
+
+#     def post(self, request):
+#         form = ArticleForm(request.POST)
+#         if form.is_valid():
+#             article = form.save(commit=False)
+#             article.author = self.request.user
+#             article.save()
+#             return redirect("articles:index")
+#         return render(request, "articles/new.html", {"form": form})
 
 @method_decorator(login_required, name="dispatch")
 class NewView(FormView):
-    def get(self, request):
-        form = ArticleForm()
-        return render(request, "articles/new.html", {"form": form})
+    template_name = "articles/new.html"
+    form_class = ArticleForm
 
-    def post(self, request):
-        form = ArticleForm(request.POST)
-        if form.is_valid():
-            article = form.save(commit=False)
-            article.author = self.request.user
-            article.save()
-            return redirect("articles:index")
-        return render(request, "articles/new.html", {"form": form})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = get_object_or_404(Category, id=self.kwargs.get('category_id'))
+        return context
+
+    def form_valid(self, form):
+        article = form.save(commit=False)
+        article.author = self.request.user
+        article.category_id = self.kwargs.get('category_id')
+        article.save()
+        return redirect("articles:index", category_id=self.kwargs.get('category_id'))
+
 
 
 @method_decorator(login_required, name="dispatch")
