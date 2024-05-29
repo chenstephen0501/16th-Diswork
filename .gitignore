@@ -6,3 +6,4 @@ static/styles/style.css
 static/scripts/app.js
 token.json
 .DS_Store
+static/image/.DS_Store

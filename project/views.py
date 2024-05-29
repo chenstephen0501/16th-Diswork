@@ -1,8 +1,11 @@
-from django.views.generic import TemplateView
 from django.shortcuts import render
+from django.views.generic import TemplateView
 
-class IndexView(TemplateView):
-    template_name = "pages/index.html"
+
+def index(request):
+    member = request.user
+    return render(request, "pages/index.html", {"member": member})
+
 
 class PremiumView(TemplateView):
     template_name = "pages/premium.html"
