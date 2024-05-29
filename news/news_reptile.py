@@ -10,7 +10,7 @@ django.setup()
 
 def news_list(request):
     news_items = News.objects.all().order_by("-created_at")[:20]
-    return render(request, "shared/news.html", {"news_items":news_items})
+    return render(request, "pages/index.html", {"news_items":news_items})
 
 def update_news():
     print("開始更新新聞...")

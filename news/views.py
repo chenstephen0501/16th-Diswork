@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.views.generic import ListView
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from .models import News
 import requests
 from bs4 import BeautifulSoup
@@ -8,6 +8,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .news_reptile import update_news
 from django.core.paginator import Paginator
+
+def index(request):
+    news_items = News.objects.all().order_by("-created_at")[:20]
+    return render(request, "shared/news.html", {"news_items":news_items})
 
 @method_decorator(login_required, name="dispatch")
 class NewsSearchView(ListView):
