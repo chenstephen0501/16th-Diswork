@@ -15,4 +15,7 @@ class CommentForm(ModelForm):
             "content": forms.TextInput(
                 attrs={"class": "mx-1 border-2 border-gray-300 h-32 w-full"}
             ),
+            "member": forms.TextInput(
+                attrs={"class": "invisible mx-1 border-2 border-gray-300 w-full", "readonly": "readonly"}
+            ),
         }
