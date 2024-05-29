@@ -12,6 +12,7 @@ from django.utils.decorators import method_decorator
 from django.db.models import Count
 from comments.models import LikeComment
 
+
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
     model = Article
@@ -19,7 +20,7 @@ class ArticleIndexView(ListView):
 
     def get_queryset(self):
         return Article.objects.annotate(like_count=Count("article"))
-        
+
 
 @method_decorator(login_required, name="dispatch")
 class NewView(FormView):
@@ -43,15 +44,21 @@ class ShowView(DetailView):
     extra_context = {"comment_form": CommentForm()}
 
     def get_queryset(self):
-        like_subquery = LikeArticle.objects.filter(like_by_article_id = self.request.user.id, like_article_id = OuterRef("pk"))
+        like_subquery = LikeArticle.objects.filter(
+            like_by_article_id=self.request.user.id, like_article_id=OuterRef("pk")
+        )
         return Article.objects.annotate(is_like=Exists(like_subquery))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        like_comment_subquery = LikeComment.objects.filter(like_by_id = self.request.user.id, like_comment_id = OuterRef("pk")).values("pk")
-        comments_with_likes = self.object.comments.annotate(is_like = Exists(like_comment_subquery))
+        like_comment_subquery = LikeComment.objects.filter(
+            like_by_id=self.request.user.id, like_comment_id=OuterRef("pk")
+        ).values("pk")
+        comments_with_likes = self.object.comments.annotate(
+            is_like=Exists(like_comment_subquery)
+        )
         context["comments"] = comments_with_likes
-        
+
         return context
 
     def post(self, request, pk):
@@ -75,12 +82,10 @@ def create(request):
 
 
 @login_required
-def edit(request, id):
-    article = get_object_or_404(Article, pk=id)
+def edit(request, pk):
+    article = get_object_or_404(Article, pk=pk)
     form = ArticleForm(instance=article)
-    return render(
-        request, "articles/article_detail.html", {"article": article, "form": form}
-    )
+    return render(request, "articles/edit.html", {"article": article, "form": form})
 
 
 class DeleteView(DeleteView):
