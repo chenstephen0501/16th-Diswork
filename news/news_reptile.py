@@ -3,9 +3,14 @@ from bs4 import BeautifulSoup
 from django.conf import settings
 from django.utils import timezone
 from news.models import News
+from django.shortcuts import render
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
 django.setup()
+
+def news_list(request):
+    news_items = News.objects.all().order_by("-created_at")[:20]
+    return render(request, "shared/news.html", {"news_items":news_items})
 
 def update_news():
     print("開始更新新聞...")

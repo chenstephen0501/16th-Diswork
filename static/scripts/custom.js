@@ -3,7 +3,7 @@ $('.slick-carousel').slick({
     slidesToScroll: 1,
     arrows:false,
     dots:false,
-    autoplay: false,
+    autoplay: true,
     autoplaySpeed: 1000,
     autoplayHoverPause:true,
     cssEase:"ease-out",
