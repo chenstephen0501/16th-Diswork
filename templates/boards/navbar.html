@@ -1,24 +1,35 @@
 <nav
-  class="sticky top-0 flex flex-col w-full px-6 py-6 font-sans text-center text-white bg-gray-900 shadow sm:flex-row sm:text-left sm:justify-between sm:items-baseline">
+  class="sticky top-0 flex flex-col w-full px-8 py-1 font-sans text-center text-white bg-transparent shadow backdrop-blur-sm backdrop-filter sm:flex-row sm:text-left sm:justify-between sm:items-baseline">
   <div class="flex items-center justify-between w-full">
     <div class="flex items-center">
       <a href="{% url 'root' %}">
-        <img class="w-32 h-auto" src="/static/image/logo_row.png" alt="logo"></a>
+        <img class="w-32 h-auto" src="/static/image/logo_2.png" alt="logo">
+      </a>
     </div>
-    <div class="flex items-center">
+    <div class="relative flex items-center" x-data="{ open: false }">
       {% if user.is_authenticated %}
-      <a href="{% url 'boards:list' %}" class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">討論區</a>
-      <a href="{% url 'members:profile' pk=user.id %}"
-        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">個人資料</a>
-      <a href="{% url 'friends:friend_list' %}"
-        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">好友</a>
-      <a href="{% url 'members:logout' %}"
-        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">登出</a>
-      {% else %}
-      <a href="{% url 'members:login' %}"
-        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">登入</a>
-      <a href="{% url 'members:register' %}"
-        class="ml-2 text-lg no-underline text-grey-darkest hover:text-blue-dark">註冊</a>
+      <div class="relative">
+        <button class="focus:outline-none" @click="open = !open" @click.away="open = false" aria-expanded="false"
+          aria-haspopup="true">
+          {% if member.user_img %}
+          <img class="w-12 h-12 transition duration-300 border-2 border-gray-200 rounded-full hover:border-orange-400"
+            src="{{ member.user_img.url }}" alt="photo">
+          {% else %}
+          <img class="w-10 h-10 border border-black rounded-full" src="/static/image/cathead.png" alt="photo">
+          {% endif %}
+        </button>
+        <div x-show="open" class="absolute right-0 w-48 py-2 mt-2 bg-white rounded-md shadow-lg dark:bg-gray-800"
+          style="display: none;">
+          <a href="{% url 'friends:member_list' %}"
+            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">會員列表</a>
+          <a href="{% url 'friends:friend_list' %}"
+            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">好友</a>
+          <a href="{% url 'members:profile' pk=user.id %}"
+            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">個人資料</a>
+          <a href="{% url 'members:logout' %}"
+            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">登出</a>
+        </div>
+      </div>
       {% endif %}
     </div>
   </div>

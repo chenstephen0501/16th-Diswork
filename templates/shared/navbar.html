@@ -15,9 +15,8 @@
           <img class="w-12 h-12 transition duration-300 border-2 border-gray-200 rounded-full hover:border-orange-400"
             src="{{ member.user_img.url }}" alt="photo">
           {% else %}
-          <img class="w-12 h-12 transition duration-300 border border-gray-200 rounded-full hover:border-orange-400"
-            src="/static/image/default_avatar.jpg" alt="photo">
-          <img class="w-10 h-10 border border-black rounded-full" src="/static/image/cathead.png" alt="photo">
+          <img class="w-12 h-12 border border-black rounded-full hover:border-orange-400"
+            src="/static/image/cathead.png" alt="photo">
           {% endif %}
         </button>
         <div x-show="open" class="absolute right-0 w-48 py-2 mt-2 bg-white rounded-md shadow-lg dark:bg-gray-800"

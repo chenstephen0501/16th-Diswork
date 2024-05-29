@@ -3,67 +3,79 @@
 {% block content %}
 
 <main style="min-height: calc(100vh - 107.97px);">
-    <section class="flex flex-col-reverse items-center justify-between px-6 py-20 text-white bg-gray-900 md:px-12">
-        <div class="flex w-full max-w-xl mt-10 text-center">
-            {% if user.is_authenticated %}
-            {% else %}
-            <div class="w-1/2 mr-2 bg-white hover:bg-amber-500 rounded-3xl">
-                <a href="{% url 'members:register' %}"
-                    class="block w-full py-3 text-black hover:text-white">註冊加入DISWORK</a>
-            </div>
-            <div class="w-1/2 ml-2 bg-amber-500 rounded-3xl hover:bg-white">
-                <a href="{% url 'members:login' %}"
-                    class="block w-full py-3 text-white hover:text-black">登入使用DISWORK</a>
-            </div>
-            {% endif %}
+  <section class="flex flex-col-reverse items-center justify-between px-6 py-20 text-white bg-gray-900 md:px-12">
+    <div class="flex w-full max-w-xl mt-10 text-center">
+      {% if user.is_authenticated %}
+      {% else %}
+      <div class="w-1/2 mr-2 bg-gray-300 hover:bg-amber-500 rounded-3xl">
+        <a href="{% url 'members:register' %}" class="block w-full py-3 text-black hover:text-white">註冊加入DISWORK</a>
+      </div>
+      <div class="w-1/2 ml-2 bg-gray-300 hover:bg-amber-500 rounded-3xl ">
+        <a href="{% url 'members:login' %}" class="block w-full py-3 text-black hover:text-white">登入使用DISWORK</a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="w-full max-w-xl" style="aspect-ratio: 48 / 19;">
+      <img src="{% static 'image/logo.png' %}" alt="Discord Hero" class="w-full h-full" style="object-fit: cover;" />
+    </div>
+  </section>
+  <section class="px-6 py-20 text-black bg-gray-100 md:px-12">
+    <div class="flex flex-col items-center justify-between max-w-screen-lg mx-auto md:flex-row">
+      <img src="https://picsum.photos/300/200/?random=10" width="600" height="400" alt="Discord Voice"
+        class="mb-8 md:mb-0 md:mr-12" style="aspect-ratio: 600 / 400; object-fit: cover;" />
+      <div class="max-w-md space-y-6">
+        <h2 class="text-3xl font-bold">多元主題討論版</h2>
+        <p class="text-lg">
+          多元討論主題讓你有問題不煩惱，快來和版友們一起找答案！
+        </p>
+        <a href="{% url 'boards:list' %}">
+          <button
+            class="inline-flex items-center px-4 py-2 font-bold text-gray-800 bg-gray-200 border border-black rounded hover:bg-gray-300">
+            手刀加入討論
+          </button>
+        </a>
+
+      </div>
+    </div>
+  </section>
+  <section class="flex flex-col items-center justify-between px-6 py-20 text-white bg-gray-900 md:px-12 md:flex-row">
+    <div class="flex flex-col items-center justify-between max-w-screen-lg mx-auto md:flex-row">
+      <div class="max-w-md space-y-6">
+        <h2 class="text-3xl font-bold">專屬活動日曆</h2>
+        <p class="text-lg">
+          各個討論版都擁有專屬的活動日曆，讓你與版友有機會在線上交流的同時，也能有面對面的相聚機會！
+        </p>
+      </div>
+      <img src="https://picsum.photos/300/200/?random=10" width="600" height="400" alt="Discord Voice"
+        class="mb-8 md:mb-0 md:mr-12" style="aspect-ratio: 600 / 400; object-fit: cover;" />
+    </div>
+  </section>
+  <section class="flex flex-col items-center justify-between px-6 py-20 text-black bg-gray-100 md:px-12 md:flex-row">
+    <div class="max-w-screen-lg mx-auto">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 max-w-[800]">
+        <div class="flex flex-col items-center justify-between px-6 py-5 bg-gray-900 rounded-lg w-[400px]">
+          <div class="w-full">
+            <h3 class="pb-4 text-3xl text-white">Free</h3>
+            <p class="mt-4 text-xl text-white">🐱 探索多元討論看版</p>
+            <p class="mt-4 text-xl text-white">🐱 查看討論版中活動日曆</p>
+            <p class="mt-4 text-xl text-white">🐱 不限次數的超級反應</p>
+          </div>
         </div>
-        <div class="w-full max-w-xl" style="aspect-ratio: 48 / 19;">
-            <img src="{% static 'image/logo.png' %}" alt="Discord Hero" class="w-full h-full"
-                style="object-fit: cover;" />
+        <div class="flex flex-col items-center justify-between px-6 py-5 bg-gray-900 rounded-lg w-[400px]">
+          <div class="w-full">
+            <h3 class="pb-4 text-3xl text-white">Premium</h3>
+            <p class="mt-4 text-xl text-white">🐱 新增各式討論看版</p>
+            <p class="mt-4 text-xl text-white">🐱 管理看板中活動日曆</p>
+            <p class="mt-4 text-xl text-white">🐱 管理板中發文及留言</p>
+          </div>
+          <div class="flex-grow"></div>
+          <a class="inline-block w-full h-12 px-4 mt-6 text-2xl font-bold leading-loose text-center text-white bg-orange-400 rounded-lg hover:bg-orange-500"
+            href="#">訂閱</a>
         </div>
-    </section>
-    <section class="px-6 py-20 text-black bg-white md:px-12">
-        <div class="flex flex-col items-center justify-between max-w-screen-lg mx-auto md:flex-row">
-            <img src="https://picsum.photos/300/200/?random=10" width="600" height="400" alt="Discord Voice"
-                class="mb-8 md:mb-0 md:mr-12" style="aspect-ratio: 600 / 400; object-fit: cover;" />
-            <div class="max-w-md space-y-6">
-                <h2 class="text-3xl font-bold">Where hanging out is easy</h2>
-                <p class="text-lg">
-                    Grab a seat in a voice channel when you're free. Friends can see you're around and instantly pop in
-                    to talk
-                    without having to call.
-                </p>
-            </div>
-        </div>
-    </section>
-    <section class="flex flex-col items-center justify-between px-6 py-20 text-white bg-gray-900 md:px-12 md:flex-row">
-        <div class="flex flex-col items-center justify-between max-w-screen-lg mx-auto md:flex-row">
-            <div class="max-w-md space-y-6">
-                <h2 class="text-3xl font-bold">Where hanging out is easy</h2>
-                <p class="text-lg">
-                    Grab a seat in a voice channel when you're free. Friends can see you're around and instantly pop in
-                    to talk
-                    without having to call.
-                </p>
-            </div>
-            <img src="https://picsum.photos/300/200/?random=10" width="600" height="400" alt="Discord Voice"
-                class="mb-8 md:mb-0 md:mr-12" style="aspect-ratio: 600 / 400; object-fit: cover;" />
-        </div>
-    </section>
-    <section class="flex flex-col items-center justify-between px-6 py-20 text-black bg-white md:px-12 md:flex-row">
-        <div class="flex flex-col items-center justify-between max-w-screen-lg mx-auto md:flex-row">
-            <img src="https://picsum.photos/300/200/?random=10" width="600" height="400" alt="Discord Voice"
-                class="mb-8 md:mb-0 md:mr-12" style="aspect-ratio: 600 / 400; object-fit: cover;" />
-            <div class="max-w-md space-y-6">
-                <h2 class="text-3xl font-bold">Where hanging out is easy</h2>
-                <p class="text-lg">
-                    Grab a seat in a voice channel when you're free. Friends can see you're around and instantly pop in
-                    to talk
-                    without having to call.
-                </p>
-            </div>
-        </div>
-    </section>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 {% endblock %}
