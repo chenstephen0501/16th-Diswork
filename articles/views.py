@@ -1,8 +1,8 @@
 from django.db.models import Exists, OuterRef
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_POST
-from django.views.generic import ListView, FormView, DetailView, DeleteView
+from django.views.generic import ListView, FormView, DetailView, DeleteView, UpdateView
 from django.contrib import messages
 from .models import Article, LikeArticle
 from .forms import ArticleForm
@@ -81,14 +81,14 @@ def create(request):
     return redirect("articles:index")
 
 
-@require_POST
-@login_required
-def edit(request, pk):
-    article = get_object_or_404(Article, pk=pk)
-    form = ArticleForm(instance=article)
-    return render(
-        request, "articles/article_detail.html", {"article": article, "form": form}
-    )
+@method_decorator(login_required, name="dispatch")
+class ArticleUpdateView(UpdateView):
+    model = Article
+    form_class = ArticleForm
+    template_name = "articles/edit.html"
+
+    def get_success_url(self):
+        return reverse_lazy("articles:show", kwargs={"pk": self.object.id})
 
 
 class DeleteView(DeleteView):

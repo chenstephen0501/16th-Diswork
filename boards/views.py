@@ -44,7 +44,7 @@ def create(req):
 
 
 @method_decorator(login_required, name="dispatch")
-class CategoryUpdateView(UpdateView):
+class BoardUpdateView(UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = "boards/edit.html"
