@@ -87,7 +87,7 @@ class ShowView(DetailView):
 @require_POST
 def create(request, category_id):
     form = ArticleForm(request.POST)
-
+    print(form.is_valid())
     if form.is_valid():
         article = form.save(commit=False)
         article.author = request.user

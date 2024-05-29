@@ -28,3 +28,4 @@ class CommentForm(ModelForm):
                 attrs={"class": "invisible mx-1 border-2 border-gray-300 w-full", "readonly": "readonly"}
             ),
         }
+
