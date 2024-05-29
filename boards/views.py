@@ -20,10 +20,12 @@ class BoardIndexView(ListView):
 
         return queryset.filter(title__icontains=keyword)
 
+
 @method_decorator(login_required, name="dispatch")
 class BoardDetailView(DetailView):
     model = Category
     template_name = "boards/board_detail.html"
+
 
 @method_decorator(login_required, name="dispatch")
 class BoardNewView(FormView):
@@ -49,10 +51,6 @@ class CategoryUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("boards:list")
-
-    def get_object(self, queryset=None):
-        pk = self.kwargs.get("pk")
-        return get_object_or_404(Category, pk=pk)
 
 
 @method_decorator(login_required, name="dispatch")

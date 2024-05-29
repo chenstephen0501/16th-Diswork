@@ -81,11 +81,14 @@ def create(request):
     return redirect("articles:index")
 
 
+@require_POST
 @login_required
 def edit(request, pk):
     article = get_object_or_404(Article, pk=pk)
     form = ArticleForm(instance=article)
-    return render(request, "articles/edit.html", {"article": article, "form": form})
+    return render(
+        request, "articles/article_detail.html", {"article": article, "form": form}
+    )
 
 
 class DeleteView(DeleteView):
