@@ -9,7 +9,6 @@ from .forms import ArticleForm
 from comments.forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.db.models import Count
 from comments.models import LikeComment
 
 from .models import Category
@@ -20,19 +19,13 @@ class ArticleIndexView(ListView):
     template_name = "articles/index.html"
 
     def get_queryset(self):
-        category_id = self.kwargs.get("category_id")
-        return Article.objects.filter(category_id=category_id).annotate(like_count=Count("article"))
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['category'] = get_object_or_404(Category, id=self.kwargs.get('category_id'))
-        return context
+        return Article.objects.with_count()
 
 @method_decorator(login_required, name="dispatch")
 class NewView(FormView):
     template_name = "articles/new.html"
     form_class = ArticleForm
-    success_url = reverse_lazy("artucles:index")
+    success_url = reverse_lazy("articles:index")
 
     def get_initial(self):
         initial = super().get_initial()

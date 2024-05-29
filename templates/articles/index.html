@@ -45,9 +45,11 @@
           <a href="{% url 'articles:show' article.pk %}" class="block mt-4 text-blue-500 hover:underline">閱讀全文</a>
         </div>
       </div>
-      <div class="flex items-end">
-        <p>讚數統計: {{article.like_count}}</p>
-      </div>
+    </div>  
+    <div class="flex items-end">
+      <p class="mr-5">留言統計: {{article.comment_count}}</p>
+      <p>讚數統計: {{article.like_count}}</p>
+    </div>
     </div>
   </div>
   {% endfor %}
