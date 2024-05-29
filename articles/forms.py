@@ -6,12 +6,12 @@ from .models import Article
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ["title", "author", "content", "category"]
+        fields = ["title", "author", "content"]
         labels = {
             "title": "標題",
             "author": "作者",
             "content": "內容",
-            "category": "分類",
+
         }
         widgets = {
             "title": forms.TextInput(

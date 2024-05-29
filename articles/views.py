@@ -80,7 +80,7 @@ class ShowView(DetailView):
             is_like=Exists(like_comment_subquery)
         )
         context["comments"] = comments_with_likes
-
+        context["comment_form"] = CommentForm(initial={'member': self.request.user.id})
         return context
 
     def post(self, request, pk):
@@ -95,7 +95,7 @@ class ShowView(DetailView):
 @require_POST
 def create(request):
     form = ArticleForm(request.POST)
-
+    print(form.is_valid())
     if form.is_valid():
         article = form.save(commit=False)
         article.author = request.user
