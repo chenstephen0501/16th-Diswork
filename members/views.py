@@ -20,6 +20,7 @@ import os
 
 load_dotenv()
 
+
 class LoginView(FormView):
     template_name = "registration/login.html"
     form_class = AuthenticationForm
@@ -36,7 +37,7 @@ class LogoutView(TemplateView):
     def get(self, request, *args, **kwargs):
         logout(request)
         messages.success(request, "登出成功！")
-        return redirect("index")
+        return redirect("root")
 
 
 class RegisterView(FormView):
@@ -61,9 +62,9 @@ class RegisterView(FormView):
         send_mail(
             "Diswork會員驗證信件",
             "點擊此連結驗證您的帳戶：{}".format(link),
-            os.getenv('DEFAULT_FROM_EMAIL'),
-            [user.email], 
-            fail_silently=False, 
+            os.getenv("DEFAULT_FROM_EMAIL"),
+            [user.email],
+            fail_silently=False,
         )
         messages.success(self.request, "請至您的註冊信箱查看信件並完成註冊。")
         return super().form_valid(form)
@@ -101,7 +102,9 @@ def activate(request, uidb64, token):
         user.save()
         backends = get_backends()
         if backends:
-            user.backend = "{}.{}".format(backends[0].__module__, backends[0].__class__.__name__)
+            user.backend = "{}.{}".format(
+                backends[0].__module__, backends[0].__class__.__name__
+            )
         login(request, user)
         messages.success(request, "您的帳號已驗證成功！")
         return redirect("members:login")
