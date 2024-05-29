@@ -66,8 +66,8 @@ def delete(request, pk):
 @login_required
 @require_POST
 def add_like(req, pk):
-    LikeComment.objects.create(like_by_id=req.user.id, like_comment_id=pk)
-    return HttpResponse("")
+    LikeComment.objects.create(like_by_id = req.user.id, like_comment_id = pk)
+    return redirect(req.META.get('HTTP_REFERER', '/'))
 
 
 @login_required
@@ -78,4 +78,4 @@ def remove_like(req, pk):
         like.delete()
     except:
         pass
-    return HttpResponse("")
+    return redirect(req.META.get('HTTP_REFERER', '/'))

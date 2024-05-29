@@ -74,12 +74,8 @@ class ShowView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        like_comment_subquery = LikeComment.objects.filter(
-            like_by_id=self.request.user.id, like_comment_id=OuterRef("pk")
-        ).values("pk")
-        comments_with_likes = self.object.comments.annotate(
-            is_like=Exists(like_comment_subquery)
-        )
+        like_comment_subquery = LikeComment.objects.filter(like_by_id = self.request.user.id, like_comment_id = OuterRef("pk")).values("pk")
+        comments_with_likes = self.object.comments.annotate(is_like = Exists(like_comment_subquery),like_count=Count("like_comment"))
         context["comments"] = comments_with_likes
         context["comment_form"] = CommentForm(initial={'member': self.request.user.id})
         return context
@@ -133,7 +129,7 @@ class DeleteView(DeleteView):
 @require_POST
 def add_like(req, pk):
     LikeArticle.objects.create(like_by_article_id=req.user.id, like_article_id=int(pk))
-    return HttpResponse("")
+    return redirect(req.META.get('HTTP_REFERER', '/'))
 
 @login_required
 @require_POST
@@ -145,4 +141,4 @@ def remove_like(req, pk):
         like.delete()
     except:
         pass
-    return HttpResponse("")
+    return redirect(req.META.get('HTTP_REFERER', '/'))
