@@ -49,7 +49,7 @@ class NewView(FormView):
 class ShowView(DetailView):
     model = Article
     extra_context = {"comment_form": CommentForm()}
-    def grt_initial(self):
+    def get_initial(self):
         initial = super().get_initial()
         initial["member"] = self.request.user.username
         return initial
