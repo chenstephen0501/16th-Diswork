@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.views.generic import TemplateView, FormView, UpdateView, DetailView
 from django.urls import reverse_lazy, reverse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from .models import Member
 from .forms import MemberUpdateForm
 from django.contrib.auth.decorators import login_required
@@ -13,13 +13,27 @@ from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.models import User
 from django.contrib.auth import get_backends
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
+@login_required
+def subscribe(request):
+    if request.method == "POST":
+        user = request.user
+        member = Member.objects.get(user=user)
+        if member.member_status:
+            return render(request, "pages/index.html", {"member_status":True})
+        else:
+            member.member_status = True
+            member.save()
+            return render(request, "pages/index.html", {"member_status":True})
+    else:
+        user = request.user
+        member = Member.objects.get(user=user)
+        return render(request, "pages/index.html", {"member_status":member.member_status})
 
 class LoginView(FormView):
     template_name = "registration/login.html"
