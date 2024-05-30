@@ -4,8 +4,6 @@ from members.models import Member
 
 
 def index(request):
-    # member = request.user
-    # return render(request, "pages/index.html", {"member": member})
     member_log = request.user
     if request.user.is_authenticated:
         try:

@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.urls import reverse_lazy
-
+from members.models import Member
 
 @method_decorator(login_required, name="dispatch")
 class BoardIndexView(ListView):
@@ -19,6 +19,17 @@ class BoardIndexView(ListView):
         keyword = self.request.GET.get("keyword", "").strip()
         return queryset.filter(title__icontains=keyword)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            try:
+                member = Member.objects.get(username=self.request.user.username)
+                context["member_status"] = member.member_status
+            except Member.DoesNotExist:
+                context["member_status"] = "0"
+        else:
+            context["member_status"] = "0"
+        return context
 
 @method_decorator(login_required, name="dispatch")
 class BoardDetailView(DetailView):
