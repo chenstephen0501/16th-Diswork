@@ -40,27 +40,27 @@ class CommentCreateView(CreateView):
         article = get_object_or_404(Article, pk=article_id)
         form.instance.article = article
         self.object = form.save()
-        messages.success(self.request, "已新增留言！！！")
         return redirect("articles:show", pk=article_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member_id = self.request.user.id
         member = get_object_or_404(Member, id=member_id)
-        article = get_object_or_404(Article, id=self.kwargs["pk"])  # 安哥
+        article = get_object_or_404(Article, id=self.kwargs["pk"])
         context["member_id"] = member_id
         context["comments"] = Comment.objects.filter(member=member).order_by(
             "-created_at"
         )
-        context["article"] = article  # 安哥
+        context["article"] = article
         return context
 
 
 @require_POST
-def delete(req, pk):
+def delete(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
+    article_id = comment.article_id
     comment.delete()
-    return redirect("articles:show", pk=comment.article_id)
+    return redirect("articles:show", pk=article_id)
 
 
 @login_required
