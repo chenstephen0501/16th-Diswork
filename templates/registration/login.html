@@ -41,22 +41,23 @@
         </div>
       </form>
     </div>
-    <div class="flex flex-col items-center justify-center p-3 lg:w-1/3 slate-800 lg:ml-auto">
-
+    <div class="flex flex-col items-center justify-center lg:w-1/3 slate-800 lg:ml-auto">
       <div class="flex flex-col">
         <a href="{% provider_login_url 'google' %}?next=/">
           <button
-            class="inline-flex items-center w-full px-4 py-4 mb-6 mr-1 text-xs font-normal font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-slate-50 text-slate-700 focus:outline-none hover:shadow-md"
+            class="inline-flex items-center w-full px-2 py-4 mb-6 mr-1 text-sm font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-slate-50 text-slate-700 focus:outline-none hover:bg-gray-300 hover:text-gray-800 hover:shadow-md"
             type="button">
-            <img alt="Google" class="w-5 mr-1"
-              src="https://demos.creative-tim.com/notus-js/assets/img/google.svg">Google
-          </button></a>
-        <a href="">
+            <img alt="Google" class="w-5 mr-1" src="https://demos.creative-tim.com/notus-js/assets/img/google.svg">使用
+            Google 帳戶登入
+          </button>
+        </a>
+        <a href="{% provider_login_url 'line' %}?next=/">
           <button
-            class="inline-flex items-center w-full px-4 py-4 mb-1 mr-1 text-xs font-normal font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-slate-50 text-slate-700 focus:outline-none hover:shadow-md"
+            class="inline-flex items-center w-full px-[12px] mb-1 py-[10px] text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-green-500 rounded shadow outline-none active:bg-green-600 focus:outline-none hover:bg-green-600 hover:shadow-lg"
             type="button">
-            <img alt="..." class="w-5 mr-1" src="https://demos.creative-tim.com/notus-js/assets/img/github.svg">Github
-          </button></a>
+            <img alt="line" class="w-10" src="/static/image/line.png">使用 LINE 帳號登入
+          </button>
+        </a>
       </div>
     </div>
   </div>
