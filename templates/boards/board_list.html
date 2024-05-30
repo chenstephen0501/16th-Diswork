@@ -1,6 +1,10 @@
 {% extends 'boards/base.html' %}
 {% block title %}討論板{% endblock %}
 
+
+{% block aside %}
+{% include 'shared/board_aside.html' %}
+{% endblock %}
 {% block content %}
 <div class="flex justify-end mb-4 mr-10">
   {% if member_status == "1" %}
