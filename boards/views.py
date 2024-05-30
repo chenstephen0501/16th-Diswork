@@ -17,7 +17,6 @@ class BoardIndexView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         keyword = self.request.GET.get("keyword", "").strip()
-
         return queryset.filter(title__icontains=keyword)
 
 

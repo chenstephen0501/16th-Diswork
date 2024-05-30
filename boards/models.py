@@ -22,7 +22,9 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True)
     picture = models.ImageField(null=True, blank=True, upload_to="images/")
-    member = models.ForeignKey("members.Member", on_delete=models.CASCADE, null=True, blank=True)
+    member = models.ForeignKey(
+        "members.Member", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     object = CategoryManager()
 
