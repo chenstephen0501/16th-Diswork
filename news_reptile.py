@@ -1,14 +1,15 @@
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
 import django
-django.setup()
-
 import time, datetime, requests
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.utils import timezone
-from news.models import News
 from django.shortcuts import render
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+django.setup()
+
+from news.models import News
 
 def news_list(request):
     news_items = News.objects.all().order_by("-created_at")[:20]
