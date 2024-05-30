@@ -1,3 +1,12 @@
+{% load static %}
+<script src="{% static 'vendor/slick.carousel/slick.min.js' %}"></script>
+<script src="{% static 'scripts/custom.js' %}" defer></script>
+<script src="https://unpkg.com/htmx.org@1.9.12"
+    integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
+    crossorigin="anonymous"></script>
+<style>
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/tailwindcss-line-clamp/0.2.1/tailwindcss-line-clamp.min.css');
+</style>
 <div class="slick-carousel sticky top-[68px] flex gap-2 overflow-hidden">
     {% for item in news_items%}
     <div class="bg-blue-500">
