@@ -10,6 +10,7 @@ from articles.models import Article
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+
 @method_decorator(login_required, name="dispatch")
 class CommentListView(ListView):
     model = Comment
@@ -27,6 +28,7 @@ class CommentListView(ListView):
         context["form"] = CommentForm()
         return context
 
+
 @method_decorator(login_required, name="dispatch")
 class CommentCreateView(CreateView):
     model = Comment
@@ -43,12 +45,14 @@ class CommentCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        member_id = self.kwargs["id"]
+        member_id = self.request.user.id
         member = get_object_or_404(Member, id=member_id)
+        article = get_object_or_404(Article, id=self.kwargs["pk"])  # 安哥
         context["member_id"] = member_id
         context["comments"] = Comment.objects.filter(member=member).order_by(
             "-created_at"
         )
+        context["article"] = article  # 安哥
         return context
 
 
@@ -58,17 +62,19 @@ def delete(req, pk):
     comment.delete()
     return redirect("articles:show", pk=comment.article_id)
 
+
 @login_required
 @require_POST
 def add_like(req, pk):
-    LikeComment.objects.create(like_by_id = req.user.id, like_comment_id = pk)
+    LikeComment.objects.create(like_by_id=req.user.id, like_comment_id=pk)
     return HttpResponse("")
+
 
 @login_required
 @require_POST
 def remove_like(req, pk):
     try:
-        like = LikeComment.objects.get(like_by_id = req.user.id, like_comment_id = pk)
+        like = LikeComment.objects.get(like_by_id=req.user.id, like_comment_id=pk)
         like.delete()
     except:
         pass

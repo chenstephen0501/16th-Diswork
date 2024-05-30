@@ -8,15 +8,19 @@ class CommentForm(ModelForm):
         model = Comment
         fields = ["content", "member"]
         labels = {
-            "content": "留言內容",
-            "member": "會員",
+            "content": "",
         }
         widgets = {
             "content": forms.TextInput(
-                attrs={"class": "mx-1 border-2 border-gray-300 h-32 w-full"}
+                attrs={
+                    "class": "border border-gray-300 h-20 w-full",
+                    "placeholder": "這邊留言...",
+                }
             ),
             "member": forms.TextInput(
-                attrs={"class": "invisible mx-1 h-12 focus:outline-none", "readonly": "readonly",}
+                attrs={
+                    "class": "invisible mx-1 h-12 focus:outline-none",
+                    "readonly": "readonly",
+                }
             ),
         }
-
