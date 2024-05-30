@@ -3,7 +3,7 @@
 <div class="relative block w-full h-screen overflow-hidden bg-opacity-60">
   <div class="w-[700px] h-full bg-white mx-auto flex flex-col">
     <div class="w-full h-[50px] sticky top-0">
-      <h4>{{ category.title}}</h4>
+      <h4>{{ category.title }}</h4>
     </div>
     <div class="flex-1 overflow-scroll">
       <div class="p-4 space-y-2">
@@ -72,25 +72,9 @@
         <p class="text-gray-500">尚無留言</p>
         {% endfor %}
       </div>
-      {% empty %} <p class="text-gray-500">尚無留言</p>
-      {% endfor %}
-      <form method="post" action="{% url 'articles:comment' pk=article.pk %}" class="mt-8">
-        {% csrf_token %}
-        <div class="my-4">
-          <label class="block mb-1 text-xl font-medium text-black" for="id_content">{{ comment_form.content.label
-            }}</label>
-          {{ comment_form.content }}
-        </div>
-        {{ comment_form.member }}
-
-        <div class="flex justify-end">
-          <button type="submit"
-            class="px-3 py-2 mr-5 text-sm font-semibold text-white bg-orange-500 rounded ">送出</button>
-        </div>
-      </form>
     </div>
-    <div class="sticky bottom-0 mt-auto">
-      <form method="post" action="{% url 'articles:comment' article.id %}" class="px-2">
+    <div class="sticky bottom-0">
+      <form method="post" action="{% url 'articles:comment' pk=article.pk %}" class="px-2">
         {% csrf_token %}
         {{ comment_form }}
         <div class="flex justify-end">
@@ -101,6 +85,5 @@
       </form>
     </div>
   </div>
-  <div class="w-full h-[100px] bg-gray-400 sticky bottom-0"></div>
 </div>
 {% endblock %}

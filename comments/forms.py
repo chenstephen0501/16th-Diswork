@@ -9,6 +9,7 @@ class CommentForm(ModelForm):
         fields = ["content", "member"]
         labels = {
             "content": "",
+            "member": "",
         }
         widgets = {
             "content": forms.TextInput(
@@ -19,7 +20,7 @@ class CommentForm(ModelForm):
             ),
             "member": forms.TextInput(
                 attrs={
-                    "class": "invisible mx-1 h-12 focus:outline-none",
+                    "class": "hidden mx-1 h-12 focus:outline-none",
                     "readonly": "readonly",
                 }
             ),
