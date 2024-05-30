@@ -12,4 +12,5 @@ urlpatterns = [
     path("edit/<pk>", MemberUpdateView.as_view(), name="edit"),
     # 註冊mail
     path("activate/<uidb64>/<token>/", views.activate, name="activate"),
+    path("subscribe/", views.subscribe, name="subscribe"),
 ]

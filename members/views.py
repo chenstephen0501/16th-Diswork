@@ -21,19 +21,17 @@ load_dotenv()
 
 @login_required
 def subscribe(request):
+    user = request.user
+    member = Member.objects.get(username=user.username)
     if request.method == "POST":
-        user = request.user
-        member = Member.objects.get(user=user)
-        if member.member_status:
+        if member.member_status == "1":
             return render(request, "pages/index.html", {"member_status":True})
         else:
-            member.member_status = True
+            member.member_status = "1"
             member.save()
             return render(request, "pages/index.html", {"member_status":True})
     else:
-        user = request.user
-        member = Member.objects.get(user=user)
-        return render(request, "pages/index.html", {"member_status":member.member_status})
+        return render(request, "pages/index.html", {"member_status":member.member_status == "1"})
 
 class LoginView(FormView):
     template_name = "registration/login.html"
