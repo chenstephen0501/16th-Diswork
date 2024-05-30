@@ -27,7 +27,7 @@
             {{ form.category }}
 
             <div class="flex justify-center gap-2">
-                <a class="inline-flex items-center justify-center text-sm hover:bg-slate-400 text-black rounded-md px-6 py-3" value="取消" href="{% url 'articles:index' %}">取消</a>
+                <a class="inline-flex items-center justify-center text-sm hover:bg-slate-400 text-black rounded-md px-6 py-3" value="取消" href="{% url 'articles:index' category.id %}">取消</a>
                 <button class="inline-flex items-center justify-center text-sm bg-sky-500 hover:bg-sky-300 text-white rounded-md px-6 py-3" type="submit" value="新增">新增</button>
             </div>
         </form>

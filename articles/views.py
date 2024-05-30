@@ -33,6 +33,7 @@ class NewView(FormView):
     template_name = "articles/new.html"
     form_class = ArticleForm
     success_url = reverse_lazy("artucles:index")
+
     def get_initial(self):
         initial = super().get_initial()
         initial['author'] = self.request.user.username
