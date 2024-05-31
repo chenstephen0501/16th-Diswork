@@ -49,20 +49,33 @@ class EventListView(ListView):
 class NewView(FormView):
     form_class = EventForm
     template_name = "events/new.html"
-    success_url = "/events/"
+    def get_success_url(self):
+        category_id = self.kwargs["category_id"]
+        return reverse_lazy("events:calender", kwargs={"category_id": category_id})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get("category_id")
+        context["category"] = get_object_or_404(Category, id=category_id)
+        
+        return context
 
     def form_valid(self, form):
+        form.instance.category_id = self.kwargs["category_id"]
         form.save()
         return super().form_valid(form)
 
 
 @login_required
 @require_POST
-def create(req):
+def create(req, category_id):
     form = EventForm(req.POST)
+
     if form.is_valid():
-        form.save()
-        return redirect("events:calendar")
+        event = form.save(commit=False)
+        event.category_id = category_id
+        event.save()
+        return redirect(reverse("events:calendar", kwargs={"category_id": category_id}))
     else:
         return JsonResponse({"errors": form.errors}, status=400)
 
