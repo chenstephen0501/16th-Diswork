@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
+
 
 class Member(AbstractUser):
     name = models.CharField(max_length=100, default="")
@@ -11,9 +15,30 @@ class Member(AbstractUser):
     friends = models.ManyToManyField(
         "self", through="friends.Friend", symmetrical=False, related_name="related_to"
     )  # symmetrical=False：設定兩者好友關係不是自動對稱的
-    like_by = models.ManyToManyField("comments.Comment", through="comments.LikeComment", related_name="like_sender")
+    like_by = models.ManyToManyField(
+        "comments.Comment", through="comments.LikeComment", related_name="like_sender"
+    )
 
-    liking_article_mambers = models.ManyToManyField("articles.Article", through="articles.LikeArticle", related_name="liking_article_mambers")
+    liking_article_members = models.ManyToManyField(
+        "articles.Article",
+        through="articles.LikeArticle",
+        related_name="liking_article_members",
+    )
+
+    def save(self, *args, **kwargs):
+        if self.user_img:
+            img = Image.open(self.user_img)
+            max_size = (100, 100)
+            img.thumbnail(max_size, Image.LANCZOS)
+            thumb_io = BytesIO()
+            img_format = "PNG" if img.mode == "RGBA" else "JPEG"
+            img.save(thumb_io, format=img_format)
+            thumb_io.seek(0)
+            file_extension = "png" if img.mode == "RGBA" else "jpg"
+            new_file_name = f"{self.user_img.name.split('.')[0]}_thumb.{file_extension}"
+            self.user_img.save(new_file_name, ContentFile(thumb_io.read()), save=False)
+        super().save(*args, **kwargs)
+
 
 class Status(models.Model):
     member = models.ForeignKey(
@@ -24,7 +49,3 @@ class Status(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     expired_at = models.DateTimeField(null=True, blank=True)
     deleted_at = models.DateTimeField(null=True)
-
-    def delete(self):
-        self.deleted_at = timezone.now()
-        self.save()

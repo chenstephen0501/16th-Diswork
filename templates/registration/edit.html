@@ -7,11 +7,13 @@
     <div class="mt-3 mb-6">
       <div class="mb-4">
         <label for="user_img" class="block mb-1 text-lg font-medium">頭貼：</label>
-        {% if member.user_img %}
-        <img src="{{ member.user_img.url }}" alt="photo" class="w-32 h-32 mb-2 rounded-full">
-        {% else %}
-        <p>無照片顯示</p>
-        {% endif %}
+        <div id="preview-container" class="mb-2">
+          {% if member.user_img %}
+          <img id="preview" src="{{ member.user_img.url }}" alt="photo" class="w-32 h-32 mb-2 rounded-full">
+          {% else %}
+          <p id="preview-text">無照片顯示</p>
+          {% endif %}
+        </div>
         <input type="file" id="user_img" name="user_img" accept="image/*" class="block w-full text-gray-700 rounded">
       </div>
       <div class="mb-4">
@@ -34,4 +36,28 @@
     </div>
   </form>
 </div>
+
+<script>
+  const previewContainer = document.getElementById('preview-container');
+  const previewImage = document.getElementById('preview');
+  const previewText = document.getElementById('preview-text');
+  const imageInput = document.getElementById('user_img');
+
+  imageInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        previewImage.src = reader.result;
+        previewText.style.display = 'none';
+        previewImage.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewImage.src = '';
+      previewText.style.display = 'block';
+      previewImage.style.display = 'none';
+    }
+  });
+</script>
 {% endblock %}

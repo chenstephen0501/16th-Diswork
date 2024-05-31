@@ -6,11 +6,8 @@ from django import forms
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
-        fields = ["content", "member"]
-        labels = {
-            "content": "",
-            "member": "",
-        }
+        fields = ["content"]
+        labels = {"content": ""}
         widgets = {
             "content": forms.TextInput(
                 attrs={
@@ -25,7 +22,10 @@ class CommentForm(ModelForm):
                 }
             ),
             "member": forms.TextInput(
-                attrs={"class": "invisible mx-1 border-2 border-gray-300 w-full", "readonly": "readonly"}
+                attrs={
+                    "class": "invisible mx-1 border-2 border-gray-300 w-full",
+                    "readonly": "readonly",
+                }
             ),
         }
 

@@ -1,4 +1,4 @@
-from django.db.models import Exists, OuterRef,Count
+from django.db.models import Exists, OuterRef, Count
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_POST
@@ -22,41 +22,48 @@ class ArticleIndexView(ListView):
 
     def get_queryset(self):
         return Article.objects.with_count()
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['category'] = get_object_or_404(Category, id=self.kwargs.get('category_id'))
+        context["category"] = get_object_or_404(
+            Category, id=self.kwargs.get("category_id")
+        )
         return context
-    
+
 
 @method_decorator(login_required, name="dispatch")
 class NewView(FormView):
     template_name = "articles/new.html"
     form_class = ArticleForm
     success_url = reverse_lazy("articles:index")
+
     def get_initial(self):
         initial = super().get_initial()
-        initial['author'] = self.request.user.username
+        initial["author"] = self.request.user.username
         return initial
-    
+
     def form_valid(self, form):
         article = form.save(commit=False)
         article.author = self.request.user
-        article.category_id = self.kwargs.get('category_id')
+        article.category_id = self.kwargs.get("category_id")
         article.save()
-        return redirect("articles:index", category_id=self.kwargs.get('category_id'))
+        return redirect("articles:index", category_id=self.kwargs.get("category_id"))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['author'] = self.request.user
-        context['category'] = get_object_or_404(Category, id=self.kwargs.get('category_id'))
+        context["author"] = self.request.user
+        context["category"] = get_object_or_404(
+            Category, id=self.kwargs.get("category_id")
+        )
         return context
+
 
 @method_decorator(login_required, name="dispatch")
 class ShowView(DetailView):
     model = Article
     extra_context = {"comment_form": CommentForm()}
-    def grt_initial(self):
+
+    def get_initial(self):
         initial = super().get_initial()
         initial["member"] = self.request.user.username
         return initial
@@ -66,13 +73,17 @@ class ShowView(DetailView):
             like_by_article_id=self.request.user.id, like_article_id=OuterRef("pk")
         )
         return Article.objects.annotate(is_like=Exists(like_subquery))
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        like_comment_subquery = LikeComment.objects.filter(like_by_id = self.request.user.id, like_comment_id = OuterRef("pk")).values("pk")
-        comments_with_likes = self.object.comments.annotate(is_like = Exists(like_comment_subquery),like_count=Count("like_comment"))
+        like_comment_subquery = LikeComment.objects.filter(
+            like_by_id=self.request.user.id, like_comment_id=OuterRef("pk")
+        ).values("pk")
+        comments_with_likes = self.object.comments.annotate(
+            is_like=Exists(like_comment_subquery), like_count=Count("like_comment")
+        )
         context["comments"] = comments_with_likes
-        context["comment_form"] = CommentForm(initial={'member': self.request.user.id})
+        context["comment_form"] = CommentForm(initial={"member": self.request.user.id})
         return context
 
     def post(self, request, pk):
@@ -82,6 +93,7 @@ class ShowView(DetailView):
             form.save()
             messages.success(request, "更新成功")
         return redirect("articles:show", pk=article.id)
+
 
 @login_required
 @require_POST
@@ -105,6 +117,8 @@ class ArticleUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("articles:show", kwargs={"pk": self.object.id})
+
+
 @login_required
 def edit(request, id):
     article = get_object_or_404(Article, pk=id)
@@ -113,6 +127,7 @@ def edit(request, id):
         request, "articles/article_detail.html", {"article": article, "form": form}
     )
 
+
 class DeleteView(DeleteView):
     model = Article
 
@@ -120,11 +135,13 @@ class DeleteView(DeleteView):
         messages.success(self.request, "已刪除")
         return reverse("articles:index")
 
+
 @login_required
 @require_POST
 def add_like(req, pk):
     LikeArticle.objects.create(like_by_article_id=req.user.id, like_article_id=int(pk))
-    return redirect(req.META.get('HTTP_REFERER', '/'))
+    return redirect(req.META.get("HTTP_REFERER", "/"))
+
 
 @login_required
 @require_POST
@@ -136,4 +153,4 @@ def remove_like(req, pk):
         like.delete()
     except:
         pass
-    return redirect(req.META.get('HTTP_REFERER', '/'))
+    return redirect(req.META.get("HTTP_REFERER", "/"))

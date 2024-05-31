@@ -1,5 +1,8 @@
 from django.db import models
 from django.utils import timezone
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
 
 
 class CategoryManager(models.Manager):
@@ -25,6 +28,20 @@ class Category(models.Model):
     member = models.ForeignKey(
         "members.Member", on_delete=models.CASCADE, null=True, blank=True
     )
+
+    def save(self, *args, **kwargs):
+        if self.picture:
+            img = Image.open(self.user_img)
+            max_size = (300, 300)
+            img.thumbnail(max_size, Image.LANCZOS)
+            thumb_io = BytesIO()
+            img_format = "PNG" if img.mode == "RGBA" else "JPEG"
+            img.save(thumb_io, format=img_format)
+            thumb_io.seek(0)
+            file_extension = "png" if img.mode == "RGBA" else "jpg"
+            new_file_name = f"{self.picture.name.split('.')[0]}_thumb.{file_extension}"
+            self.picture.save(new_file_name, ContentFile(thumb_io.read()), save=False)
+        super().save(*args, **kwargs)
 
     object = CategoryManager()
 

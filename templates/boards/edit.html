@@ -11,15 +11,13 @@
       {% csrf_token %}
       <div>
         <label for="picture" class="mb-1 text-lg font-medium">看版圖片：</label>
-        {% if category.picture %}
-        <div class="overflow-hidden border border-gray-300 rounded-lg" style="height: 150px; width: 380px;">
-          <img src="{{ category.picture.url }}" class="object-cover w-full h-full lazyloaded">
+        <div id="preview-container" style="height: 150px; width: 380px;">
+          {% if category.picture %}
+          <img id="preview" src="{{ category.picture.url }}" class="object-cover w-full h-full" style="display: block;">
+          {% else %}
+          <p id="preview-text" style="display: block;">無照片顯示</p>
+          {% endif %}
         </div>
-        {% else %}
-        <div class="border-gray-500" style="height: 150px; width: 380px;">
-          <p>無照片顯示</p>
-        </div>
-        {% endif %}
         <input type="file" id="picture" name="picture" accept="image/*" class="border-solid">
       </div>
       <div class="mb-4">
@@ -42,4 +40,28 @@
     </form>
   </div>
 </div>
+
+<script>
+  const previewContainer = document.getElementById('preview-container');
+  const previewImage = document.getElementById('preview');
+  const previewText = document.getElementById('preview-text');
+  const pictureInput = document.getElementById('picture');
+
+  pictureInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        previewImage.src = reader.result;
+        previewText.style.display = 'none';
+        previewImage.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewImage.src = '';
+      previewText.style.display = 'block';
+      previewImage.style.display = 'none';
+    }
+  });
+</script>
 {% endblock %}
