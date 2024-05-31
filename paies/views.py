@@ -38,7 +38,7 @@ def create_order(request):
             'Version': 2.0,
             'Amt': int(100),
             'MerchantOrderNo': timestamp,
-            'ItemDesc': 'yoyoy',
+            'ItemDesc': 'Premium會員',
             'ReturnURL': ReturnUrl,
             'NotifyURL': NotifyUrl,
             'CREDIT': 1,
@@ -103,13 +103,10 @@ def check_order(request, TimeStamp):
     #     'CREDIT': 1
     # }
     order = orders.get(TimeStamp)
-    print('test1', order)
-    print('test2', orders)
-    # print('test3', order)
     print("==========")
     # print(order['MerchantID'])
-    # if not order:
-    #     return HttpResponse("訂單編號錯誤", status=404)
+    if not order:
+        return HttpResponse("訂單編號錯誤", status=404)
 
     # print('檢索到的訂單資料：', order, '\n')
     # 將要加密的資料串接為字串
@@ -145,7 +142,9 @@ def newebpay_notify(request):
         # 在這裡處理從藍新回傳的數據
         # 處理完畢後，重定向到結帳成功頁面
         enc_data = request.POST.get('TradeInfo')
+        decrypt = decrypt_aes_cbc(enc_data, HASHKEY, HASHIV)
         print('notify: ', enc_data)
+        print('decrypt: ', decrypt)
         return HttpResponse('Notify')
     else:
         # 如果是 GET 請求，可以根據需要進行其他處理
@@ -154,20 +153,27 @@ def newebpay_notify(request):
 def checkout_success(request):
     # 在這個視圖中，你可以顯示結帳成功的信息
     return render(request, 'paies/success.html', {'title': 'Checkout Success'})
-# def decrypt_aes_cbc(data, key, iv):
-#     try:
-#         backend = default_backend()
-#         cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=backend)
-#         decryptor = cipher.decryptor()
-#         decrypted_data = decryptor.update(data) + decryptor.finalize()
-#         return remove_padding(decrypted_data)
-#     except Exception as e:
-#         print(f"解密失敗：{e}")
-#         return None
 
-# def remove_padding(data):
-#     padding_length = data[-1]
-#     return data[:-padding_length]
+def decrypt_aes_cbc(encrypted_data, key, iv):
+    try:
+        # 將密鑰和IV轉換為字節並確保長度正確
+        key_bytes = key.encode('utf-8')[:32]
+        iv_bytes = iv.encode('utf-8')[:16]
+        encrypted_bytes = bytes.fromhex(encrypted_data)
+
+        # 創建 Cipher 物件
+        cipher = Cipher(algorithms.AES(key_bytes), modes.CBC(iv_bytes), backend=default_backend())
+        decryptor = cipher.decryptor()
+        decrypted_padded_data = decryptor.update(encrypted_bytes) + decryptor.finalize()
+
+        # 去除填充
+        unpadder = padding.PKCS7(128).unpadder()
+        decrypted_data = unpadder.update(decrypted_padded_data) + unpadder.finalize()
+
+        return decrypted_data.decode('utf-8')
+    except Exception as e:
+        print(f"解密失敗：{e}")
+        return None
 
 # # 使用示例
 # key = b'qKiwUe90Wn2I4Ug1cvjl44lJsTGCeLtD'  # 替換為您的密鑰
