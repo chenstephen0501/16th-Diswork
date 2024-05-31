@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+from boards.models import Category
 
 class EventManager(models.Manager):
     def get_queryset(self):
@@ -14,7 +14,7 @@ class Event(models.Model):
     description = models.TextField(default="")
     deleted_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, default=1)
     objects = EventManager()
 
     def delete(self):

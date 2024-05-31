@@ -14,7 +14,7 @@
     class="px-4 py-3 mt-5 text-white bg-orange-500 rounded hover:bg-orange-600">回行事曆</a>
 </div>
 <div class="flex justify-end mb-4 mr-10">
-  <a href="{% url 'events:new' %}" class="px-4 py-3 mt-5 text-white bg-orange-500 rounded hover:bg-orange-600">新增活動</a>
+  <a href="{% url 'events:new' category.id %}" class="px-4 py-3 mt-5 text-white bg-orange-500 rounded hover:bg-orange-600">新增活動</a>
 </div>
 
 {% for event in event_list %}

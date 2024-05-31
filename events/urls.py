@@ -14,8 +14,8 @@ urlpatterns = [
     path("category/<int:category_id>/calendar/", CalendarView.as_view(), name="calendar"),
     path("category/<int:category_id>/list/", EventListView.as_view(), name="list"),
     path("category/<int:category_id>/all_events/", views.all_events, name="all_events"),
-    path("new", NewView.as_view(), name="new"),
-    path("add/", views.create, name="add"),
+    path("category/<int:category_id>/new", NewView.as_view(), name="new"),
+    path("category/<int:category_id>/add/", views.create, name="add"),
     path("<int:pk>/edit/", EventUpdateView.as_view(), name="edit"),
     path("<int:pk>/delete/", EventDeleteView.as_view(), name="delete"),
 ]
