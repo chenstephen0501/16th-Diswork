@@ -29,7 +29,7 @@ def create_order(request):
         data = request.POST
 
         # 使用 Unix Timestamp 作為訂單編號（金流也需要加入時間戳記）
-        timestamp = timezone.now().timestamp()
+        timestamp = int(timezone.now().timestamp())
         order = {
             **data,
             'MerchantID': MerchantID,
@@ -46,11 +46,11 @@ def create_order(request):
         print('訂單資料：', data, '\n')
 
 
-        timestamp_int = int(timestamp)
-        orders[timestamp_int] = order
+        # timestamp_int = int(timestamp)
+        orders[timestamp] = order
         print(orders)
         
-        return redirect('paies:check_order', timestamp_int)
+        return redirect('paies:check_order', timestamp)
 
 
     return HttpResponse('Method Not Allowed', status=405)
@@ -90,25 +90,28 @@ def create_sha_encrypt(edata1):
 @csrf_exempt
 def check_order(request, TimeStamp):
     print(TimeStamp)
-    order = {
-        'MerchantID': MerchantID,
-        'RespondType': 'JSON',
-        'TimeStamp': TimeStamp,
-        'Version': 2.0,
-        'Amt': int(100),
-        'MerchantOrderNo': TimeStamp,
-        'ItemDesc': 'Premium會員',
-        'ReturnURL': ReturnUrl,
-        'NotifyURL': NotifyUrl,
-        'CREDIT': 1
-    }
-    # order = orders.get(TimeStamp)
+    # order = {
+    #     'MerchantID': MerchantID,
+    #     'RespondType': 'JSON',
+    #     'TimeStamp': TimeStamp,
+    #     'Version': 2.0,
+    #     'Amt': int(100),
+    #     'MerchantOrderNo': TimeStamp,
+    #     'ItemDesc': 'Premium會員',
+    #     'ReturnURL': ReturnUrl,
+    #     'NotifyURL': NotifyUrl,
+    #     'CREDIT': 1
+    # }
+    order = orders.get(TimeStamp)
+    print('test1', order)
+    print('test2', orders)
+    # print('test3', order)
     print("==========")
     # print(order['MerchantID'])
-    if not order:
-        return HttpResponse("訂單編號錯誤", status=404)
+    # if not order:
+    #     return HttpResponse("訂單編號錯誤", status=404)
 
-    print('檢索到的訂單資料：', order, '\n')
+    # print('檢索到的訂單資料：', order, '\n')
     # 將要加密的資料串接為字串
     data_chain = gen_data_chain(order)
     
