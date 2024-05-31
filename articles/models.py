@@ -7,11 +7,19 @@ from boards.models import Category
 class ArticleManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(deleted_at=None)
-    
+
     def with_count(self):
         return self.get_queryset().annotate(
-            like_count=models.Count('like_article', filter=models.Q(like_article__article__deleted_at__isnull=True), distinct=True),
-            comment_count=models.Count('comments', filter=models.Q(comments__deleted_at__isnull=True), distinct=True)
+            like_count=models.Count(
+                "like_article",
+                filter=models.Q(like_article__article__deleted_at__isnull=True),
+                distinct=True,
+            ),
+            comment_count=models.Count(
+                "comments",
+                filter=models.Q(comments__deleted_at__isnull=True),
+                distinct=True,
+            ),
         )
 
 

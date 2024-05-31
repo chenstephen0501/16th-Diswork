@@ -1,14 +1,10 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from lib.softdelete import SoftDeleteable
 
 
-class FriendManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(deleted_at=None)
-
-
-class Friend(models.Model):
+class Friend(SoftDeleteable, models.Model):
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="sent_friends",
@@ -31,9 +27,3 @@ class Friend(models.Model):
         default="等待確認",
     )
     deleted_at = models.DateTimeField(null=True)
-
-    objects = FriendManager()
-
-    def delete(self):
-        self.deleted_at = timezone.now()
-        self.save()

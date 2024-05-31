@@ -3,14 +3,10 @@ from django.utils import timezone
 from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
+from lib.softdelete import SoftDeleteable
 
 
-class CategoryManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(deleted_at=None)
-
-
-class Category(models.Model):
+class Category(SoftDeleteable, models.Model):
     title = models.CharField(max_length=50)
     rule = models.TextField()
     status = models.CharField(
@@ -42,9 +38,3 @@ class Category(models.Model):
             new_file_name = f"{self.picture.name.split('.')[0]}_thumb.{file_extension}"
             self.picture.save(new_file_name, ContentFile(thumb_io.read()), save=False)
         super().save(*args, **kwargs)
-
-    object = CategoryManager()
-
-    def delete(self):
-        self.deleted_at = timezone.now()
-        self.save()

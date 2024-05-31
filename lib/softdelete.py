@@ -7,7 +7,9 @@ class SoftDeleteManager(models.Manager):
         return super().get_queryset().filter(deleted_at=None)
 
 
-class SoftDelete(models.Model):
+class SoftDeleteable(models.Model):
+    class Meta:
+        abstract = True
 
     def delete(self):
         self.deleted_at = timezone.now()
