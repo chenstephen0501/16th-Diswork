@@ -8,7 +8,6 @@ class CategoryForm(forms.ModelForm):
         fields = ["title", "rule", "status", "picture"]
         labels = {
             "title": "看板",
-            "member": "版主",
             "rule": "板規",
             "status": "看板狀態",
             "picture": "看板圖片",
@@ -25,7 +24,4 @@ class CategoryForm(forms.ModelForm):
     picture = forms.ImageField(
         required=False,
         widget=forms.FileInput,
-    )
-    member = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "mx-1 border-2 border-gray-300 w-full"})
     )

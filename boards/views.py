@@ -48,7 +48,9 @@ class BoardNewView(FormView):
 def create(req):
     form = CategoryForm(req.POST, req.FILES)
     if form.is_valid():
-        form.save()
+        category = form.save(commit=False)
+        category.member_id = req.user.id
+        category.save()
         messages.success(req, "新增成功！")
     return redirect("boards:list")
 
