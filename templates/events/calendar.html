@@ -4,7 +4,6 @@
   document.addEventListener('DOMContentLoaded', function () {
     let calendarEl = document.getElementById('calendar');
     const categoryId = parseInt(document.querySelector("#categoryId").value)
-    console.log(categoryId, typeof(categoryId))
     let calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       height: 600,
