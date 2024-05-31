@@ -1,4 +1,4 @@
-from django.db.models import Exists, OuterRef
+from django.db.models import Exists, OuterRef,Count
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_POST
@@ -13,6 +13,7 @@ from comments.models import LikeComment
 
 from .models import Category
 
+
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
     model = Article
@@ -20,6 +21,11 @@ class ArticleIndexView(ListView):
 
     def get_queryset(self):
         return Article.objects.with_count()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = get_object_or_404(Category, id=self.kwargs.get('category_id'))
+        return context
 
 @method_decorator(login_required, name="dispatch")
 class NewView(FormView):
@@ -59,11 +65,6 @@ class ShowView(DetailView):
             like_by_article_id=self.request.user.id, like_article_id=OuterRef("pk")
         )
         return Article.objects.annotate(is_like=Exists(like_subquery))
-
-    def get_initial(self):
-        initial = super().get_initial()
-        initial['member'] = self.request.user.username
-        return initial
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

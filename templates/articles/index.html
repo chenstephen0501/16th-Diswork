@@ -46,11 +46,13 @@
         </div>
       </div>
     </div>  
-    <div class="flex items-end">
-      <p class="mr-5">留言統計: {{article.comment_count}}</p>
-      <p>讚數統計: {{article.like_count}}</p>
+    <div class="flex justify-end items-end">
+      <div class="mr-10 flex">
+        <p class="mr-5">留言統計: {{article.comment_count}}</p>
+        <p>讚數統計: {{article.like_count}}</p>
+      </div>
     </div>
-    </div>
+    
   </div>
   {% endfor %}
 </div>
