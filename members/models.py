@@ -28,6 +28,8 @@ class Member(AbstractUser):
     def save(self, *args, **kwargs):
         if self.user_img:
             img = Image.open(self.user_img)
+            if img.mode == "P":
+                img = img.convert("RGB")
             max_size = (100, 100)
             img.thumbnail(max_size, Image.LANCZOS)
             thumb_io = BytesIO()
