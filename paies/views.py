@@ -45,6 +45,7 @@ def create_order(request):
         }
         print('訂單資料：', data, '\n')
 
+
         timestamp_int = int(timestamp)
         orders[timestamp_int] = order
         print(orders)
@@ -88,7 +89,7 @@ def create_sha_encrypt(edata1):
 # views.py
 @csrf_exempt
 def check_order(request, TimeStamp):
-    
+    print(TimeStamp)
     order = {
         'MerchantID': MerchantID,
         'RespondType': 'JSON',
@@ -96,12 +97,18 @@ def check_order(request, TimeStamp):
         'Version': 2.0,
         'Amt': int(100),
         'MerchantOrderNo': TimeStamp,
-        'ItemDesc': 'yoyoy',
+        'ItemDesc': 'Premium會員',
         'ReturnURL': ReturnUrl,
         'NotifyURL': NotifyUrl,
         'CREDIT': 1
     }
+    # order = orders.get(TimeStamp)
+    print("==========")
+    # print(order['MerchantID'])
+    if not order:
+        return HttpResponse("訂單編號錯誤", status=404)
 
+    print('檢索到的訂單資料：', order, '\n')
     # 將要加密的資料串接為字串
     data_chain = gen_data_chain(order)
     
@@ -120,7 +127,6 @@ def check_order(request, TimeStamp):
 
 @csrf_exempt
 def newebpay_return(request):
-    # print(request)
     if request.method == 'POST':
         # 在這裡處理從藍新回傳的數據
         # 處理完畢後，重定向到結帳成功頁面
