@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
@@ -8,6 +9,7 @@ from .forms import EventForm
 from .models import Event
 from django.http import JsonResponse
 from django.views.generic import FormView, ListView, UpdateView, DeleteView
+from boards.models import Category
 
 
 @method_decorator(login_required, name="dispatch")
@@ -16,12 +18,32 @@ class CalendarView(ListView):
     context_object_name = "events"
 
     def get_queryset(self):
-        return Event.objects.all()
+        category_id = self.kwargs.get("category_id")
+        return Event.objects.filter(category_id=category_id)
 
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get('category_id')
+        context['category'] = get_object_or_404(Category, id=category_id)
+        
+        return context
+
+    
 @method_decorator(login_required, name="dispatch")
 class EventListView(ListView):
     model = Event
     template_name = "events/event_detail.html"
+
+    def get_queryset(self):
+        return Event.objects.filter(category_id= self.kwargs.get("category_id"))
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get("category_id")
+        context["category"] = get_object_or_404(Category, id=category_id)
+
+        return context
 
 @method_decorator(login_required, name="dispatch")
 class NewView(FormView):
@@ -67,8 +89,8 @@ class EventDeleteView(DeleteView):
 
 
 @login_required
-def all_events(req):
-    all_events = Event.objects.all()
+def all_events(req, category_id):
+    all_events = Event.objects.filter(category_id=category_id)
     out = []
     for event in all_events:
         start_time = (

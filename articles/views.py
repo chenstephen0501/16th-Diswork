@@ -10,6 +10,7 @@ from comments.forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from comments.models import LikeComment
+from boards.models import Category
 
 from .models import Category
 
@@ -26,13 +27,13 @@ class ArticleIndexView(ListView):
         context = super().get_context_data(**kwargs)
         context['category'] = get_object_or_404(Category, id=self.kwargs.get('category_id'))
         return context
+    
 
 @method_decorator(login_required, name="dispatch")
 class NewView(FormView):
     template_name = "articles/new.html"
     form_class = ArticleForm
     success_url = reverse_lazy("articles:index")
-
     def get_initial(self):
         initial = super().get_initial()
         initial['author'] = self.request.user.username
@@ -84,16 +85,16 @@ class ShowView(DetailView):
 
 @login_required
 @require_POST
-def create(request):
+def create(request, category_id):
     form = ArticleForm(request.POST)
     if form.is_valid():
         article = form.save(commit=False)
         article.author = request.user
-        article.category_id = request.POST.get("category_id")
+        article.category_id = category_id
         article.save()
         messages.success(request, "文章新增成功")
         return redirect("articles:index", category_id=article.category_id)
-    return redirect("articles:new", category_id=request.POST.get("category_id"))
+    return redirect("articles:new", category_id=category_id)
 
 
 @method_decorator(login_required, name="dispatch")

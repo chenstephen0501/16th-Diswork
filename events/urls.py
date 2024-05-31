@@ -11,9 +11,9 @@ from .views import (
 app_name = "events"
 
 urlpatterns = [
-    path("calendar/", CalendarView.as_view(), name="calendar"),
-    path("list/", EventListView.as_view(), name="list"),
-    path("all_events/", views.all_events, name="all_events"),
+    path("category/<int:category_id>/calendar/", CalendarView.as_view(), name="calendar"),
+    path("category/<int:category_id>/list/", EventListView.as_view(), name="list"),
+    path("category/<int:category_id>/all_events/", views.all_events, name="all_events"),
     path("new", NewView.as_view(), name="new"),
     path("add/", views.create, name="add"),
     path("<int:pk>/edit/", EventUpdateView.as_view(), name="edit"),
