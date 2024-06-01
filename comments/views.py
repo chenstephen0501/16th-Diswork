@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect, HttpResponse, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, CreateView, DeleteView
@@ -69,16 +69,19 @@ def delete(request, pk):
 @login_required
 @require_POST
 def add_like(req, pk):
-    LikeComment.objects.create(like_by_id = req.user.id, like_comment_id = pk)
-    return redirect(req.META.get('HTTP_REFERER', '/'))
+    comment = get_object_or_404(Comment, id=pk)
+    comment.like_comment.add(req.user)
+    comment.save()
+    comment.is_like = True
+    comment.like_count = LikeComment.objects.filter(like_by=req.user).count()
+    return render(req, "shared/like_comment_btn.html", {"comment": comment})
 
 
 @login_required
 @require_POST
 def remove_like(req, pk):
-    try:
-        like = LikeComment.objects.get(like_by_id=req.user.id, like_comment_id=pk)
-        like.delete()
-    except:
-        pass
-    return redirect(req.META.get('HTTP_REFERER', '/'))
+    comment = get_object_or_404(Comment, id=pk)
+    comment.like_comment.remove(req.user)
+    comment.is_like = False
+    comment.like_count = LikeComment.objects.filter(like_by=req.user).count()
+    return render(req, "shared/like_comment_btn.html", {"comment": comment})
