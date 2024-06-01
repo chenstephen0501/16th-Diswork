@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from comments.models import LikeComment
 from boards.models import Category
+from django.http import JsonResponse
 
 from .models import Category
 
@@ -139,18 +140,18 @@ class DeleteView(DeleteView):
 @login_required
 @require_POST
 def add_like(req, pk):
-    LikeArticle.objects.create(like_by_article_id=req.user.id, like_article_id=int(pk))
-    return redirect(req.META.get("HTTP_REFERER", "/"))
+    article = get_object_or_404(Article, id=pk)
+    article.like_article.add(req.user)
+    article.save()
+    article.is_like = True
+    return render(req, "shared/like_button.html", {"article": article})
 
 
 @login_required
 @require_POST
 def remove_like(req, pk):
-    try:
-        like = LikeArticle.objects.get(
-            like_by_article_id=req.user.id, like_article_id=pk
-        )
-        like.delete()
-    except:
-        pass
-    return redirect(req.META.get("HTTP_REFERER", "/"))
+    article = get_object_or_404(Article, id=pk)
+    article.like_article.remove(req.user)
+    article.save()
+    article.is_like = False
+    return render(req, "shared/like_button.html", {"article": article})
