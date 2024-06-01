@@ -13,18 +13,25 @@ class MemberListView(ListView):
     model = Member
     template_name = "friends/search_list.html"
     context_object_name = "search_list"
+
     def get_queryset(self):
-            query = super().get_queryset()
-            keyword = self.request.GET.get("username", "").strip()
-            if keyword:
-                return query.filter(name__icontains=keyword)
-            return query
-    
+        query = super().get_queryset()
+        keyword = self.request.GET.get("username", "").strip()
+        if keyword:
+            return query.filter(name__icontains=keyword)
+        return query
+
 
 @method_decorator(login_required, name="dispatch")
 class FriendListView(ListView):
     model = Friend
     paginate_by = 5
+
+    def get_queryset(self):
+        user = self.request.user
+        return Friend.objects.filter(sender=user, status="2") | Friend.objects.filter(
+            receiver=user, status="2"
+        )
 
 
 @method_decorator(login_required, name="dispatch")
@@ -57,7 +64,7 @@ def send_friend_request(req, receiver_id):
 @login_required
 def accept_friend_request(req, friend_request_id):
     try:
-        friend_request = Friend.objects.get(id=friend_request_id, status="等待確認")
+        friend_request = Friend.objects.get(id=friend_request_id, status="1")
     except Friend.DoesNotExist:
         return HttpResponse("好友邀請不存在或已處理。")
 
@@ -65,10 +72,11 @@ def accept_friend_request(req, friend_request_id):
         sender = friend_request.sender
         receiver = friend_request.receiver
 
-        receiver.friends.add(sender)
-        sender.friends.add(receiver)
+        if not Friend.objects.filter(sender=receiver, receiver=sender).exists():
+            receiver.friends.add(sender)
+            sender.friends.add(receiver)
 
-        friend_request.status = "確認"
+        friend_request.status = "2"
         friend_request.save()
 
         return HttpResponse("好友邀請已接受！")
@@ -79,11 +87,9 @@ def accept_friend_request(req, friend_request_id):
 @login_required
 def reject_friend_request(req, friend_request_id):
     if req.method == "POST":
-        friend_request = get_object_or_404(
-            Friend, id=friend_request_id, status="等待確認"
-        )
+        friend_request = get_object_or_404(Friend, id=friend_request_id, status="1")
         if friend_request.receiver == req.user:
-            friend_request.status = "已拒絕"
+            friend_request.status = "3"
             friend_request.save()
             return HttpResponse("好友邀請已拒絕。")
         return HttpResponse("好友邀請未被拒絕。")
@@ -92,7 +98,7 @@ def reject_friend_request(req, friend_request_id):
 
 @login_required
 def friend_requests(req):
-    received_requests = Friend.objects.filter(receiver=req.user, status="等待確認")
+    received_requests = Friend.objects.filter(receiver=req.user, status="1")
     return render(
         req, "friends/friend_requests.html", {"received_requests": received_requests}
     )

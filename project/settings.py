@@ -71,7 +71,10 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     "google": {
         "SCOPE": ["profile", "email"],
-        "AUTH_PARAMS": {"access_type": "online"},
+        "AUTH_PARAMS": {
+            "access_type": "online",
+            "prompt": "consent",
+        },
         "APP": {
             "client_id": os.getenv("GOOGLE_CLIENT_ID"),
             "secret": os.getenv("GOOGLE_CLIENT_SECRET"),
@@ -79,6 +82,7 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     },
 }
+SOCIALACCOUNT_AUTO_SIGNUP = False
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

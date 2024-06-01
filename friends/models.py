@@ -18,12 +18,12 @@ class Friend(SoftDeleteable, models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(
-        max_length=20,
+        max_length=1,
         choices=[
-            ("等待確認", "等待確認"),
-            ("確認", "確認"),
-            ("拒絕", "拒絕"),
+            ("1", "等待確認"),
+            ("2", "確認"),
+            ("3", "拒絕"),
         ],
-        default="等待確認",
+        default="1",
     )
     deleted_at = models.DateTimeField(null=True)
