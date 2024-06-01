@@ -1,4 +1,3 @@
-from django.db.models.query import QuerySet
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
@@ -7,7 +6,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import FormView
 from .forms import EventForm
 from .models import Event
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views.generic import FormView, ListView, UpdateView, DeleteView
 from boards.models import Category
 
@@ -108,17 +107,15 @@ class EventUpdateView(UpdateView):
 
 class EventDeleteView(DeleteView):
     model = Event
-    form_class = EventForm
-    
-    print("herh")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category"] = get_object_or_404(Category, id=self.kwargs["category_id"])
+        return context
+
     def get_success_url(self):
         category_id = self.kwargs['category_id']
-        print("@@@@@@@@@@@@2"*50)
-        print('category_id', category_id)
-        print("@@@@@@@@@@@@2"*50)
-        return reverse_lazy("events:delete", kwargs={'category_id': category_id, 'pk': self.object.pk})
-        # return reverse_lazy("events:calendar", kwargs={"category_id": category_id})
-
+        return reverse_lazy("events:calendar", kwargs={"category_id": category_id})
 
 @login_required
 def all_events(req, category_id):
