@@ -1,5 +1,5 @@
-from django.db.models import Exists, OuterRef, Count
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.db.models import Exists, OuterRef,Count
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, FormView, DetailView, DeleteView, UpdateView
@@ -11,7 +11,6 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from comments.models import LikeComment
 from boards.models import Category
-from django.http import JsonResponse
 
 from .models import Category
 
