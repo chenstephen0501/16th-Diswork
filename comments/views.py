@@ -1,14 +1,13 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, CreateView, DeleteView
-from django.contrib import messages
 from members.models import Member
 from .models import Comment, LikeComment
 from .forms import CommentForm
 from articles.models import Article
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 
 
 @method_decorator(login_required, name="dispatch")
@@ -57,14 +56,11 @@ class CommentCreateView(CreateView):
         context["article"] = article
         return context
 
-
-@require_POST
-def delete(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
-    article_id = comment.article_id
-    comment.delete()
-    return redirect("articles:show", pk=article_id)
-
+class CommentDeleteView(DeleteView):
+    model = Comment
+    template_name = "articles/article_detail.html"   
+    def get_success_url(self):
+        return reverse_lazy("articles:show", kwargs={"pk": self.object.article_id})
 
 @login_required
 @require_POST

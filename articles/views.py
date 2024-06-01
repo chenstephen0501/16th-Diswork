@@ -118,7 +118,6 @@ class ArticleUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy("articles:show", kwargs={"pk": self.object.id})
 
-
 @login_required
 def edit(request, id):
     article = get_object_or_404(Article, pk=id)
