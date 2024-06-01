@@ -1,11 +1,39 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>title</title>
-    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
-  </head>
-  <body>
-    <h1>結帳成功</h1>
-    <a href="{% url 'root' %}">返回首頁</a>
-  </body>
-</html>
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="flex flex-col min-h-[100dvh] bg-gray-100 dark:bg-gray-950">
+  <main class="flex-1 flex flex-col items-center justify-center px-4 md:px-6 py-12 md:py-24">
+    <div class="max-w-md w-full space-y-6 text-center">
+      <div class="flex items-center justify-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-16 w-16 text-green-500"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="m9 12 2 2 4-4"></path>
+        </svg>
+      </div>
+      <div class="space-y-2">
+        <h1 class="text-3xl font-bold tracking-tighter md:text-4xl">付款成功</h1>
+        <p class="text-gray-500 dark:text-gray-400">感謝您的加入！</p>
+      </div>
+      <div class="flex flex-col justify-center sm:flex-row gap-2">
+        <a
+          href="{% url 'root' %}"
+          class="inline-flex h-10 rounded-md border border-gray-200 border-gray-200 bg-white px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
+        >
+          返回首頁
+        </a>
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}
