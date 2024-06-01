@@ -1,13 +1,12 @@
-from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
 from django.views.generic import FormView
 from .forms import EventForm
 from .models import Event
 from django.http import JsonResponse
-from django.views.generic import FormView, ListView, UpdateView, DeleteView
+from django.views.generic import FormView, ListView, UpdateView, DeleteView, CreateView
 from boards.models import Category
 
 
@@ -25,7 +24,6 @@ class CalendarView(ListView):
         context = super().get_context_data(**kwargs)
         category_id = self.kwargs.get('category_id')
         context['category'] = get_object_or_404(Category, id=category_id)
-        
         return context
 
     
@@ -41,7 +39,6 @@ class EventListView(ListView):
         context = super().get_context_data(**kwargs)
         category_id = self.kwargs.get("category_id")
         context["category"] = get_object_or_404(Category, id=category_id)
-
         return context
 
 @method_decorator(login_required, name="dispatch")
@@ -57,7 +54,6 @@ class NewView(FormView):
         context = super().get_context_data(**kwargs)
         category_id = self.kwargs.get("category_id")
         context["category"] = get_object_or_404(Category, id=category_id)
-        
         return context
 
     def form_valid(self, form):
@@ -65,20 +61,26 @@ class NewView(FormView):
         form.save()
         return super().form_valid(form)
 
+@method_decorator(login_required, name="dispatch")
+class EventAddView(CreateView):
+    model = Event
+    form_class = EventForm
+    template_name = "events/new.html"
 
-@login_required
-@require_POST
-def create(req, category_id):
-    form = EventForm(req.POST)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get("category_id")
+        context["category"] = get_object_or_404(Category, id=category_id)
+        return context
 
-    if form.is_valid():
-        event = form.save(commit=False)
-        event.category_id = category_id
-        event.save()
-        return redirect(reverse("events:calendar", kwargs={"category_id": category_id}))
-    else:
-        return JsonResponse({"errors": form.errors}, status=400)
-
+    def form_valid(self, form):
+        form.instance.category_id = self.kwargs["category_id"]
+        form.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        category_id = self.kwargs["category_id"]
+        return reverse_lazy("events:calendar", kwargs={"category_id": category_id})
 
 @method_decorator(login_required, name="dispatch")
 class EventUpdateView(UpdateView):
@@ -101,7 +103,6 @@ class EventUpdateView(UpdateView):
         return get_object_or_404(Event, pk=pk)
 
     def get_success_url(self):
-        print(self)
         category_id = self.kwargs["category_id"]
         return reverse_lazy("events:calendar", kwargs={"category_id": category_id})
 
@@ -140,13 +141,3 @@ def all_events(req, category_id):
         )
     return JsonResponse(out, safe=False)
 
-
-@login_required
-def add_event(req):
-    start = req.POST.get("start", None)
-    end = req.POST.get("end", None)
-    title = req.POST.get("title", None)
-    event = Event(summary=str(title), start_time=start, end_time=end)
-    event.save()
-    data = {}
-    return JsonResponse(data)
