@@ -68,13 +68,9 @@ class ShowView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-<<<<<<< HEAD
         like_comment_subquery = LikeComment.objects.filter(like_by_id = self.request.user.id, like_comment_id = OuterRef("pk")).values("pk")
         comments_with_likes = self.object.comments.annotate(is_like = Exists(like_comment_subquery),like_count=Count("like_comment"))
         context["comments"] = comments_with_likes
-=======
-        context["comments"] = self.object.comments.all().order_by("-id")
->>>>>>> 68a4661 (fix:???)
         context["comment_form"] = CommentForm(initial={'member': self.request.user.id})
         return context
 
