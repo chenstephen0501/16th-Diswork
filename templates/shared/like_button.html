@@ -1,4 +1,4 @@
-<div id="like-btn" class="flex items-end">\\當下使用者: {{user.id}}\\文章:{{article.id}}\\{{article.is_like}}//{{is_like}}
+<div id="like-btn" class="flex items-end">
     {% if article.is_like %}
     <form id="remover-btn" hx-post="{% url 'articles:remove_like' article.id %}" hx-target="#like-btn" hx-throttle="500ms" hx-swap="outerHTML">
         {% csrf_token %}
