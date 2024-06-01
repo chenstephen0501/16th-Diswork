@@ -49,7 +49,7 @@
           </div>
           <div class="flex justify-end pb-2 pr-4">
 
-            {% include 'shared/like_comment_btn.html' %}
+              {% include 'shared/like_comment_btn.html' %}
 
             <form action="{% url 'comments:delete' pk=comment.id %}" method="post" class="inline">
               {% csrf_token %}

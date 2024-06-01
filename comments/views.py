@@ -69,7 +69,7 @@ def add_like(req, pk):
     comment.like_comment.add(req.user)
     comment.save()
     comment.is_like = True
-    comment.like_count = LikeComment.objects.filter(like_by=req.user).count()
+    comment.like_count = LikeComment.objects.filter(like_comment=pk).count()
     return render(req, "shared/like_comment_btn.html", {"comment": comment})
 
 
@@ -79,5 +79,5 @@ def remove_like(req, pk):
     comment = get_object_or_404(Comment, id=pk)
     comment.like_comment.remove(req.user)
     comment.is_like = False
-    comment.like_count = LikeComment.objects.filter(like_by=req.user).count()
+    comment.like_count = LikeComment.objects.filter(like_comment=pk).count()
     return render(req, "shared/like_comment_btn.html", {"comment": comment})
