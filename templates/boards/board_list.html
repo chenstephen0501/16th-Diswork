@@ -6,51 +6,52 @@
 {% include 'shared/board_aside.html' %}
 {% endblock %}
 {% block content %}
-<div class="flex justify-end mb-4 mr-10">
+<div class="flex justify-end mb-4 mr-10 ">
   {% if member_status == "1" %}
   <a href="{% url 'boards:new' %}" class="px-4 py-3 mt-5 text-white bg-orange-500 rounded hover:bg-orange-600">新增看板</a>
   {% endif %}
 </div>
 {% for category in category_list %}
-<div class="w-3/4 mx-auto my-8 mt-5">
+<div class="w-10/12 mx-auto my-8 mt-5 ">
   <div class="flex flex-col overflow-hidden border rounded-lg shadow-lg forum_list md:flex-row">
-    <div class="flex-shrink-0 forum_list_pic">
+    <div class="w-6/12 forum_list_pic ">
       <a href="{% url 'articles:index' category.id %}">
         {% if category.picture %}
-        <div style="height: 150px; width: 380px;">
-          <img src="{{ category.picture.url }}" class="object-cover w-full h-full lazyloaded">
+        <div class="aspect-video " >
+          <img src="{{ category.picture.url }}" class="w-full h-full object-center object-cover">
         </div>
         {% else %}
-        <div style="height: 150px; width: 380px;">
+        <div class="aspect-video as b" >
           <p>無照片顯示</p>
         </div>
         {% endif %}
       </a>
     </div>
-    <div class="flex flex-col justify-between w-full p-4 forum_list_info">
-      <div class="flex items-center justify-between category_card">
-        <div>
+    <div class="w-6/12 flex flex-col justify-between  p-4 forum_list_info">
+      <div class="w-full grow flex flex-col  items-center justify-between category_card">
+        <div class="flex frow-0 flex-col w-full">
           <div class="text-2xl font-semibold forum_list_title">
             <a href="{% url 'articles:index' category.id %}" class="text-black hover:underline">
               {{ category.title }}
             </a>
           </div>
-          <p class="mt-2 text-lg">
+          <p class="mt-2 text-lg line-clamp-2">
             <a href="{% url 'articles:index' category.id %}" class="text-gray-800 hover:text-orange-600">
               {{ category.rule }}
             </a>
           </p>
-          <div class="mt-4 text-sm text-gray-500">
+        </div>
+        <div class="w-full grow flex justify-between items-end ">
+
+          <div class="flex items-end text-sm text-gray-500 ">
             <span>板主：{{ category.member }}</span>
           </div>
+          <div >
+            <a href="{% url 'boards:edit' pk=category.pk %}">
+              <button class="px-2 py-1 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">編輯</button>
+            </a>
+          </div>
         </div>
-        {% if member_status == "1" %}
-        <div class="ml-auto">
-          <a href="{% url 'boards:edit' pk=category.pk %}">
-            <button class="px-4 py-2 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">編輯</button>
-          </a>
-        </div>
-        {% endif %}
       </div>
     </div>
   </div>

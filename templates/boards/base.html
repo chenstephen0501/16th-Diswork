@@ -20,21 +20,18 @@
 <body>
     {% include 'shared/message.html' %}
     {% include 'boards/navbar.html' %}
-    <div class="flex flex-col" style="height: calc(100vh - 81.37px);">
+    <div class="flex flex-col " style="height: calc(100vh - 81.37px);">
 
-        <div class="flex relative overflow-hidden">
+        <div class="flex relative overflow-hidden ">
             {% include 'shared/boards_aside_list.html' %}
-            <div class="block md:hidden w-[30px] aspect-square bg-blue-300 mt-3 ml-3 absolute"></div>
-            <main class="flex-1 w-full h-full overflow-y-scroll">
+            <div class="md:hidden w-[30px] aspect-square bg-blue-300 mt-3 ml-3 absolute"></div>
+            <main class="flex-1 w-full h-full overflow-y-scroll border-5 border-green-700">
                 {% block content %}
                 {% endblock %}
             </main>
-            {% include 'shared/boards_aside_func.html' %}
-            
+            {% include 'shared/boards_aside_func.html' %}          
         </div>
-
     </div>
-
 </body>
 
 </html>
