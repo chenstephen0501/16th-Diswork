@@ -9,27 +9,10 @@
         <div class="py-5 overflow-hidden h-full">
             <div class="body-block h-full overflow-y-scroll [&>div>a:hover]:bg-white [&>div>a:hover]:text-black [&>div>a]:rounded-sm [&>div>a]:p-2 [&>div>a]:my-2">
                 <div>
-                    <a class="block text-white text-xl" href="{% url 'boards:new' %}">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
-                    <a class="block text-white text-xl" href="">這是個看板</a>
+                    {% for category in category_list %}
+                    <a class="block text-white text-xl" href="{% url 'articles:index' category.id %}">{{ category.title }}</a>
+                    {% endfor %}
                 </div>
-                
             </div>
         </div>
     </div>
