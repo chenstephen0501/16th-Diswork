@@ -1,25 +1,49 @@
 
 {% extends 'layouts/base.html' %}
 {% block content %}
+<div class="flex flex-col min-h-[100dvh] bg-gray-100 dark:bg-gray-950">
+  <main class="flex-1 flex flex-col items-center justify-center px-4 md:px-6 py-12 md:py-24">
+    <div class="max-w-md w-full space-y-6 text-center">
+      <div class="flex items-center justify-center">
+        
+      </div>
+      <div class="space-y-2">
+        <h1 class="text-3xl font-bold tracking-tighter md:text-4xl">確認訂單</h1>
+        <p class="text-gray-500 dark:text-gray-400">準備好要加入我們成為Premium會員了嗎？</p>
+      </div>
+      <div class="grid gap-4">
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+          
+          <div class="p-6 grid gap-2">
+            <div class="flex items-center justify-between">
+              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="order-number">訂單編號：{{ MerchantOrderNo }}</label>
+            </div>
+            <div class="flex items-center justify-between">
+              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="order-number">商品名稱：{{ ItemDesc }}</label>
+            </div>
+            <div class="flex items-center justify-between">
+              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="order-number">商品金額：＄ 100</label>
+            </div>
+          </div>
+        </div>
+        <form action="https://ccore.newebpay.com/MPG/mpg_gateway" method="post">
+            <input type="hidden" name="MerchantID" value="{{ MerchantID }}" />
+            <input type="hidden" name="TradeSha" value="{{ TradeSha }}" />
+            <input type="hidden" name="TradeInfo" value="{{ TradeInfo }}" />
+            <input type="hidden" name="Version" value="{{ Version }}" />
+            <div class="flex justify-center gap-2">
 
-<div class="flex flex-col justify-center items-center">
-  <div class="text-center">
-    <h1 class="text-2xl md:text-3xl font-bold">確認訂單</h1>
-    <p class="text-gray-500 dark:text-gray-400">準備好要加入我們成為Premium會員了嗎？</p>
-  </div>
-  <div class="flex flex-col items-center justify-center">
-
-    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="order-number">訂單編號：{{ MerchantOrderNo }}</label>
-    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="order-number">商品名稱：{{ ItemDesc }}</label>
-    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="order-number">商品金額：＄ 100</label>
-  </div>
-
-  <form action="https://ccore.newebpay.com/MPG/mpg_gateway" method="post">
-      <input type="hidden" name="MerchantID" value="{{ MerchantID }}" />
-      <input type="hidden" name="TradeSha" value="{{ TradeSha }}" />
-      <input type="hidden" name="TradeInfo" value="{{ TradeInfo }}" />
-      <input type="hidden" name="Version" value="{{ Version }}" />
-      <button type="submit">送出</button>
-  </form>
+              <a
+              class="inline-flex items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
+              href="{% url 'root' %}"
+              >
+                取消
+              </a>
+              <button class="inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-3 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-600/90" type="submit">送出</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </main>
 </div>
 {% endblock %}
