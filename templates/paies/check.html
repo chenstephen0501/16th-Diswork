@@ -1,11 +1,12 @@
 
 {% extends 'layouts/base.html' %}
+{% load static %}
 {% block content %}
-<div class="flex flex-col min-h-[100dvh] bg-gray-100 dark:bg-gray-950">
+<div class="flex flex-col min-h-[100dvh] bg-gray-100">
   <main class="flex-1 flex flex-col items-center justify-center px-4 md:px-6 py-12 md:py-24">
     <div class="max-w-md w-full space-y-6 text-center">
       <div class="flex items-center justify-center">
-        
+        <img class="w-10/12" src="{% static 'image/logo.png' %}" alt="diswork_logo">
       </div>
       <div class="space-y-2">
         <h1 class="text-3xl font-bold tracking-tighter md:text-4xl">確認訂單</h1>
@@ -27,20 +28,20 @@
           </div>
         </div>
         <form action="https://ccore.newebpay.com/MPG/mpg_gateway" method="post">
-            <input type="hidden" name="MerchantID" value="{{ MerchantID }}" />
-            <input type="hidden" name="TradeSha" value="{{ TradeSha }}" />
-            <input type="hidden" name="TradeInfo" value="{{ TradeInfo }}" />
-            <input type="hidden" name="Version" value="{{ Version }}" />
-            <div class="flex justify-center gap-2">
+          <input type="hidden" name="MerchantID" value="{{ MerchantID }}" />
+          <input type="hidden" name="TradeSha" value="{{ TradeSha }}" />
+          <input type="hidden" name="TradeInfo" value="{{ TradeInfo }}" />
+          <input type="hidden" name="Version" value="{{ Version }}" />
+          <div class="flex justify-center gap-2">
 
-              <a
-              class="inline-flex items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
-              href="{% url 'root' %}"
-              >
-                取消
-              </a>
-              <button class="inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-3 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-600/90" type="submit">送出</button>
-            </div>
+            <a
+            class="inline-flex items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-4 py-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
+            href="{% url 'root' %}"
+            >
+              取消
+            </a>
+            <button class="inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-3 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-600/90" type="submit">送出</button>
+          </div>
         </form>
       </div>
     </div>
