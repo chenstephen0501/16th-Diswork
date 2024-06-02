@@ -32,9 +32,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", '46da-2001-b400-e408-47c3-b91d-d40a-f608-b157.ngrok-free.app']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://46da-2001-b400-e408-47c3-b91d-d40a-f608-b157.ngrok-free.app',
+]
 
 # Application definition
-
 INSTALLED_APPS = [
     "daphne",
     "django.contrib.admin",

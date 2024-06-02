@@ -83,11 +83,20 @@
           </div>
           <div class="flex-grow"></div>
           {% if user.is_authenticated %}
-          {% if member_status %}
-          <a class="inline-block w-full h-12 px-4 mt-6 text-2xl font-bold leading-loose text-center text-white bg-orange-400 rounded-lg hover:bg-orange-500"
-            disabled>已訂閱</a>
+            {% if member_status %}
+            <a class="inline-block w-full h-12 px-4 mt-6 text-2xl font-bold leading-loose text-center text-white bg-orange-400 rounded-lg hover:bg-orange-500"
+              disabled>已訂閱</a>
+            {% else %}
+            <form action="{% url 'paies:create_order' %}" method="POST">
+              {% csrf_token %}
+              <button type="submit"
+                class="inline-block w-full h-12 px-4 mt-6 text-2xl font-bold leading-loose text-center text-white bg-orange-400 rounded-lg hover:bg-orange-500">
+                訂閱
+              </button>
+            </form>
+            {% endif %}
           {% else %}
-          <form action="{% url 'paies:create_order' %}" method="POST">
+          <form action="{% url 'members:login' %}" method="POST">
             {% csrf_token %}
             <button type="submit"
               class="inline-block w-full h-12 px-4 mt-6 text-2xl font-bold leading-loose text-center text-white bg-orange-400 rounded-lg hover:bg-orange-500">
