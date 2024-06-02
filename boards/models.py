@@ -27,7 +27,7 @@ class Category(SoftDeleteable, models.Model):
 
     def save(self, *args, **kwargs):
         if self.picture:
-            img = Image.open(self.user_img)
+            img = Image.open(self.picture)
             max_size = (300, 300)
             img.thumbnail(max_size, Image.LANCZOS)
             thumb_io = BytesIO()
