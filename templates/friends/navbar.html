@@ -4,7 +4,9 @@
         <div class="flex space-x-2">
             <button class="px-2 py-2 bg-gray-200 rounded">線上</button>
             <button class="px-2 py-1 bg-gray-200 rounded">所有</button>
-            <button class="px-2 py-1 bg-gray-200 rounded">等待中</button>
+            <a href="{% url 'friends:friend_requests' %}" class="px-2 py-1 bg-gray-200 rounded">
+                <button class="px-2 py-1 bg-gray-200 rounded">等待中</button>
+            </a>
             <button class="px-2 py-1 text-white bg-green-500 rounded">訊息</button>
         </div>
     </div>

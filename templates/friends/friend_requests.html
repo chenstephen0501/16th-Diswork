@@ -1,20 +1,22 @@
-{% extends "layouts/base.html" %}
-
+{% extends 'boards/base.html' %}
 {% block content %}
+{% include 'friends/navbar.html' %}
 <h1 class="mb-4 text-2xl font-semibold">好友邀請</h1>
-<ul>
+<ul class="mx-auto space-y-4 max-w-4/5">
   {% for request in received_requests %}
   <li class="mb-4">
-    <div class="flex items-center">
-      <p class="text-gray-800">{{ request.sender.username }} 發送了好友請求</p>
-      <form method="post" action="{% url 'friends:accept_friend_request' request.id %}">
-        {% csrf_token %}
-        <button type="submit" class="px-4 py-2 ml-2 text-white bg-green-500 rounded hover:bg-green-600">接受</button>
-      </form>
-      <form method="post" action="{% url 'friends:reject_friend_request' request.id %}">
-        {% csrf_token %}
-        <button type="submit" class="px-4 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-600">拒絕</button>
-      </form>
+    <div class="flex items-center justify-between px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+      <div class="text-gray-800">{{ request.sender.username }} 發送了好友請求</div>
+      <div class="flex space-x-2">
+        <form method="post" action="{% url 'friends:accept_friend_request' request.id %}">
+          {% csrf_token %}
+          <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">接受</button>
+        </form>
+        <form method="post" action="{% url 'friends:reject_friend_request' request.id %}">
+          {% csrf_token %}
+          <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600">拒絕</button>
+        </form>
+      </div>
     </div>
   </li>
   {% endfor %}
