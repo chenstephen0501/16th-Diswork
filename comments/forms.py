@@ -9,9 +9,9 @@ class CommentForm(ModelForm):
         fields = ["content"]
         labels = {"content": ""}
         widgets = {
-            "content": forms.TextInput(
+            "content": forms.Textarea(
                 attrs={
-                    "class": "border border-gray-300 h-20 w-full",
+                    "class": "border border-gray-300 h-20 w-full p-2",
                     "placeholder": "這邊留言...",
                 }
             ),
@@ -28,4 +28,3 @@ class CommentForm(ModelForm):
                 }
             ),
         }
-
