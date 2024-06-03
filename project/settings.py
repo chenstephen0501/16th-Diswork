@@ -30,10 +30,12 @@ SECRET_KEY = "django-insecure-feikv0pwtpq8vslcadt@)&g@h&l2xmp1g)qenll7=fulvih@1g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", '46da-2001-b400-e408-47c3-b91d-d40a-f608-b157.ngrok-free.app']
+HOST_NAME = os.getenv("HOST_NAME")
+
+ALLOWED_HOSTS = ["127.0.0.1", "c23d-61-220-182-115.ngrok-free.app"]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://46da-2001-b400-e408-47c3-b91d-d40a-f608-b157.ngrok-free.app',
+    f'https://c23d-61-220-182-115.ngrok-free.app',
 ]
 
 # Application definition
@@ -154,8 +156,8 @@ ENCRYPTION_KEY = {
     'HASH_KEY': os.getenv('HASHKEY'),
     'HASH_IV': os.getenv('HASHIV'),
     'VERSION': os.getenv('VERSION'),
-    'RETURN_URL': os.getenv('RETURNURL'),
-    'NOTIFY_URL': os.getenv('NOTIFYURL'),
+    'RETURN_URL': f"https://c23d-61-220-182-115.ngrok-free.app/paies/newebpays_return",
+    'NOTIFY_URL': f"https://c23d-61-220-182-115.ngrok-free.app/paies/newebpays_notify",
     'PAY_GATEWAY': os.getenv('PAYGATEWAY'),
     'RESPOND_TYPE': os.getenv('RESPONDTYPE'),
 }
