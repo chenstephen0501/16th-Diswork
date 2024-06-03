@@ -1,31 +1,21 @@
 {% extends 'boards/base.html' %}
 {% block content %}
-<div class="max-w-full mx-auto bg-white rounded-lg shadow-md">
-  <div class="flex items-center justify-between p-4 border-b">
-    <div class="text-lg font-medium">好友</div>
-    <div class="flex space-x-2">
-      <button class="px-2 py-2 bg-gray-200 rounded">線上</button>
-      <button class="px-2 py-1 bg-gray-200 rounded">所有</button>
-      <button class="px-2 py-1 bg-gray-200 rounded">等待中</button>
-      <button class="px-2 py-1 bg-gray-200 rounded">已封鎖</button>
-      <button class="px-2 py-1 text-white bg-green-500 rounded">新增好友</button>
-    </div>
-  </div>
-  <div class="w-full p-2">
-    <form method="GET" action=".">
-      <input type="search" name="username" class="w-4/5 px-2 py-1 border-2 border-gray-500" placeholder="search">
-      <button class="px-2 py-1 bg-gray-300">搜尋</button>
+{% include 'friends/navbar.html' %}
+<div class="mx-auto max-w-4/5">
+  <div class="w-full p-4">
+    <form method="GET" action="." class="flex justify-end">
+      <input type="search" name="username" class="w-2/3 px-2 py-1 border-2 border-gray-500 rounded" placeholder="搜尋">
+      <button type="submit" class="px-4 py-1 bg-gray-300 rounded">搜尋</button>
     </form>
   </div>
 
-  <div class="px-1">
+  <div class="px-4">
     <div class="space-y-2">
       {% if search_list %}
       {% for member in search_list %}
-      <div class="flex items-center space-x-4 hover:bg-gray-200">
+      <div class="flex items-center py-1 space-x-4 rounded-lg hover:bg-gray-200">
         {% if member.user_img %}
-        <img src="{{ member.user_img.url }}" alt="photo"
-          class="block object-cover object-center w-12 h-12 border-2 border-gray-200 rounded-full">
+        <img src="{{ member.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
         {% else %}
         <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
         {% endif %}
@@ -41,7 +31,7 @@
       </div>
       {% endfor %}
       {% else %}
-      <p>沒有找到任何會員。</p>
+      <p class="p-4">沒有找到任何會員。</p>
       {% endif %}
     </div>
   </div>
