@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from news_reptile import update_news
+from news_spider import update_news
 from django.core.paginator import Paginator
 
 def index(request):
