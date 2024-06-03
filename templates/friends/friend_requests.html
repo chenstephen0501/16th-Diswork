@@ -1,24 +1,46 @@
 {% extends 'boards/base.html' %}
 {% block content %}
 {% include 'friends/navbar.html' %}
-<h1 class="mb-4 text-2xl font-semibold">好友邀請</h1>
-<ul class="mx-auto space-y-4 max-w-4/5">
-  {% for request in received_requests %}
-  <li class="mb-4">
-    <div class="flex items-center justify-between px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
-      <div class="text-gray-800">{{ request.sender.username }} 發送了好友請求</div>
-      <div class="flex space-x-2">
-        <form method="post" action="{% url 'friends:accept_friend_request' request.id %}">
-          {% csrf_token %}
-          <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">接受</button>
-        </form>
-        <form method="post" action="{% url 'friends:reject_friend_request' request.id %}">
-          {% csrf_token %}
-          <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600">拒絕</button>
-        </form>
+
+<div class="mx-auto mt-4 max-w-4/5">
+  <div class="px-4">
+    <div class="space-y-2">
+      {% for request in received_requests %}
+      <div class="flex items-center justify-between px-4 py-2 rounded-lg hover:bg-gray-200">
+        <div class="flex items-center space-x-2">
+          {% if request.sender.user_img %}
+          <img src="{{ request.sender.user_img.url }}" alt="photo"
+            class="w-12 h-12 border border-gray-200 rounded-full">
+          {% else %}
+          <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+          {% endif %}
+          <div class="text-gray-800">{{ request.sender.username }} 發送了好友請求</div>
+        </div>
+        <div class="flex space-x-2">
+          <form method="post" action="{% url 'friends:accept_request' request.id %}">
+            {% csrf_token %}
+            <div class="flex space-x-2">
+              <form method="post" action="{% url 'friends:accept_request' request.id %}">
+                {% csrf_token %}
+                <button type="submit"
+                  class="p-2 text-white transition duration-300 ease-in-out transform bg-green-500 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 hover:scale-105">
+                  <span class="material-symbols-outlined" style="font-size: 25px;">check_circle</span>
+                </button>
+              </form>
+              <form method=" post" action="{% url 'friends:reject_request' request.id %}">
+                {% csrf_token %}
+                <button type="submit"
+                  class="p-2 text-white transition duration-300 ease-in-out transform bg-red-500 rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 hover:scale-105">
+                  <span class="material-symbols-outlined" style="font-size: 25px;">cancel</span>
+                </button>
+              </form>
+            </div>
+          </form>
+        </div>
+
       </div>
+      {% endfor %}
     </div>
-  </li>
-  {% endfor %}
-</ul>
+  </div>
+</div>
 {% endblock %}

@@ -7,9 +7,6 @@
       </a>
     </div>
     <div class="flex items-center ml-auto space-x-4">
-      <a href="{% url 'friends:member_list' %}">
-        <span class="material-symbols-outlined" style="font-size: 45px">mail</span>
-      </a>
       <div class="relative flex items-center" x-data="{ open: false }">
         {% if user.is_authenticated %}
         <div class="relative">
@@ -28,8 +25,6 @@
 
         <div x-show="open" class="absolute right-0 w-48 py-2 mt-2 bg-white rounded-md shadow-lg top-12 dark:bg-gray-800"
           @click.away="open = false">
-          <a href="{% url 'friends:member_list' %}"
-            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">會員列表</a>
           <a href="{% url 'friends:friend_list' %}"
             class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">好友</a>
           <a href="{% url 'members:profile' pk=user.id %}"

@@ -1,39 +1,46 @@
-{% extends 'layouts/base.html' %}
-{% block title %}Friend{% endblock %}
-
+{% extends 'boards/base.html' %}
 {% block content %}
-<div class="py-6">
-  <a href="{% url 'friends:friend_requests' %}"
-    class="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">好友邀請</a>
-</div>
+{% include 'friends/navbar.html' %}
 
-<h1 class="mb-4 text-2xl font-semibold">好友列表：</h1>
-
-<div class="mb-4 overflow-hidden bg-white shadow sm:rounded-md">
-  <ul>
-    {% for friend in friend_list %}
-    <li class="border-t border-gray-200">
-      <div class="flex items-center justify-between px-4 py-4 sm:px-6">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <img class="w-10 h-10 rounded-full"
-              src="{% if friend.sender != user %}{{ friend.sender.profile_picture.url }}{% else %}{{ friend.receiver.profile_picture.url }}{% endif %}"
-              alt="">
-          </div>
-          <div class="ml-3">
-            {% if friend.sender != user %}
-            <p class="text-sm font-medium text-gray-900">{{ friend.sender.username }}</p>
-            {% else %}
-            <p class="text-sm font-medium text-gray-900">{{ friend.receiver.username }}</p>
-            {% endif %}
-          </div>
+<div class="mx-auto mt-4 max-w-4/5">
+  <div class="px-4">
+    <div class="space-y-2">
+      {% for friend in friend_list %}
+      <div class="flex items-center justify-between px-4 py-2 rounded-lg hover:bg-gray-200">
+        <div class="flex items-center space-x-2">
+          {% if friend.sender != user %}
+          {% if friend.sender.user_img %}
+          <img src="{{ friend.sender.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
+          {% else %}
+          <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+          {% endif %}
+          <div class="text-gray-800">{{ friend.sender.username }}</div>
+          {% else %}
+          {% if friend.sender.user_img %}
+          <img src="{{ friend.receiver.user_img.url }}" alt="photo"
+            class="w-12 h-12 border border-gray-200 rounded-full">
+          {% else %}
+          <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+          {% endif %}
+          <div class="text-gray-800">{{ friend.receiver.username }}</div>
+          {% endif %}
         </div>
-        <div class="flex-shrink-0">
-          <a href="{% url 'friends:friend_delete' friend.id %}" class="text-red-600 hover:text-red-800">刪除好友</a>
+        <div x-data="{ isOpen: false }" class="flex items-center flex-shrink-0 space-x-2">
+          <a href="#" class="pt-2">
+            <span class="text-gray-500 hover:text-gray-700 material-symbols-outlined"
+              style="font-size: 30px;">sms</span>
+          </a>
+          <button @click="isOpen = !isOpen"
+            class="pb-1 text-gray-500 hover:text-gray-00 material-symbols-outlined focus:outline-none"
+            style="font-size: 30px;">expand_circle_right
+          </button>
+          <div x-show="isOpen" @click.away="isOpen = false">
+            <a href="{% url 'friends:delete' friend.id %}" class="text-red-600 hover:text-red-800">刪除</a>
+          </div>
         </div>
       </div>
-    </li>
-    {% endfor %}
-  </ul>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 {% endblock %}

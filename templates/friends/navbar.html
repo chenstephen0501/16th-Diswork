@@ -1,13 +1,22 @@
 <nav class="sticky top-0 w-full mx-auto bg-white rounded-lg shadow-md">
-    <div class="flex items-center justify-between p-4 border-b">
-        <div class="text-lg font-medium">好友</div>
-        <div class="flex space-x-2">
-            <button class="px-2 py-2 bg-gray-200 rounded">線上</button>
-            <button class="px-2 py-1 bg-gray-200 rounded">所有</button>
-            <a href="{% url 'friends:friend_requests' %}" class="px-2 py-1 bg-gray-200 rounded">
-                <button class="px-2 py-1 bg-gray-200 rounded">等待中</button>
-            </a>
-            <button class="px-2 py-1 text-white bg-green-500 rounded">訊息</button>
+    <div class="flex items-center justify-between px-4 py-2 border-b">
+        <div class="text-lg font-medium">
+            <span class="material-symbols-outlined" style="font-size: 30px; padding-top: 10px;">group
+            </span>
         </div>
-    </div>
+        <div class="flex space-x-2">
+            <a href="{% url 'friends:member_list' %}">
+                <button class="w-full h-full px-2 bg-gray-200 rounded hover:bg-gray-300">版友</button>
+            </a>
+            <a href="{% url 'friends:friend_list' %}">
+                <button class="w-full h-full px-2 py-2 bg-gray-200 rounded hover:bg-gray-300">好友</button>
+            </a>
+            <a href="{% url 'friends:requests' %}">
+                <button class="w-full h-full px-2 bg-gray-200 rounded hover:bg-gray-300">等待中</button>
+            </a>
+            <button class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">
+                訊息
+            </button>
+        </div>
+
 </nav>

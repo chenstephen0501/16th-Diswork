@@ -4,15 +4,15 @@
 <div class="mx-auto max-w-4/5">
   <div class="w-full p-4">
     <form method="GET" action="." class="flex justify-end">
-      <input type="search" name="username" class="w-2/3 px-2 py-1 border-2 border-gray-500 rounded" placeholder="搜尋">
-      <button type="submit" class="px-4 py-1 bg-gray-300 rounded">搜尋</button>
+      <input type="search" name="username" class="w-5/6 px-2 py-1 border-2 border-gray-500 rounded" placeholder="搜尋">
+      <button type="submit" class="px-4 py-1 ml-2 mr-6 bg-gray-200 rounded hover:bg-gray-300">搜尋</button>
     </form>
   </div>
   <div class="px-4">
     <div class="space-y-2">
       {% if search_list %}
       {% for member in search_list %}
-      <div class="flex items-center py-1 space-x-4 rounded-lg hover:bg-gray-200">
+      <div class="flex items-center px-4 py-1 space-x-4 rounded-lg hover:bg-gray-200">
         {% if member.user_img %}
         <img src="{{ member.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
         {% else %}
@@ -21,7 +21,7 @@
         <div class="flex-1">
           <div class="font-semibold">{{ member.username }}</div>
         </div>
-        <form method="post" action="{% url 'friends:send_friend_request' receiver_id=member.id %}">
+        <form method="post" action="{% url 'friends:send_request' receiver_id=member.id %}">
           {% csrf_token %}
           <button type="submit" class="flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full">
             <span class="material-symbols-outlined" style="font-size: 24px;">person_add</span>
@@ -30,7 +30,7 @@
       </div>
       {% endfor %}
       {% else %}
-      <p class="p-4">沒有找到任何會員。</p>
+      <p class="p-4">沒有找到任何版友。</p>
       {% endif %}
     </div>
   </div>

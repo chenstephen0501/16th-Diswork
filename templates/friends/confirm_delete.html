@@ -1,11 +1,31 @@
-{% extends 'layouts/base.html' %}
-
+{% extends 'boards/base.html' %}
 {% block content %}
-<h2>刪除好友確認</h2>
-<p>你確定要刪除{{ object.sender.username }}這個好友嗎？</p>
-<form method="post" action="{% url 'friends:friend_delete' object.pk %}">
-    {% csrf_token %}
-    <button type="submit">確定</button>
-    <a href="{% url 'friends:friend_list' %}">取消</a>
-</form>
+<div class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
+	<div class="w-1/3 p-8 bg-white rounded-lg shadow-lg">
+		<div class="flex items-center justify-between mb-4">
+			<h1 class="text-2xl font-bold">確認刪除</h1>
+			<a href="{% url 'friends:friend_list' %}">
+				<button class="text-gray-700 hover:text-gray-900 focus:outline-none">
+					<svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<path
+							d="M6.283 6.283a1 1 0 0 1 1.414 0L12 10.586l4.303-4.303a1 1 0 0 1 1.414 1.414L13.414 12l4.303 4.303a1 1 0 1 1-1.414 1.414L12 13.414l-4.303 4.303a1 1 0 0 1-1.414-1.414L10.586 12 6.283 7.697a1 1 0 0 1 0-1.414z" />
+					</svg>
+				</button>
+			</a>
+		</div>
+		<p class="text-gray-700">確定要刪除嗎？</p>
+		<div class="flex flex-row mt-8">
+			<form method="post" action="{% url 'friends:delete' friend.id %}" class="mr-4">
+				{% csrf_token %}
+				<button type="submit"
+					class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:shadow-outline">確定</button>
+			</form>
+			<a href="{% url 'friends:friend_list' %}">
+				<button
+					class="px-4 py-2 font-bold text-white bg-gray-500 rounded hover:bg-gray-600 focus:outline-none focus:shadow-outline">取消</button>
+			</a>
+		</div>
+
+	</div>
+</div>
 {% endblock %}

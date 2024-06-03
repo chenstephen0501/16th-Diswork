@@ -15,7 +15,7 @@ class MemberListView(ListView):
     context_object_name = "search_list"
 
     def get_queryset(self):
-        query = super().get_queryset()
+        query = super().get_queryset().exclude(username=self.request.user)
         keyword = self.request.GET.get("username", "").strip()
         if keyword:
             return query.filter(username__icontains=keyword)
