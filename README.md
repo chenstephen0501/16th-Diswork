@@ -49,14 +49,18 @@ $ make server
 
 ### 開發團隊 DM us!
 - 劉芳潔 FionaLiu
-    Email: tomato870208@gmail.com
-    GitHub: chiehhhaa
+  > GitHub: chiehhhaa
+  > 
+  > Email: tomato870208@gmail.com
 - 陳冠宇 JeterChen
-    Email: dali1756@gmail.com
-    GitHub: dali1756
+  > GitHub: dali1756
+  > 
+  > Email: dali1756@gmail.com
 - 巫爾均 LeoWu
-    Email: defyto13579@gmail.com
-    GitHub: Bunny1780
+  > GitHub: Bunny1780
+  > 
+  > Email: defyto13579@gmail.com
 - 陳志誠 StephenChen
-    Email: tom9876555@gmail.com
-    GitHub: chenstephen0501
+  > GitHub: chenstephen0501
+  > 
+  > Email: tom9876555@gmail.com
