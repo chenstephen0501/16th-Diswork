@@ -12,12 +12,13 @@ from django.utils.decorators import method_decorator
 from comments.models import LikeComment
 from boards.models import Category
 
-from .models import Category
+
 
 
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
     model = Article
+    boards_model = Category
     template_name = "articles/index.html"
 
     def get_queryset(self):
@@ -50,6 +51,7 @@ class NewView(FormView):
 @method_decorator(login_required, name="dispatch")
 class ShowView(DetailView):
     model = Article
+    boards_model = Category
     extra_context = {"comment_form": CommentForm()}
 
     def get_initial(self):
@@ -72,7 +74,8 @@ class ShowView(DetailView):
             is_like=Exists(like_comment_subquery), like_count=Count("like_comment")
         )
         context["comments"] = comments_with_likes
-        context["comment_form"] = CommentForm(initial={"member": self.request.user.id})
+        context["comment_form"] = CommentForm(initial={'member': self.request.user.id})
+        context['category_list'] = Category.object.all()
         return context
 
     def post(self, request, pk):

@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import redirect, get_object_or_404
 from .models import Category
 from .forms import CategoryForm
@@ -35,6 +36,14 @@ class BoardIndexView(ListView):
 class BoardDetailView(DetailView):
     model = Category
     template_name = "boards/board_detail.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        keyword = self.request.GET.get("keyword", "").strip()
+        return queryset.filter(title__icontains=keyword)
+    
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
 
 
 @method_decorator(login_required, name="dispatch")

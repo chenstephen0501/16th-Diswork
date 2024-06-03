@@ -1,16 +1,15 @@
-
 <aside class="absolute md:relative bg-slate-800 w-[250px] h-screen overflow-hidden top-0 left-[-100%] md:left-0" style="height: calc(100vh - 81.35px);">
     <div class="flex flex-col p-5 h-full">
 
         <div class="head-block">
-            <a class="block py-5 text-white text-xl border-b-2 border-white" href="">所有看板</a>
+            <a class="block py-5 text-white text-xl border-b-2 border-white" href="{% url 'boards:list' %}">所有看板</a>
         </div>
         <p class="py-5 text-white text-xl border-b-2 border-white">看板列表</p>
         <div class="py-5 overflow-hidden h-full">
             <div class="body-block h-full overflow-y-scroll [&>div>a:hover]:bg-white [&>div>a:hover]:text-black [&>div>a]:rounded-sm [&>div>a]:p-2 [&>div>a]:my-2">
                 <div>
                     {% for category in category_list %}
-                    <a class="block text-white text-xl" href="{% url 'articles:index' category.id %}">{{ category.title }}</a>
+                    <a class="category-list block text-white text-xl active:bg-white" href="{% url 'articles:index' category.id %}" id="category_{{category.id}}" data-state="inactive">{{ category.title }}</a>
                     {% endfor %}
                 </div>
             </div>
