@@ -17,7 +17,12 @@
         <a href="{% url 'boards:list' %}" class="block w-full py-3 text-black hover:text-white">進入討論版</a>
       </div>
       <div class="w-1/2 ml-2 bg-gray-300 hover:bg-amber-500 rounded-3xl ">
-        <a href="#" class="block w-full py-3 text-black hover:text-white">訂閱我們</a>
+        <form action="{% url 'paies:create_order' %}" method="POST">
+          {% csrf_token %}
+          <button type="submit"
+            class="block w-full py-3 text-black hover:text-white">訂閱我們
+          </button>
+        </form>
       </div>
       {% else %}
       <div class="w-1/2 mr-2 bg-gray-300 hover:bg-amber-500 rounded-3xl">
