@@ -2,7 +2,7 @@
 {% block content %}
 {% include 'friends/navbar.html' %}
 
-<div class="mx-auto mt-4 max-w-4/5">
+<div class="max-w-4xl mx-auto mt-4">
   <div class="px-4">
     <div class="space-y-2">
       {% for friend in friend_list %}
@@ -16,7 +16,7 @@
           {% endif %}
           <div class="text-gray-800">{{ friend.sender.username }}</div>
           {% else %}
-          {% if friend.sender.user_img %}
+          {% if friend.receiver.user_img %}
           <img src="{{ friend.receiver.user_img.url }}" alt="photo"
             class="w-12 h-12 border border-gray-200 rounded-full">
           {% else %}
@@ -25,17 +25,20 @@
           <div class="text-gray-800">{{ friend.receiver.username }}</div>
           {% endif %}
         </div>
-        <div x-data="{ isOpen: false }" class="flex items-center flex-shrink-0 space-x-2">
+        <div class="flex items-center flex-shrink-0 mr-2 space-x-2">
           <a href="#" class="pt-2">
             <span class="text-gray-500 hover:text-gray-700 material-symbols-outlined"
               style="font-size: 30px;">sms</span>
           </a>
-          <button @click="isOpen = !isOpen"
-            class="pb-1 text-gray-500 hover:text-gray-00 material-symbols-outlined focus:outline-none"
-            style="font-size: 30px;">expand_circle_right
-          </button>
-          <div x-show="isOpen" @click.away="isOpen = false">
-            <a href="{% url 'friends:delete' friend.id %}" class="text-red-600 hover:text-red-800">刪除</a>
+          <div x-data="{ isOpen: false }" class="relative">
+            <button @click="isOpen = !isOpen"
+              class="pt-1 text-gray-500 hover:text-gray-700 material-symbols-outlined focus:outline-none"
+              style="font-size: 30px;">expand_circle_right</button>
+            <div x-show="isOpen" @click.away="isOpen = false"
+              class="absolute right-[-35px] flex items-center justify-center w-20 mt-2 bg-white border border-gray-200 rounded shadow-md top-8">
+              <a href="{% url 'friends:delete' friend.id %}"
+                class="inline-block py-2 text-red-600 hover:text-red-800">刪除</a>
+            </div>
           </div>
         </div>
       </div>
