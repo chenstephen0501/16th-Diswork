@@ -1,5 +1,5 @@
 <nav
-  class="fixed top-0 flex flex-col w-full px-8 py-1 font-sans text-center text-white bg-transparent shadow backdrop-blur-sm backdrop-filter sm:flex-row sm:text-left sm:justify-between sm:items-baseline z-[99]">
+  class="fixed top-0 flex flex-col w-full pl-6 pr-2 py-1 font-sans text-center text-white bg-transparent shadow backdrop-blur-sm backdrop-filter sm:flex-row sm:text-left sm:justify-between sm:items-baseline z-[99]">
   <div class="flex items-center justify-between w-full">
     <div class="flex items-center">
       <a href="{% url 'root' %}">
@@ -9,29 +9,32 @@
     <div class="relative flex items-center" x-data="{ open: false }">
       {% if user.is_authenticated %}
       <div class="relative">
-        <button class="focus:outline-none" @click="open = !open" @click.away="open = false" aria-expanded="false"
-          aria-haspopup="true">
+        <button class="flex items-center focus:outline-none" @click="open = !open" @click.away="open = false"
+          aria-expanded="false" aria-haspopup="true">
           {% if member.user_img %}
-          <img class="w-12 h-12 transition duration-300 border-2 border-gray-200 rounded-full hover:border-orange-400"
+          <img class="w-12 h-12 transition duration-300 border-2 border-gray-200 rounded-full"
             src="{{ member.user_img.url }}" alt="photo">
           {% else %}
-          <img class="w-12 h-12 border border-black rounded-full hover:border-orange-400"
-            src="/static/image/cathead.png" alt="photo">
+          <span class="material-symbols-outlined" style="font-size: 45px;">account_circle</span>
           {% endif %}
+          <span class="material-symbols-outlined"
+            style="font-size: 28px; padding: 0; margin-left: 2px;">arrow_drop_down</span>
         </button>
-        <div x-show="open" class="absolute right-0 w-48 py-2 mt-2 bg-white rounded-md shadow-lg dark:bg-gray-800"
-          style="display: none;">
-          <a href="{% url 'friends:member_list' %}"
-            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">會員列表</a>
-          <a href="{% url 'friends:friend_list' %}"
-            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">好友</a>
-          <a href="{% url 'members:profile' pk=user.id %}"
-            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">個人資料</a>
-          <a href="{% url 'members:logout' %}"
-            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">登出</a>
-        </div>
       </div>
-      {% endif %}
+
+      <div x-show="open" class="absolute right-0 w-48 py-2 mt-2 bg-white rounded-md shadow-lg top-12 dark:bg-gray-800"
+        @click.away="open = false">
+        <a href="{% url 'friends:member_list' %}"
+          class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">會員列表</a>
+        <a href="{% url 'friends:friend_list' %}"
+          class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">好友</a>
+        <a href="{% url 'members:profile' pk=user.id %}"
+          class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">個人資料</a>
+        <a href="{% url 'members:logout' %}"
+          class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">登出</a>
+      </div>
     </div>
+    {% endif %}
+  </div>
   </div>
 </nav>

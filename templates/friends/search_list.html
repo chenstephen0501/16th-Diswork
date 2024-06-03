@@ -1,8 +1,7 @@
-{% extends 'layouts/base.html' %}
+{% extends 'boards/base.html' %}
 {% block content %}
-<div class="max-w-md mx-auto mt-10 bg-white rounded-lg shadow-md">
+<div class="max-w-full mx-auto bg-white rounded-lg shadow-md">
   <div class="flex items-center justify-between p-4 border-b">
-    <span class="material-symbols-outlined">home</span>
     <div class="text-lg font-medium">好友</div>
     <div class="flex space-x-2">
       <button class="px-2 py-2 bg-gray-200 rounded">線上</button>
@@ -12,17 +11,18 @@
       <button class="px-2 py-1 text-white bg-green-500 rounded">新增好友</button>
     </div>
   </div>
+  <div class="w-full p-2">
+    <form method="GET" action=".">
+      <input type="search" name="username" class="w-4/5 px-2 py-1 border-2 border-gray-500" placeholder="search">
+      <button class="px-2 py-1 bg-gray-300">搜尋</button>
+    </form>
+  </div>
 
-  <form method="GET" action=".">
-    <input type="search" name="username" class="px-2 py-1 border-2 border-gray-500" placeholder="search">
-    <button class="px-2 py-1 bg-gray-300">搜尋</button>
-  </form>
-
-  <div class="p-4">
-    <div class="space-y-4">
+  <div class="px-1">
+    <div class="space-y-2">
       {% if search_list %}
       {% for member in search_list %}
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-4 hover:bg-gray-200">
         {% if member.user_img %}
         <img src="{{ member.user_img.url }}" alt="photo"
           class="block object-cover object-center w-12 h-12 border-2 border-gray-200 rounded-full">
