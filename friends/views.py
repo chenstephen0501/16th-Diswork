@@ -18,7 +18,7 @@ class MemberListView(ListView):
         query = super().get_queryset()
         keyword = self.request.GET.get("username", "").strip()
         if keyword:
-            return query.filter(name__icontains=keyword)
+            return query.filter(username__icontains=keyword)
         return query
 
 
