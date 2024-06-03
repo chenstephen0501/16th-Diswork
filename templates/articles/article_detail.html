@@ -2,11 +2,11 @@
 {% block content %}
 <div class="relative block w-full h-screen overflow-hidden bg-opacity-60">
   <div class="w-[700px] h-full bg-white mx-auto flex flex-col">
-    <div class="w-full h-[50px] sticky top-0">
-      <h4>{{ category.title }}</h4>
+    <div class="sticky top-0 w-full h-6 my-2 ml-4">
+      <h4 class="text-lg font-bold text-gray-800">{{ article.category.title }}</h4>
     </div>
     <div class="flex-1 overflow-scroll">
-      <div class="p-4 space-y-2">
+      <div class="px-4 py-2 space-y-2">
         <h1 class="text-2xl font-bold text-gray-800">{{ article.title }}</h1>
         <div class="flex items-center space-x-2">
           <p class="text-sm text-gray-600">樓主：{{ article.author }}</p>
@@ -78,7 +78,7 @@
         {{ comment_form.content }}
         {{ comment_form.member }}
         <div class="flex justify-end">
-          <button type="submit" class="px-2 py-1 text-sm text-gray-400 rounded-md hover:underline">
+          <button type="submit" class="px-2 text-sm text-gray-400 rounded-md hover:underline">
             送出
           </button>
         </div>
