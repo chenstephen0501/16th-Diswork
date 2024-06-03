@@ -44,11 +44,13 @@
             <span>板主：{{ category.member }}</span>
           </div>
         </div>
+        {% if member_status == "1" %}
         <div class="ml-auto">
           <a href="{% url 'boards:edit' pk=category.pk %}">
             <button class="px-4 py-2 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">編輯</button>
           </a>
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
