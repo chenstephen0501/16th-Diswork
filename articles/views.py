@@ -98,7 +98,7 @@ class ShowView(DetailView):
 @login_required
 @require_POST
 def create(request, category_id):
-    form = ArticleForm(request.POST)
+    form = ArticleForm(request.POST, request.FILES)
     if form.is_valid():
         article = form.save(commit=False)
         article.author = request.user
