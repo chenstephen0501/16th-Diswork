@@ -30,7 +30,7 @@ class Member(AbstractUser):
             img = Image.open(self.user_img)
             if img.mode == "P":
                 img = img.convert("RGB")
-            max_size = (100, 100)
+            max_size = (200, 200)
             img.thumbnail(max_size, Image.LANCZOS)
             thumb_io = BytesIO()
             img_format = "PNG" if img.mode == "RGBA" else "JPEG"

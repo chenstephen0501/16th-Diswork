@@ -28,13 +28,17 @@ class Category(SoftDeleteable, models.Model):
     def save(self, *args, **kwargs):
         if self.picture:
             img = Image.open(self.picture)
-            max_size = (300, 300)
+            max_size = (400, 400)
             img.thumbnail(max_size, Image.LANCZOS)
             thumb_io = BytesIO()
             img_format = "PNG" if img.mode == "RGBA" else "JPEG"
-            img.save(thumb_io, format=img_format)
+            if img_format == "JPEG":
+                img.save(thumb_io, format=img_format, quality=85)
+            else:
+                img.save(thumb_io, format=img_format)
             thumb_io.seek(0)
             file_extension = "png" if img.mode == "RGBA" else "jpg"
             new_file_name = f"{self.picture.name.split('.')[0]}_thumb.{file_extension}"
             self.picture.save(new_file_name, ContentFile(thumb_io.read()), save=False)
+
         super().save(*args, **kwargs)
