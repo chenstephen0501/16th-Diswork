@@ -26,14 +26,14 @@
 
 <body>
     {% include 'shared/message.html' %}
-    {% include 'shared/navbar.html' %}
-    <div class="flex flex-col " style="height: calc(100vh - 81.37px);">
+    {% include 'boards/navbar.html' %}
+    <div class="flex flex-col h-screen pt-14 bg-slate-800">
 
-        <div class="relative flex overflow-hidden ">
+        <div class="relative flex h-full overflow-hidden ">
             {% include 'boards/shared/aside_list.html' %}
             <div class="md:hidden w-[30px] aspect-square bg-blue-300 mt-3 ml-3 absolute"></div>
-            <main class="flex-1 w-full h-full overflow-hidden border-green-700 border-5 p-5">
-                <div class="h-full bg-white rounded-md p-3 overflow-y-scroll">
+            <main class="flex-1 w-full h-full overflow-y-scroll border-green-700 border-5 p-5">
+                <div class="min-h-full bg-white rounded-md">
                     {% block content %}
                     {% endblock %}
                 </div>

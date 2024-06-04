@@ -1,43 +1,29 @@
-<aside class="absolute md:relative bg-slate-900 w-[250px] h-screen overflow-hidden top-0 right-[-100%] md:right-0"
-	style="height: calc(100vh - 81.35px);">
-	<div class="flex flex-col h-full p-5">
+<aside class="absolute md:relative bg-slate-800 w-[250px] h-full overflow-hidden top-0 right-[-100%] md:right-0">
+    <div class="flex flex-col p-5 h-full">
 
-		<div class="head-block">
-			<p class="block py-5 text-xl text-white border-b-2 border-white">討論版事項</p>
-		</div>
-		<div class="h-full py-5 overflow-hidden">
-			<div
-				class="body-block h-full overflow-y-scroll [&>div>a:hover]:bg-white [&>div>a:hover]:text-black [&>div>a]:rounded-sm [&>div>a]:p-2 [&>div>a]:my-2">
-				<div class="flex flex-col gap-3 group">
-					<div class="p-2 bg-white rounded-md card">
-						<div class="text">
-							<h3 class="title">這就是個標題怎樣</h3>
-							<p>
-								原理興趣恢復在這一會兒兩位思考，平台害怕緩緩簡歷收益一時幹什麼再也臉上陽明山，影響未知不怕打印擔任我要，一份一會兒感染創意導演只好斑竹福建，通知斑竹分別，推坑王大哥操作面議軟體開通我去，打開得分內部三個試題我去哥哥排行榜簡直程式，尷尬某些還沒有，釣魚按鈕。
-							</p>
-						</div>
-					</div>
-					<div class="p-2 bg-white rounded-md card">
-						<div class="text">
-							<h3 class="title">這就是個標題怎樣</h3>
-							<p>
-								原理興趣恢復在這一會兒兩位思考，平台害怕緩緩簡歷收益一時幹什麼再也臉上陽明山，影響未知不怕打印擔任我要，一份一會兒感染創意導演只好斑竹福建，通知斑竹分別，推坑王大哥操作面議軟體開通我去，打開得分內部三個試題我去哥哥排行榜簡直程式，尷尬某些還沒有，釣魚按鈕。
-							</p>
-						</div>
-					</div>
-					<div class="p-2 bg-white rounded-md card">
-						<div class="text">
-							<h3 class="title">這就是個標題怎樣</h3>
-							<p>
-								原理興趣恢復在這一會兒兩位思考，平台害怕緩緩簡歷收益一時幹什麼再也臉上陽明山，影響未知不怕打印擔任我要，一份一會兒感染創意導演只好斑竹福建，通知斑竹分別，推坑王大哥操作面議軟體開通我去，打開得分內部三個試題我去哥哥排行榜簡直程式，尷尬某些還沒有，釣魚按鈕。
-							</p>
-						</div>
-					</div>
-
-
-				</div>
-
-			</div>
-		</div>
-	</div>
+        <div class="head-block flex flex-col">
+            <a href="" class="flex items-center gap-2 p-3 text-white text-lg border-white rounded-md hover:bg-orange-500 transition delay-75 ease-linear">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                    <path d="M5 12h14"></path>
+                    <path d="M12 5v14"></path>
+                </svg>
+                活動日曆
+            </a>
+            <a href="" class="flex items-center gap-2 p-3 text-white text-lg border-white rounded-md hover:bg-orange-500 transition delay-75 ease-linear">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                    <path d="M5 12h14"></path>
+                    <path d="M12 5v14"></path>
+                </svg>
+                新增文章
+            </a>
+            <p class="block py-2 text-white text-md border-white">版規</p>
+        </div>
+        <div class="overflow-hidden h-full">
+            <div class="body-block h-full overflow-y-scroll [&>div>a:hover]:bg-white [&>div>a:hover]:text-black [&>div>a]:rounded-sm [&>div>a]:p-2 [&>div>a]:my-2">
+                <p class="bg-white rounded-md p-2">{{ category.rule }}</p>
+            </div>
+        </div>
+    </div>
 </aside>
