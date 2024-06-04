@@ -32,8 +32,8 @@
         <div class="relative flex overflow-hidden ">
             {% include 'boards/shared/aside_list.html' %}
             <div class="md:hidden w-[30px] aspect-square bg-blue-300 mt-3 ml-3 absolute"></div>
-            <main class="flex-1 w-full h-full p-5 overflow-y-scroll border-green-700 border-5">
-                <div class="min-h-full bg-white rounded-md">
+            <main class="flex-1 w-full h-full overflow-hidden border-green-700 border-5 p-5">
+                <div class="h-full bg-white rounded-md p-3 overflow-y-scroll">
                     {% block content %}
                     {% endblock %}
                 </div>
