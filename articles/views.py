@@ -12,9 +12,6 @@ from django.utils.decorators import method_decorator
 from comments.models import LikeComment
 from boards.models import Category
 
-
-
-
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
     model = Article
@@ -75,7 +72,7 @@ class ShowView(DetailView):
         )
         context["comments"] = comments_with_likes
         context["comment_form"] = CommentForm(initial={'member': self.request.user.id})
-        context['category_list'] = Category.object.all()
+        context['category_list'] = Category.objects.all()
         return context
 
     def post(self, request, pk):

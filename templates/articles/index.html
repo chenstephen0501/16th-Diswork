@@ -1,11 +1,12 @@
 {% extends 'boards/base.html' %}
+{% load static %}
 {% block content %}
 <div class="flex justify-between mx-10 mt-8">
   <div>
     <h1 class="my-2 ml-2 text-3xl">文章列表</h1>
-    <a href="">{{ category.title }}</a>
-    <div class="flex items-center pr-3 border-2 hover:bg-orange-500 hover:text-white hover:opacity-75">
+    {{ category.title }}
 
+    <div class="flex items-center pr-3 border-2 hover:bg-orange-500 hover:text-white hover:opacity-75">
       <a href="{% url 'articles:new' category.id %}"
         class="inline-flex items-center justify-center w-10 h-10 font-medium transition-colors rounded-full whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -26,38 +27,33 @@
 </div>
 <div class="flex flex-col w-5/6 p-4 mx-auto md:p-6">
   {% for article in article_list %}
-  <div class="w-full mb-3 bg-white border-gray-500 shadow-lg hover:bg-orange-700 hover:bg-opacity-25 ">
-    <div class="flex flex-col justify-between p-4 md:flex-row">
-      <div class="flex">
-        <div class="flex-shrink-0 h-10 ml-5 mr-5 overflow-hidden bg-gray-300 rounded-lg w-36 md:w-auto md:h-auto">
-          <a href="{% url 'articles:show' article.id %}">
+  <div class="w-full mb-4 bg-white border-gray-500 shadow-lg rounded-md overflow-hidden hover:scale-105 transition delay-70 duration-75 ease-in-out">
+    <div class="flex flex-col justify-between md:flex-row">
+      <a href="{% url 'articles:show' article.id %}" class="flex flex-col md:flex-row w-full">
+        <div class="w-full md:w-1/2">
+          <div class="w-full aspect-video">
             {% if article.picture %}
             <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
             {% else %}
-            <div style="height: 150px; width: 380px;">
-          <p>無照片顯示</p>
-        </div>
+            <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-full h-full">
             {% endif %}
-          </a>
+          </div>
         </div>
-        <div class="md:ml-4">
+        <div class="flex flex-col w-full md:w-1/2 p-4 justify-between overflow-hidden">
           <div class="text-lg font-semibold forum_list_title">
-            <a href="{% url 'articles:show' article.id %}" class="text-black hover:underline">
+            <div class="text-black hover:underline">
               {{ article.title }}
-            </a>
+            </div>
           </div>
-          <div class="mt-2 text-sm text-gray-600">
-            {{ article.content }}
+          <div class="my-2 text-sm text-gray-600 whitespace-nowrap text-ellipsis overflow-hidden">
+            長時間曾經或許成績一絲害怕讓我們，外觀魅力主機全家不過抽菸區西安表示有些未知，說明人家要在注重主體，思考各國不錯直到在此全家不過抽菸區西安表示有些未知，說明人家要在注重主體，思考各國不錯直到在此硬盤供應困難父母{{ article.content }}
           </div>
-          <a href="{% url 'articles:show' article.pk %}" class="block mt-4 text-blue-500 hover:underline">閱讀全文</a>
+          <div class="flex w-full justify-between text-sm">
+            <p class="">留言統計: {{article.comment_count}}</p>
+            <p>讚數統計: {{article.like_count}}</p>
+          </div>
         </div>
-      </div>
-    </div>  
-    <div class="flex justify-end items-end">
-      <div class="mr-10 flex">
-        <p class="mr-5">留言統計: {{article.comment_count}}</p>
-        <p>讚數統計: {{article.like_count}}</p>
-      </div>
+      </a>
     </div>
     
   </div>
