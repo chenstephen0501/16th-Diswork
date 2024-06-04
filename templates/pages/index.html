@@ -16,13 +16,21 @@
       <div class="w-1/2 mr-2 bg-gray-300 hover:bg-amber-500 rounded-3xl">
         <a href="{% url 'boards:list' %}" class="block w-full py-3 text-black hover:text-white">進入討論版</a>
       </div>
-      <div class="w-1/2 ml-2 bg-gray-300 hover:bg-amber-500 rounded-3xl ">
-        <form action="{% url 'paies:create_order' %}" method="POST">
-          {% csrf_token %}
-          <button type="submit"
-            class="block w-full py-3 text-black hover:text-white">訂閱我們
-          </button>
-        </form>
+      <div class="w-1/2 ml-2 bg-gray-300 rounded-3xl">
+        {% if member_status == 1 %}
+        <div class="w-full bg-gray-300 rounded-3xl">
+          <p class="block w-full py-3 text-black">已訂閱</p>
+        </div>
+        {% else %}
+        <div class="w-full bg-gray-300 hover:bg-amber-500 rounded-3xl ">
+          <form action="{% url 'paies:create_order' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit"
+              class="block w-full py-3 text-black hover:text-white">訂閱我們
+            </button>
+          </form>
+        </div>
+        {% endif %}
       </div>
       {% else %}
       <div class="w-1/2 mr-2 bg-gray-300 hover:bg-amber-500 rounded-3xl">
@@ -88,7 +96,7 @@
           </div>
           <div class="flex-grow"></div>
           {% if user.is_authenticated %}
-            {% if member_status %}
+            {% if member_status == 1 %}
             <a class="inline-block w-full h-12 px-4 mt-6 text-2xl font-bold leading-loose text-center text-white bg-orange-400 rounded-lg hover:bg-orange-500"
               disabled>已訂閱</a>
             {% else %}

@@ -7,6 +7,7 @@ from cryptography.hazmat.primitives import padding
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from .models import Paies
+from members.models import Member
 import hashlib
 import binascii
 import json
@@ -133,6 +134,11 @@ def newebpay_return(request):
             update_order.paid_at = decrypt_dict["Result"]["PayTime"]
             # 保存更改
             update_order.save()
+            
+            member = update_order.member
+            member.member_status = "1"  
+
+            member.save()
 
             return render(request, 'paies/success.html')
         except Paies.DoesNotExist:
