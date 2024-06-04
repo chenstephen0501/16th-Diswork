@@ -1,31 +1,8 @@
 {% extends 'boards/base.html' %}
 {% load static %}
 {% block content %}
-<div class="flex justify-between mx-10">
-  <div>
-    <h1 class="my-2 ml-2 text-3xl">文章列表</h1>
-    {{ category.title }}
-
-    <div class="flex items-center pr-3 border-2 hover:bg-orange-500 hover:text-white hover:opacity-75">
-      <a href="{% url 'articles:new' category.id %}"
-        class="inline-flex items-center justify-center w-10 h-10 font-medium transition-colors rounded-full whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
-          <path d="M5 12h14"></path>
-          <path d="M12 5v14"></path>
-        </svg>
-      </a>
-      <a href="{% url 'articles:new' category.id  %}">
-        <p class="text-xl">新增文章</p>
-      </a>
-    </div>
-  </div>
-  <div>
-    <a href="{% url 'events:calendar' category.id %}"
-      class="px-4 py-3 mt-5 text-white bg-orange-500 rounded hover:bg-orange-600">行事曆</a>
-  </div>
-</div>
 <div class="flex flex-col w-5/6 p-4 mx-auto md:p-6">
+  <h1 class="py-3 text-3xl">{{ category.title }}</h1>
   {% for article in article_list %}
   <div class="w-full mb-4 bg-white border-gray-500 shadow-lg rounded-md overflow-hidden hover:scale-105 transition delay-70 duration-75 ease-in-out">
     <div class="flex flex-col justify-between md:flex-row">
