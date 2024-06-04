@@ -2,28 +2,22 @@
 
 {% load static %}
 
-  {% block content %}
-  <div class="w-full aspect-16-4">
-    <img class="block w-full h-full object-cover" src="{% static 'image/defaultImage.jpg' %}" alt="">
-  </div>
-  <div class="px-4 md:px-8">
-    <div class="flex flex-col items-start justify-between pt-3 border-b-1 sticky top-0 bg-white">
-      <div class="flex items-center my-3">
-        <img class="block w-12 h-12 object-cover rounded-full" src="{% static 'image/defaultImage.jpg' %}" alt="">
-        <h1 class="text-2xl ml-3">{{ category.title }}</h1>
-      </div>
-      <div x-data="{ activeBtn : '熱門' }" class="flex">
-        <button class="article-filter-btn" :class="{ 'active': activeBtn === '熱門'}" @click="activeBtn = '熱門'">熱門</button>
-        <button class="article-filter-btn" :class="{ 'active': activeBtn === '最新'}" @click="activeBtn = '最新'">最新</button>
-      </div>
+{% block content %}
+<div class="w-full aspect-16-4">
+  <img class="block object-cover w-full h-full" src="{% static 'image/defaultImage.jpg' %}" alt="">
+</div>
+<div class="px-4 md:px-8">
+  <div class="sticky top-0 flex flex-col items-start justify-between pt-3 bg-white border-b-1">
+    <div class="flex items-center my-3">
+      <img class="block object-cover w-12 h-12 rounded-full" src="{% static 'image/defaultImage.jpg' %}" alt="">
+      <h1 class="ml-3 text-2xl">{{ category.title }}</h1>
     </div>
     <div class="flex flex-col w-full py-4 mx-auto">
       {% for article in article_list %}
-      <div
-        class="w-full mb-4 overflow-hidden bg-white border-gray-500">
+      <div class="w-full mb-4 overflow-hidden bg-white border-gray-500">
         <div class="flex flex-col justify-between">
-          <a href="{% url 'articles:show' article.id %}" class="flex w-full items-center pb-5 border-b-1">
-            
+          <a href="{% url 'articles:show' article.id %}" class="flex items-center w-full pb-5 border-b-1">
+
             <div class="flex flex-col justify-between flex-1 pr-3 overflow-hidden">
               <div class="text-lg font-semibold forum_list_title">
                 <div class="text-lg text-black list-title">
@@ -33,23 +27,136 @@
               <div class="my-2 text-sm text-gray-600 list-content">
                 {{ article.content }}
               </div>
-              <div class="inline-flex w-full text-sm gap-3">
+              <div class="inline-flex w-full gap-3 text-sm">
                 <p>留言: {{article.comment_count}}</p>
                 <p>讚數: {{article.like_count}}</p>
               </div>
             </div>
             {% if article.picture %}
-              <div class="w-[70px] md:w-[84px] ml-4 md:ml-6">
-                <div class="w-full aspect-square rounded-lg overflow-hidden">
-                  <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
-                </div>
+            <div class="w-[70px] md:w-[84px] ml-4 md:ml-6">
+              <div class="w-full overflow-hidden rounded-lg aspect-square">
+                <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
               </div>
+            </div>
             {% endif %}
           </a>
         </div>
-    
+
       </div>
       {% endfor %}
     </div>
   </div>
+  <div class="flex flex-col w-full py-4 mx-auto">
+    {% for article in article_list %}
+    <div class="w-full mb-4 overflow-hidden bg-white border-gray-500">
+      <div class="flex flex-col justify-between">
+        <a href="{% url 'articles:show' article.id %}" class="flex items-center w-full pb-5 border-b-1">
+
+          <div class="flex flex-col justify-between flex-1 pr-3 overflow-hidden">
+            <div class="text-lg font-semibold forum_list_title">
+              <div class="text-lg text-black list-title">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum officia quidem tenetur saepe perspiciatis,
+                {{ article.title }}
+              </div>
+            </div>
+            <div class="my-2 text-sm text-gray-600 list-content">
+              咖啡電子避免熱線眼光有什麼，區別溫度相對合作忽然草魚概念相對業績十年百姓孤獨，如有顧客終於表明，感到受傷一支到處{{ article.content }}
+            </div>
+            <div class="inline-flex w-full gap-3 text-sm">
+              <p class="">留言: 2123{{article.comment_count}}</p>
+              <p>讚數: {{article.like_count}}</p>
+            </div>
+          </div>
+          {% if article.picture %}
+          <div class="w-[70px] md:w-[84px] ml-4 md:ml-6">
+            <div class="w-full overflow-hidden rounded-lg aspect-square">
+              <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
+            </div>
+          </div>
+          {% endif %}
+        </a>
+        <a href="{% url 'articles:show' article.id %}" class="flex items-center w-full py-5 border-b-1">
+
+          <div class="flex flex-col justify-between flex-1 pr-3 overflow-hidden">
+            <div class="text-lg font-semibold forum_list_title">
+              <div class="text-black hover:underline">
+                {{ article.title }}
+              </div>
+            </div>
+            <div class="my-2 overflow-hidden text-sm text-gray-600 whitespace-nowrap text-ellipsis">{{ article.content
+              }}
+            </div>
+            <div class="inline-flex w-full gap-3 text-sm">
+              <p class="">留言: 2123{{article.comment_count}}</p>
+              <p>讚數: {{article.like_count}}</p>
+            </div>
+          </div>
+          <div class="w-[70px] md:w-[84px] ml-4 md:ml-6">
+            <div class="w-full overflow-hidden rounded-lg aspect-square">
+              {% if article.picture %}
+              <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
+              {% else %}
+              <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-full h-full">
+              {% endif %}
+            </div>
+          </div>
+        </a>
+        <a href="{% url 'articles:show' article.id %}" class="flex items-center w-full py-5 border-b-1">
+
+          <div class="flex flex-col justify-between flex-1 pr-3 overflow-hidden">
+            <div class="text-lg font-semibold forum_list_title">
+              <div class="text-black hover:underline">
+                {{ article.title }}
+              </div>
+            </div>
+            <div class="my-2 overflow-hidden text-sm text-gray-600 whitespace-nowrap text-ellipsis">{{ article.content
+              }}
+            </div>
+            <div class="inline-flex w-full gap-3 text-sm">
+              <p class="">留言: 2123{{article.comment_count}}</p>
+              <p>讚數: {{article.like_count}}</p>
+            </div>
+          </div>
+          <div class="w-[70px] md:w-[84px] ml-4 md:ml-6">
+            <div class="w-full overflow-hidden rounded-lg aspect-square">
+              {% if article.picture %}
+              <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
+              {% else %}
+              <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-full h-full">
+              {% endif %}
+            </div>
+          </div>
+        </a>
+        <a href="{% url 'articles:show' article.id %}" class="flex items-center w-full py-5 border-b-1">
+
+          <div class="flex flex-col justify-between flex-1 pr-3 overflow-hidden">
+            <div class="text-lg font-semibold forum_list_title">
+              <div class="text-black hover:underline">
+                {{ article.title }}
+              </div>
+            </div>
+            <div class="my-2 overflow-hidden text-sm text-gray-600 whitespace-nowrap text-ellipsis">{{ article.content
+              }}
+            </div>
+            <div class="inline-flex w-full gap-3 text-sm">
+              <p class="">留言: 2123{{article.comment_count}}</p>
+              <p>讚數: {{article.like_count}}</p>
+            </div>
+          </div>
+          <div class="w-[70px] md:w-[84px] ml-4 md:ml-6">
+            <div class="w-full overflow-hidden rounded-lg aspect-square">
+              {% if article.picture %}
+              <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
+              {% else %}
+              <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-full h-full">
+              {% endif %}
+            </div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

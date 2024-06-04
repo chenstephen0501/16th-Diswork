@@ -2,43 +2,44 @@
 <aside class="absolute md:relative bg-[#01314D] w-[208px] h-full overflow-hidden top-0 left-[-100%] md:left-0">
     <div class="flex flex-col w-full h-full mt-5">
         <div class="head-block">
-            <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="{% url 'boards:list' %}">
+            <a class="flex items-center pl-5 pr-3 h-11 hover:bg-gray-900" href="{% url 'boards:list' %}">
                 <span class="material-symbols-outlined board-aside-list-icon">
                     format_list_bulleted
                 </span>
-                <p class="text-base text-white pl-2">所有看板</p>
+                <p class="pl-2 text-base text-white">所有看板</p>
             </a>
             {% if user.member_status == "1" %}
-                <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="{% url 'boards:new' %}">
-                    <span class="material-symbols-outlined board-aside-list-icon">
-                        playlist_add
-                    </span>
-                    <p class="text-base text-white pl-2">新增看板</p>
-                </a>
+            <a class="flex items-center pl-5 pr-3 h-11 hover:bg-gray-900" href="{% url 'boards:new' %}">
+                <span class="material-symbols-outlined board-aside-list-icon">
+                    playlist_add
+                </span>
+                <p class="pl-2 text-base text-white">新增看板</p>
+            </a>
             {% endif %}
             {% if category.id != None %}
-                {% if user.is_authenticated %}
-                    <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="{% url 'events:calendar' category.id %}">
-                        <span class="material-symbols-outlined board-aside-list-icon">
-                            calendar_month
-                        </span>
-                        <p class="text-base text-white pl-2">活動日曆</p>
-                    </a>
-                    {% if user.member_status == "1" %}
-                        <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="{% url 'events:list' category.id %}">
-                            <span class="material-symbols-outlined board-aside-list-icon">
-                                event_note
-                            </span>
-                            <p class="text-base text-white pl-2">活動列表</p>
-                        </a>
-                        <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="{% url 'events:new' category.id %}">
-                            <span class="material-symbols-outlined board-aside-list-icon">
-                                calendar_add_on
-                            </span>
-                            <p class="text-base text-white pl-2">新增活動</p>
-                        </a>
-                    {% endif %}
-                {% endif %}
+            {% if user.is_authenticated %}
+            <a class="flex items-center pl-5 pr-3 h-11 hover:bg-gray-900"
+                href="{% url 'events:calendar' category.id %}">
+                <span class="material-symbols-outlined board-aside-list-icon">
+                    calendar_month
+                </span>
+                <p class="pl-2 text-base text-white">活動日曆</p>
+            </a>
+            {% if user.member_status == "1" %}
+            <a class="flex items-center pl-5 pr-3 h-11 hover:bg-gray-900" href="{% url 'events:list' category.id %}">
+                <span class="material-symbols-outlined board-aside-list-icon">
+                    event_note
+                </span>
+                <p class="pl-2 text-base text-white">活動列表</p>
+            </a>
+            <a class="flex items-center pl-5 pr-3 h-11 hover:bg-gray-900" href="{% url 'events:new' category.id %}">
+                <span class="material-symbols-outlined board-aside-list-icon">
+                    calendar_add_on
+                </span>
+                <p class="pl-2 text-base text-white">新增活動</p>
+            </a>
+            {% endif %}
+            {% endif %}
             {% endif %}
 
         </div>
@@ -46,10 +47,11 @@
             <div class="body-block h-full overflow-y-scroll [&>div>a:hover]:bg-gray-900">
                 <div class="flex flex-col">
                     {% for category in category_list %}
-                    <a class="flex items-center text-base text-white category-list board-aside-list-btn gap-2"
+                    <a class="flex items-center gap-2 text-base text-white category-list board-aside-list-btn"
                         href="{% url 'articles:index' category.id %}" id="category_{{category.id}}"
                         data-state="inactive">
-                        <img class="block w-7 h-7 rounded-full object-cover" src="{% static 'image/defaultImage.jpg' %}" alt="">
+                        <img class="block object-cover rounded-full w-7 h-7" src="{% static 'image/defaultImage.jpg' %}"
+                            alt="">
                         {{ category.title }}
                     </a>
                     {% endfor %}
