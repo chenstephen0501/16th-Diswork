@@ -56,11 +56,14 @@ class CommentCreateView(CreateView):
         context["article"] = article
         return context
 
+
 class CommentDeleteView(DeleteView):
     model = Comment
-    template_name = "articles/article_detail.html"   
+    template_name = "articles/article_detail.html"
+
     def get_success_url(self):
         return reverse_lazy("articles:show", kwargs={"pk": self.object.article_id})
+
 
 @login_required
 @require_POST
@@ -70,7 +73,7 @@ def add_like(req, pk):
     comment.save()
     comment.is_like = True
     comment.like_count = LikeComment.objects.filter(like_comment=pk).count()
-    return render(req, "shared/like_comment_btn.html", {"comment": comment})
+    return render(req, "articles/shared/like_comment_btn.html", {"comment": comment})
 
 
 @login_required
@@ -80,4 +83,4 @@ def remove_like(req, pk):
     comment.like_comment.remove(req.user)
     comment.is_like = False
     comment.like_count = LikeComment.objects.filter(like_comment=pk).count()
-    return render(req, "shared/like_comment_btn.html", {"comment": comment})
+    return render(req, "articles/shared/like_comment_btn.html", {"comment": comment})

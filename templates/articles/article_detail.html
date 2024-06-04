@@ -37,7 +37,8 @@
         </div>
         <div class="container flex items-end md:py-2 lg:py-1">
           <div class="ml-auto">
-            {% include 'shared/like_button.html' %}
+            <<<<<<< HEAD {% include 'shared/like_button.html' %}======={% include 'articles/shared/like_button.html' %}>
+              >>>>>> 68b0faa (WIP - fix bug)
           </div>
         </div>
         {% for comment in comments %}
@@ -60,7 +61,7 @@
             </div>
           </div>
           <div class="flex justify-end pb-2 pr-4">
-            {% include 'shared/like_comment_btn.html' %}
+            {% include 'articles/shared/like_comment_btn.html' %}
             <form action="{% url 'comments:delete' pk=comment.id %}" method="post" class="inline">
               {% csrf_token %}
               <button type="submit" class="px-2 py-1 text-white bg-red-500 rounded">刪除</button>
