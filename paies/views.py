@@ -7,9 +7,7 @@ from cryptography.hazmat.primitives import padding
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from .models import Paies
-from members.models import Member
 import hashlib
-import binascii
 import json
 
 
@@ -51,7 +49,6 @@ def create_order(request):
             amount = order['Amt']
         )
         save_order.save()
-        # timestamp_int = int(timestamp)
         orders[timestamp] = order
         print(orders)
         
@@ -151,16 +148,11 @@ def newebpay_return(request):
 @csrf_exempt
 def newebpay_notify(request):
     if request.method == 'POST':
-        # 在這裡處理從藍新回傳的數據
-        # 處理完畢後，重定向到結帳成功頁面
-        
         return HttpResponse('Notify')
     else:
-        # 如果是 GET 請求，可以根據需要進行其他處理
         return HttpResponse("Method Not Allowed", status=405)
 
 def checkout_success(request):
-    # 在這個視圖中，你可以顯示結帳成功的信息
     return render(request, 'paies/success.html', {'title': 'Checkout Success'})
 
 def decrypt_aes_cbc(encrypted_data, key, iv):
