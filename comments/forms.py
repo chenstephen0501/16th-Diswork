@@ -15,13 +15,4 @@ class CommentForm(ModelForm):
                     "placeholder": "這邊留言...",
                 }
             ),
-            "member": forms.TextInput(
-                attrs={"class": "invisible mx-1 border-2 border-gray-300 w-full", "readonly": "readonly"}
-            ),
-            "member": forms.TextInput(
-                attrs={
-                    "class": "invisible mx-1 border-2 border-gray-300 w-full",
-                    "readonly": "readonly",
-                }
-            ),
         }
