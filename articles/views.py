@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from comments.models import LikeComment
 from boards.models import Category
+from members.models import Member
 
 
 @method_decorator(login_required, name="dispatch")

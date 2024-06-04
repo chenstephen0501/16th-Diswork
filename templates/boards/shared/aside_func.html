@@ -1,14 +1,13 @@
 <aside class="absolute md:relative bg-[#01314D] w-[250px] h-full overflow-hidden top-0 right-[-100%] md:right-0">
   <div class="flex flex-col h-full p-5">
-
     <div class="flex flex-col head-block">
-
       {% if category.id != None %}
       <a href="{% url 'events:calendar' category.id %}"
         class="flex items-center gap-2 p-3 text-lg text-white transition ease-linear delay-75 border-white rounded-md hover:bg-orange-500">
         <span class="material-symbols-outlined">
           event_available</span>活動日曆
       </a>
+      {% if user.member_status == "1" %}
       <a href="{% url 'events:list' category.id %}"
         class="flex items-center gap-2 p-3 text-lg text-white transition ease-linear delay-75 border-white rounded-md hover:bg-orange-500">
         <span class="material-symbols-outlined">
@@ -21,6 +20,7 @@
           calendar_add_on
         </span>新增活動
       </a>
+      {% endif %}
       {% endif %}
       {% if category.id != None %}
       <a href="{% url 'articles:new' category.id %}"
