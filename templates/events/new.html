@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{% extends 'boards/base.html' %}
 
 {% block title %}Calendar{% endblock %}
 
@@ -6,8 +6,8 @@
 <form action="{% url 'events:add' category.id %}" method="post">
   {% csrf_token %}
   <div class="min-h-screen pt-6 md:px-20">
-    <div class="max-w-2xl px-6 py-10 mx-auto bg-white border border-gray-300 rounded-md">
-      <h1 class="mb-10 text-2xl font-bold text-center text-gray-500">ADD EVENTS</h1>
+    <div class="max-w-2xl px-6 py-8 mx-auto bg-white border border-gray-300 rounded-md">
+      <h1 class="mb-10 text-2xl font-bold text-center text-gray-500">新增活動</h1>
       <div class="space-y-4">
         <div>
           {{ form.as_p }}

@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %}
+{% extends "boards/base.html" %}
 {% block head %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -6,15 +6,16 @@
     const categoryId = parseInt(document.querySelector("#categoryId").value)
     let calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
+      locale: 'zh-cn',
       height: 600,
       selectable: true,
       "allDay": event.is_all_day,
       headerToolbar: {
         left: 'prev,next',
         center: 'title',
-        right: 'today'
+        right: 'today',
       },
-      eventSources: [{ url: `/events/category/${parseInt(categoryId)}/all_events/`, color: '#C7B7A3' }],
+      eventSources: [{ url: `/events/category/${parseInt(categoryId)}/all_events/`, color: '#FE952A' }],
       eventClick: function (info) {
         let startDateTime = formatDate(info.event.startStr);
         let endDateTime = formatDate(info.event.endStr);
@@ -57,14 +58,10 @@
 {% endblock %}
 {% block content %}
 <div class="relative">
-  <div class="absolute top-0 right-0 flex justify-end mr-10">
-    <a href="{% url 'events:list' category.id %}"
-        class="px-4 py-3 mt-5 text-white bg-orange-500 rounded hover:bg-orange-600">活動列表</a>      
+  <div class="flex items-center justify-center py-2 mb-2 bg-white shadow">
+    <div class="sticky top-0 text-2xl font-bold text-gray-800 bg-white">{{ category.title }}版的活動日曆</div>
   </div>
-  <div class="flex items-center justify-center my-8">
-    <input type="text"  id="categoryId" value="{{category.id}}" hidden>
-    <div id="calendar" class="w-full p-4 sm:w-2/3 md:w-2/3 lg:w-2/3 xl:w-2/3">
-    </div>
-  </div>
+  <input type="text" id="categoryId" value="{{ category.id }}" hidden>
+  <div id="calendar" class="w-full p-2 bg-white rounded-lg shadow-md"></div>
 </div>
 {% endblock %}

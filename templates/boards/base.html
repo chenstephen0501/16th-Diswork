@@ -16,9 +16,9 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{% static 'scripts/script.js' %}" defer></script>
-
-
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% block header %}{% endblock %}
     <title>{% block title %} Diswork {% endblock %}</title>
     {% block head %}
     {% endblock %}
@@ -27,12 +27,12 @@
 <body>
     {% include 'shared/message.html' %}
     {% include 'boards/navbar.html' %}
-    <div class="flex flex-col h-screen pt-14 bg-slate-800">
+    <div class="flex flex-col h-screen pt-14 bg-[#01314D]">
 
         <div class="relative flex h-full overflow-hidden ">
             {% include 'boards/shared/aside_list.html' %}
             <div class="md:hidden w-[30px] aspect-square bg-blue-300 mt-3 ml-3 absolute"></div>
-            <main class="flex-1 w-full h-full overflow-y-scroll border-green-700 border-5 p-5">
+            <main class="flex-1 w-full h-full p-5 overflow-y-scroll border-green-700 border-5">
                 <div class="min-h-full bg-white rounded-md">
                     {% block content %}
                     {% endblock %}

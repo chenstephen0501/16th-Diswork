@@ -12,6 +12,7 @@ from django.utils.decorators import method_decorator
 from comments.models import LikeComment
 from boards.models import Category
 
+
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
     model = Article
@@ -20,29 +21,36 @@ class ArticleIndexView(ListView):
 
     def get_queryset(self):
         category_id = self.kwargs.get("category_id")
-        return Article.objects.filter(category_id=category_id).annotate(like_count=Count("article"))
+        return Article.objects.filter(category_id=category_id).annotate(
+            like_count=Count("article")
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['category'] = get_object_or_404(Category, id=self.kwargs.get('category_id'))
+        context["category"] = get_object_or_404(
+            Category, id=self.kwargs.get("category_id")
+        )
         return context
+
 
 @method_decorator(login_required, name="dispatch")
 class NewView(FormView):
     template_name = "articles/new.html"
     form_class = ArticleForm
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['category'] = get_object_or_404(Category, id=self.kwargs.get('category_id'))
+        context["category"] = get_object_or_404(
+            Category, id=self.kwargs.get("category_id")
+        )
         return context
 
     def form_valid(self, form):
         article = form.save(commit=False)
         article.author = self.request.user
-        article.category_id = self.kwargs.get('category_id')
+        article.category_id = self.kwargs.get("category_id")
         article.save()
-        return redirect("articles:index", category_id=self.kwargs.get('category_id'))
+        return redirect("articles:index", category_id=self.kwargs.get("category_id"))
 
 
 @method_decorator(login_required, name="dispatch")
@@ -71,8 +79,8 @@ class ShowView(DetailView):
             is_like=Exists(like_comment_subquery), like_count=Count("like_comment")
         )
         context["comments"] = comments_with_likes
-        context["comment_form"] = CommentForm(initial={'member': self.request.user.id})
-        context['category_list'] = Category.objects.all()
+        context["comment_form"] = CommentForm(initial={"member": self.request.user.id})
+        context["category_list"] = Category.objects.all()
         return context
 
     def post(self, request, pk):
@@ -93,9 +101,9 @@ def create(request, category_id):
         article.author = request.user
         article.category_id = request.POST.get("category_id")
         article.save()
-        messages.success(request, "文章新增成功")
         return redirect("articles:index", category_id=article.category_id)
     return redirect("articles:new", category_id=request.POST.get("category_id"))
+
 
 @method_decorator(login_required, name="dispatch")
 class ArticleUpdateView(UpdateView):

@@ -1,6 +1,9 @@
-{% extends 'layouts/base.html' %}
+{% extends 'boards/base.html' %}
+{% block header %}
+<script src="static/scripts/profile.js" defer></script>
+{% endblock %}
 {% block content %}
-<div class="max-w-4xl p-6 mx-auto mt-5 bg-white">
+<div class="max-w-4xl p-6 mx-auto bg-white">
   <h3 class="text-2xl font-semibold">編輯個人資料</h3>
   <form action="{% url 'members:edit' pk=member.pk %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -32,32 +35,8 @@
           class="w-full px-3 py-2 border border-gray-300 rounded">
       </div>
       <button type="submit"
-        class="px-4 py-2 font-bold text-white bg-orange-500 rounded hover:bg-orange-700 focus:outline-none focus:shadow-outline">儲存</button>
+        class="px-4 py-2 font-bold text-white bg-[#FE952A] rounded hover:bg-[#E28426] focus:outline-none focus:shadow-outline">儲存</button>
     </div>
   </form>
 </div>
-
-<script>
-  const previewContainer = document.getElementById('preview-container');
-  const previewImage = document.getElementById('preview');
-  const previewText = document.getElementById('preview-text');
-  const imageInput = document.getElementById('user_img');
-
-  imageInput.addEventListener('change', function () {
-    const file = this.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function () {
-        previewImage.src = reader.result;
-        previewText.style.display = 'none';
-        previewImage.style.display = 'block';
-      };
-      reader.readAsDataURL(file);
-    } else {
-      previewImage.src = '';
-      previewText.style.display = 'block';
-      previewImage.style.display = 'none';
-    }
-  });
-</script>
 {% endblock %}

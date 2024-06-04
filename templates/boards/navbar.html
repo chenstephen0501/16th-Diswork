@@ -1,5 +1,5 @@
 <nav
-  class="absolute top-0 flex flex-col w-full pl-6 pr-2 py-1 font-sans text-center text-white bg-gray-900 shadow sm:flex-row sm:text-left sm:justify-between sm:items-baseline z-[999]">
+  class="absolute top-0 flex flex-col w-full pl-6 pr-2 py-1 font-sans text-center text-white bg-[#006AA6] shadow sm:flex-row sm:text-left sm:justify-between sm:items-baseline z-[999]">
   <div class="flex items-center justify-between w-full">
     <div class="flex items-center">
       <a href="{% url 'root' %}">
@@ -12,9 +12,9 @@
         <div class="relative">
           <button class="flex items-center focus:outline-none" @click="open = !open" @click.away="open = false"
             aria-expanded="false" aria-haspopup="true">
-            {% if member.user_img %}
+            {% if user.user_img %}
             <img class="w-12 h-12 transition duration-300 border-2 border-gray-200 rounded-full"
-              src="{{ member.user_img.url }}" alt="photo">
+              src="{{ user.user_img.url }}" alt="photo">
             {% else %}
             <span class="material-symbols-outlined" style="font-size: 45px;">account_circle</span>
             {% endif %}
