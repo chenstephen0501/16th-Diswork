@@ -28,7 +28,6 @@ def index(request):
 def create_order(request):
     if request.method == 'POST':
         member = request.user
-        # 使用 Unix Timestamp 作為訂單編號（金流也需要加入時間戳記）
         timestamp = int(timezone.now().timestamp())
         order = {
             'MerchantID': MerchantID,
