@@ -1,23 +1,15 @@
 {% extends 'boards/base.html' %}
 {% load static %}
 {% block content %}
-<div class="flex flex-col w-5/6 p-4 mx-auto md:p-6">
+<div class="flex flex-col w-5/6 py-4 mx-auto">
   <h1 class="py-3 text-3xl">{{ category.title }}</h1>
   {% for article in article_list %}
   <div
-    class="w-full mb-4 overflow-hidden transition duration-75 ease-in-out bg-white border-gray-500 rounded-md hover:scale-105 delay-70">
+    class="w-full mb-4 overflow-hidden transition duration-75 ease-in-out bg-white border-gray-500 hover:scale-105 delay-70">
     <div class="flex flex-col justify-between md:flex-row">
-      <a href="{% url 'articles:show' article.id %}" class="flex flex-col w-full md:flex-row">
-        <div class="w-full md:w-1/2">
-          <div class="w-full aspect-video">
-            {% if article.picture %}
-            <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
-            {% else %}
-            <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-full h-full">
-            {% endif %}
-          </div>
-        </div>
-        <div class="flex flex-col justify-between w-full p-4 overflow-hidden md:w-1/2">
+      <a href="{% url 'articles:show' article.id %}" class="flex w-full items-center py-5 border-b-2">
+        
+        <div class="flex flex-col justify-between flex-1 pr-3 overflow-hidden">
           <div class="text-lg font-semibold forum_list_title">
             <div class="text-black hover:underline">
               {{ article.title }}
@@ -26,8 +18,17 @@
           <div class="my-2 overflow-hidden text-sm text-gray-600 whitespace-nowrap text-ellipsis">{{ article.content }}
           </div>
           <div class="flex justify-between w-full text-sm">
-            <p class="">留言統計: {{article.comment_count}}</p>
-            <p>讚數統計: {{article.like_count}}</p>
+            <p class="">留言: {{article.comment_count}}</p>
+            <p>讚數: {{article.like_count}}</p>
+          </div>
+        </div>
+        <div class="w-[70px] md:w-[84px] ml-4 md:ml-6">
+          <div class="w-full aspect-square rounded-lg overflow-hidden">
+            {% if article.picture %}
+            <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
+            {% else %}
+            <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-full h-full">
+            {% endif %}
           </div>
         </div>
       </a>
