@@ -58,8 +58,6 @@ class LogoutView(TemplateView):
         return redirect("root")
 
 
-# 註冊
-# csrf_exempt - wu 2024/05/16增加
 @method_decorator(csrf_exempt, name="dispatch")
 class RegisterView(FormView):
     template_name = "registration/register.html"
