@@ -6,7 +6,7 @@
         </div>
         <p class="py-5 text-white text-xl border-b-2 border-white">看板列表</p>
         <div class="py-5 overflow-hidden h-full">
-            <div class="body-block h-full overflow-y-scroll [&>div>a:hover]:bg-orange-500 [&>div>a:hover]:text-white [&>div>a]:rounded-sm [&>div>a]:p-2 [&>div>a]:my-2">
+            <div class="body-block h-full overflow-y-scroll [&>div>a:hover]:bg-orange-500 [&>div>a:hover]:text-white [&>div>a]:rounded-md [&>div>a]:p-2 [&>div>a]:my-2">
                 <div>
                     {% for category in category_list %}
                     <a class="category-list block text-white text-xl transition delay-75 duration-100 ease-linear" href="{% url 'articles:index' category.id %}" id="category_{{category.id}}" data-state="inactive">{{ category.title }}</a>
