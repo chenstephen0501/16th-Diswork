@@ -83,7 +83,7 @@
       </div>
     </div>
     <div class="sticky bottom-0 bg-white">
-      <form method="post" action="{% url 'articles:comment' pk=article.pk %}" class="px-2">
+      <form method="post" action="{% url 'articles:comment' pk=article.pk %}" class="px-4">
         {% csrf_token %}
         {{ comment_form.content }}
         {{ comment_form.member }}

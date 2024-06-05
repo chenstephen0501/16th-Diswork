@@ -30,11 +30,11 @@
     {% include 'boards/navbar.html' %}
     <div class="flex flex-col h-screen pt-14 bg-white md:bg-[#01314D]">
 
-        <div class="relative flex h-full overflow-hidden ">
+        <div class="relative flex h-full overflow-hidden">
             {% include 'boards/shared/aside_list.html' %}
             <!-- <div class="md:hidden w-[30px] aspect-square bg-blue-300 mt-3 ml-3 absolute"></div> -->
             <main class="max-w-3xl w-full h-full md:p-5 overflow-y-scroll">
-                <div class="min-h-full bg-white rounded-lg overflow-hidden">
+                <div class="min-h-full bg-white rounded-lg overflow-hidden px-4 md:p-0">
                     {% block content %}
                     {% endblock %}
                 </div>
