@@ -1,11 +1,13 @@
 {% extends 'boards/base.html' %}
-{% block title %}討論板{% endblock %}
-
+{% load static %}
+{% block header %}
+<script src="{% static 'scripts/picture.js' %}" defer></script>
+{% endblock %}
 {% block content %}
 <div class="flex justify-center">
   <div class="w-full p-8 lg:w-2/3 xl:w-1/2">
     <a href="{% url 'boards:list' %}" class="text-orange-500 hover:text-orange-600">
-      <h1 class="mb-4 text-2xl font-bold">編輯看板</h1>
+      <h1 class="mb-4 text-2xl font-bold">編輯看版</h1>
     </a>
     <form action="{% url 'boards:edit' category.pk %}" method="post" enctype="multipart/form-data" class="space-y-4 ">
       {% csrf_token %}
@@ -33,35 +35,11 @@
         {{ form.rule }}
       </div>
       <div class="mb-4">
-        <label for="status" class="mb-1 text-lg font-medium">看板狀態</label>
+        <label for="status" class="mb-1 text-lg font-medium">看版狀態</label>
         {{ form.status }}
       </div>
       <input type="submit" value="儲存編輯" class="px-4 py-2 text-white bg-orange-500 rounded hover:bg-orange-600">
     </form>
   </div>
 </div>
-
-<script>
-  const previewContainer = document.getElementById('preview-container');
-  const previewImage = document.getElementById('preview');
-  const previewText = document.getElementById('preview-text');
-  const pictureInput = document.getElementById('picture');
-
-  pictureInput.addEventListener('change', function () {
-    const file = this.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function () {
-        previewImage.src = reader.result;
-        previewText.style.display = 'none';
-        previewImage.style.display = 'block';
-      };
-      reader.readAsDataURL(file);
-    } else {
-      previewImage.src = '';
-      previewText.style.display = 'block';
-      previewImage.style.display = 'none';
-    }
-  });
-</script>
 {% endblock %}

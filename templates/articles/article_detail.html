@@ -33,6 +33,10 @@
         <div class="mt-4 prose prose-gray dark:prose-invert">
           <p class="whitespace-pre-line">
             {{ article.content }}
+            {% if article.picture %}
+            <img src="{{ article.picture.url }}" alt="photo" loading="lazy"
+              class="w-[600px] h-[450px] block object-cover object-center border-gray-200">
+            {% endif %}
           </p>
         </div>
         <div class="container flex items-end md:py-2 lg:py-1">

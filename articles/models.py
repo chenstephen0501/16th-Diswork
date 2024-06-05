@@ -52,7 +52,7 @@ class Article(models.Model):
     def save(self, *args, **kwargs):
         if self.picture:
             img = Image.open(self.picture)
-            max_size = (300, 300)
+            max_size = (500, 500)
             img.thumbnail(max_size, Image.LANCZOS)
             thumb_io = BytesIO()
             img_format = "PNG" if img.mode == "RGBA" else "JPEG"
