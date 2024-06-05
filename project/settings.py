@@ -64,7 +64,6 @@ INSTALLED_APPS = [
     "articles",
     "boards",
     "paies",
-    "rules",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
@@ -224,7 +223,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTHENTICATION_BACKENDS = {
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
-    "rules.permissions.ObjectPermissionBackend",
 }
 
 LOGIN_REDIRECT_URL = "/"
