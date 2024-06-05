@@ -1,10 +1,12 @@
 const previewContainer = document.getElementById('preview-container');
 const previewImage = document.getElementById('preview');
 const previewText = document.getElementById('preview-text');
-const pictureInput = document.getElementById('picture');
-
-pictureInput.addEventListener('change', function () {
+const pictureInput = document.getElementById('id_picture');
+console.log("test");
+pictureInput.addEventListener('change', function (e) {
+  console.log("test");
   const file = this.files[0];
+
   if (file) {
     const reader = new FileReader();
     reader.onload = function () {

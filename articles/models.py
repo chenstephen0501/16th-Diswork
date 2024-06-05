@@ -5,6 +5,8 @@ from boards.models import Category
 from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
+import os
+
 
 class ArticleManager(models.Manager):
     def get_queryset(self):
@@ -56,12 +58,16 @@ class Article(models.Model):
             img.thumbnail(max_size, Image.LANCZOS)
             thumb_io = BytesIO()
             img_format = "PNG" if img.mode == "RGBA" else "JPEG"
-            img.save(thumb_io, format=img_format)
+            if img_format == "JPEG":
+                img.save(thumb_io, format=img_format, quality=85)
+            else:
+                img.save(thumb_io, format=img_format)
             thumb_io.seek(0)
             file_extension = "png" if img.mode == "RGBA" else "jpg"
-            new_file_name = f"{self.picture.name.split(".")[0]}_thumb.{file_extension}"
+            new_file_name = f"{self.picture.name.split('.')[0]}_thumb.{file_extension}"
             self.picture.save(new_file_name, ContentFile(thumb_io.read()), save=False)
         super().save(*args, **kwargs)
+
 
 class LikeArticle(models.Model):
     like_article = models.ForeignKey(

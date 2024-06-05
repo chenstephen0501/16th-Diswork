@@ -1,34 +1,58 @@
-{% extends "layouts/base.html" %}
+{% extends "boards/base.html" %}
+{% load static %}
+{% block header %}
+<script src="{% static 'scripts/picture.js' %}" defer></script>
+{% endblock %}
 
 {% block content %}
-
 <div class="flex flex-col items-center justify-center min-h-screen px-4 py-12 sm:px-6 lg:px-8">
-    <div class="w-full max-w-2xl p-8 space-y-8 border border-gray-400 rounded-lg">
-        <div>
-            <h2 class="mt-6 text-2xl font-bold tracking-tight text-center text-gray-800 sm:text-3xl">
-                編輯文章
-            </h2>
-        </div>
-        <form class="space-y-6" action="{% url 'articles:edit' article.id %}" method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div class="mb-4">
-                <div id="preview-container" class="mb-2">
-                    {% if article.picture %}
-                    <img id="preview" src="{{ article.picture.url }}" alt="photo"
-                        class="w-[300px] h-[150px] block object-cover object-center border-gray-200">
-                    {% endif %}
-                </div>
-                <div class="flex justify-center">
-                    <button
-                        class="px-6 py-3 mx-2 text-white bg-gray-300 rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-gray-800"
-                        type="submit" value="新增">儲存</button>
-                    <a href="{% url 'articles:show' article.id %}">
-                        <button type="submit"
-                            class="px-6 py-3 text-white bg-gray-300 rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-gray-800">取消</button>
-                    </a>
-                </div>
-        </form>
+  <div class="w-full max-w-2xl p-8 space-y-8 border border-gray-400 rounded-lg">
+    <div>
+      <h2 class="mt-6 text-2xl font-bold tracking-tight text-center text-gray-800 sm:text-3xl">
+        編輯文章
+      </h2>
     </div>
+    <form class="space-y-6" action="{% url 'articles:edit' article.id %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="mb-4">
+        <label for="id_title" class="block text-sm font-medium text-gray-700">標題</label>
+        <input type="text" name="title" value="{{ form.title.value }}"
+          class="w-full px-4 py-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-600">
+      </div>
+
+      <div class="mb-4">
+        <label for="id_content" class="block text-sm font-medium text-gray-700">內容</label>
+        <textarea name="content"
+          class="peer h-full min-h-[220px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50 bg-white"
+          placeholder="" style="height: 100px">{{ form.content.value }}</textarea>
+      </div>
+
+      <div class="mb-4">
+        <label for="id_picture" class="block text-sm font-medium text-gray-700">文章圖片</label>
+        <input type="file" id="id_picture" name="picture"
+          class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+      </div>
+
+      <div class="mb-4">
+        <div id="preview-container" class="mb-2">
+          {% if article.picture %}
+          <img id="preview" src="{{ article.picture.url }}" alt="photo"
+            class="w-[300px] h-[150px] block object-cover object-center border-gray-200">
+          {% endif %}
+          <p id="preview-text"></p>
+        </div>
+        <div class="flex justify-center">
+          <button
+            class="px-6 py-3 mx-2 text-white bg-gray-300 rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-gray-800"
+            type="submit" value="新增">儲存</button>
+          <a href="{% url 'articles:show' article.id %}">
+            <button type="button"
+              class="px-6 py-3 text-white bg-gray-300 rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-gray-800">取消</button>
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}
