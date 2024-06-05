@@ -1,4 +1,4 @@
-from django.db.models import Exists, OuterRef,Count
+from django.db.models import Exists, OuterRef, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_POST
@@ -143,7 +143,7 @@ def add_like(req, pk):
     article.like_article.add(req.user)
     article.save()
     article.is_like = True
-    return render(req, "shared/like_button.html", {"article": article})
+    return render(req, "articles/shared/like_button.html", {"article": article})
 
 
 @login_required
@@ -153,4 +153,4 @@ def remove_like(req, pk):
     article.like_article.remove(req.user)
     article.save()
     article.is_like = False
-    return render(req, "shared/like_button.html", {"article": article})
+    return render(req, "articles/shared/like_button.html", {"article": article})
