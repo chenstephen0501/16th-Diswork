@@ -6,4 +6,4 @@ def is_friend_user(member_id):
         return False
     return member_id.member_status == 1
 
-rules.add_perm('user_can_show', is_friend_user)
+rules.add_perm('friend_can_show', is_friend_user)

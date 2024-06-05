@@ -6,4 +6,4 @@ def is_article_user(member_id):
         return False
     return member_id.member_status == 1
 
-rules.add_perm('user_can_show', is_article_user)
+rules.add_perm('article_can_show', is_article_user)

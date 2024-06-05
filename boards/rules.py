@@ -1,11 +1,9 @@
 import rules
-from members.models import Member
 
 @rules.predicate
-def is_board_member(user):
-    member = Member.objects.filter(user=user).first()
-    if member and member.member_status == 1:
-        return True
-    else:
+def is_board_user(member_id):
+    if not member_id.is_authenticated:
         return False
-rules.add_perm("boards.create", is_board_member)
+    return member_id.member_status == 1
+
+rules.add_perm('board_can_show', is_board_user)
