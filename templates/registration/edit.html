@@ -1,6 +1,7 @@
 {% extends 'boards/base.html' %}
+{% load static %}
 {% block header %}
-<script src="static/scripts/profile.js" defer></script>
+<script src="{% static 'scripts/profile.js' %}" defer></script>
 {% endblock %}
 {% block content %}
 <div class="max-w-4xl p-6 mx-auto bg-white">
@@ -36,6 +37,11 @@
       </div>
       <button type="submit"
         class="px-4 py-2 font-bold text-white bg-[#FE952A] rounded hover:bg-[#E28426] focus:outline-none focus:shadow-outline">儲存</button>
+      <a href="{% url 'members:profile' user.id %}">
+        <button type="submit"
+          class="px-4 py-2 font-bold text-white bg-gray-400 rounded hover:bg-gray-500 focus:outline-none focus:shadow-outline">取消</button>
+      </a>
+
     </div>
   </form>
 </div>
