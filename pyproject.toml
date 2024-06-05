@@ -24,6 +24,7 @@ pillow = "^10.3.0"
 
 channels = {extras = ["daphne"], version = "^4.1.0"}
 django-extensions = "^3.2.3"
+rules = "^3.4"
 
 [build-system]
 requires = ["poetry-core"]

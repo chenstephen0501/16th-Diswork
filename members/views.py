@@ -22,6 +22,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import get_backends
 from dotenv import load_dotenv
 import os
+import rules
 
 load_dotenv()
 

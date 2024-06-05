@@ -8,7 +8,7 @@ from articles.models import Article
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-
+import rules
 
 @method_decorator(login_required, name="dispatch")
 class CommentListView(ListView):
@@ -27,7 +27,6 @@ class CommentListView(ListView):
         context["form"] = CommentForm()
         return context
 
-
 @method_decorator(login_required, name="dispatch")
 class CommentCreateView(CreateView):
     model = Comment
@@ -37,10 +36,8 @@ class CommentCreateView(CreateView):
     def form_valid(self, form):
         article_id = self.kwargs["pk"]
         article = get_object_or_404(Article, pk=article_id)
-
         form.instance.article = article
         form.instance.member = self.request.user
-
         self.object = form.save()
         return redirect("articles:show", pk=article_id)
 

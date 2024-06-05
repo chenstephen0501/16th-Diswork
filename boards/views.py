@@ -9,6 +9,8 @@ from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.urls import reverse_lazy
 from members.models import Member
+import rules
+from django.contrib.auth.decorators import permission_required
 
 @method_decorator(login_required, name="dispatch")
 class BoardIndexView(ListView):
@@ -51,7 +53,7 @@ class BoardNewView(FormView):
     form_class = CategoryForm
     template_name = "boards/new.html"
 
-
+@permission_required('boards.create', raise_exception=True)
 @login_required
 @require_POST
 def create(req):

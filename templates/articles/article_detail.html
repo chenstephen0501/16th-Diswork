@@ -18,8 +18,7 @@
             <path d="M3 10h18"></path>
           </svg>
           <span class="text-sm text-gray-600">{{ article.created_at }}</span>
-          {% if user.is_authenticated %}
-          {% if user == article.author %}
+          {% if user.is_authenticated and user == article.author %}
           <a href="{% url 'articles:edit' article.id %}">
             <button class="text-sm text-gray-400 hover:text-gray-600">編輯</button>
           </a>
@@ -27,7 +26,6 @@
             {% csrf_token %}
             <button class="text-sm text-gray-400 hover:text-gray-600" type="submit">刪除</button>
           </form>
-          {% endif %}
           {% endif %}
         </div>
         <div class="mt-4 prose prose-gray dark:prose-invert">
