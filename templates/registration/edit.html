@@ -15,7 +15,7 @@
           {% if member.user_img %}
           <img id="preview" src="{{ member.user_img.url }}" alt="photo" class="w-32 h-32 mb-2 rounded-full">
           {% else %}
-          <p id="preview-text">無照片顯示</p>
+          <img class="w-32 h-32 mr-2 border border-black rounded-full" src="/static/image/cathead.png" alt="photo">
           {% endif %}
         </div>
         <input type="file" id="user_img" name="user_img" accept="image/*" class="block w-full text-gray-700 rounded">

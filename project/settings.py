@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-feikv0pwtpq8vslcadt@)&g@h&l2xmp1g)qenll7=fulvih@1g"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -35,7 +35,7 @@ HOST_NAME = os.getenv("HOST_NAME")
 ALLOWED_HOSTS = ["127.0.0.1", HOST_NAME]
 
 CSRF_TRUSTED_ORIGINS = [
-    f'https://{HOST_NAME}',
+    f"https://{HOST_NAME}",
 ]
 
 # Application definition
@@ -152,14 +152,14 @@ DATABASES = {
 }
 
 ENCRYPTION_KEY = {
-    'MERCHANT_ID': os.getenv('MERCHANTID'),
-    'HASH_KEY': os.getenv('HASHKEY'),
-    'HASH_IV': os.getenv('HASHIV'),
-    'VERSION': os.getenv('VERSION'),
-    'RETURN_URL': f"https://{HOST_NAME}/paies/newebpays_return",
-    'NOTIFY_URL': f"https://{HOST_NAME}/paies/newebpays_notify",
-    'PAY_GATEWAY': os.getenv('PAYGATEWAY'),
-    'RESPOND_TYPE': os.getenv('RESPONDTYPE'),
+    "MERCHANT_ID": os.getenv("MERCHANTID"),
+    "HASH_KEY": os.getenv("HASHKEY"),
+    "HASH_IV": os.getenv("HASHIV"),
+    "VERSION": os.getenv("VERSION"),
+    "RETURN_URL": f"https://{HOST_NAME}/paies/newebpays_return",
+    "NOTIFY_URL": f"https://{HOST_NAME}/paies/newebpays_notify",
+    "PAY_GATEWAY": os.getenv("PAYGATEWAY"),
+    "RESPOND_TYPE": os.getenv("RESPONDTYPE"),
 }
 
 
@@ -225,4 +225,4 @@ AUTHENTICATION_BACKENDS = {
     "allauth.account.auth_backends.AuthenticationBackend",
 }
 
-LOGIN_REDIRECT_URL = "/"
+# LOGIN_REDIRECT_URL = "/"
