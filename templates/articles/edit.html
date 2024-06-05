@@ -38,7 +38,7 @@
         <div id="preview-container" class="mb-2">
           {% if article.picture %}
           <img id="preview" src="{{ article.picture.url }}" alt="photo"
-            class="w-[300px] h-[150px] block object-cover object-center border-gray-200">
+            class="w-auto max-h-[500px] block  border-gray-200">
           {% endif %}
           <p id="preview-text"></p>
         </div>

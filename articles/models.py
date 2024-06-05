@@ -5,7 +5,6 @@ from boards.models import Category
 from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
-import os
 
 
 class ArticleManager(models.Manager):
@@ -54,8 +53,18 @@ class Article(models.Model):
     def save(self, *args, **kwargs):
         if self.picture:
             img = Image.open(self.picture)
-            max_size = (500, 500)
-            img.thumbnail(max_size, Image.LANCZOS)
+            max_size = (400, 400)
+            img_ratio = img.width / img.height
+            max_ratio = max_size[0] / max_size[1]
+
+            if img_ratio > max_ratio:
+                new_width = max_size[0]
+                new_height = int(new_width / img_ratio)
+            else:
+                new_height = max_size[1]
+                new_width = int(new_height * img_ratio)
+
+            img = img.resize((new_width, new_height), Image.LANCZOS)
             thumb_io = BytesIO()
             img_format = "PNG" if img.mode == "RGBA" else "JPEG"
             if img_format == "JPEG":
