@@ -17,9 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
         text: message,
         icon: icon,
         confirmButtonColor: '#FE952A',
-        customClass: {
-          confirmButton: 'custom-confirm-button-class'
-        }
       });
       messages[i].style.display = 'none';
     }
