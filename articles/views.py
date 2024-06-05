@@ -100,7 +100,7 @@ def create(request, category_id):
     if form.is_valid():
         article = form.save(commit=False)
         article.author = request.user
-        article.category_id = request.POST.get("category_id")
+        article.category_id = category_id
         article.save()
         return redirect("articles:index", category_id=article.category_id)
     return redirect("articles:new", category_id=request.POST.get("category_id"))
