@@ -14,15 +14,16 @@
   <script src="https://unpkg.com/htmx.org@1.9.12"
     integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
     crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <title>{% block title %} Diswork {% endblock %}</title>
-  {% block head %}
+  {% block header %}
   {% endblock %}
 </head>
 
 <body>
   {% include 'shared/navbar.html' %}
-  {% include 'shared/message.html' %}
   <main>
     {% block content %}
     {% endblock %}

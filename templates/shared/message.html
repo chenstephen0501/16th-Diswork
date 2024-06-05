@@ -1,9 +1,15 @@
+{% block header%}
+<style>
+  .custom-confirm-button-class {
+    border: 1px solid #FE952A;
+  }
+</style>
+{% endblock %}
 {% if messages %}
-<div class="flash" x-show="show" x-data="{show: true}">
+<div id="django-messages" class="flash">
   {% for message in messages %}
-  <p class="{{ message.tags }} px-4 py-2 flex justify-between">
+  <p class="message {{ message.tags }} px-4 py-2 flex justify-between">
     <span>{{ message }}</span>
-    <!-- <button @click="show = false">X</button> -->
   </p>
   {% endfor %}
 </div>

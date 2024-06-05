@@ -3,9 +3,9 @@ from .models import Friend
 from members.models import Member
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
+from django.contrib import messages
 
 
 @method_decorator(login_required, name="dispatch")
@@ -47,7 +47,8 @@ def send_friend_request(req, receiver_id):
         sender_id = req.user.id
         receiver = get_object_or_404(Member, id=receiver_id)
         if sender_id == receiver_id:
-            return HttpResponse("不能向自己發送好友邀請。")
+            messages.error("不能像自己發送好友邀請")
+            return render("friends:member_list")
 
         sender = get_object_or_404(Member, id=sender_id)
 
@@ -55,10 +56,12 @@ def send_friend_request(req, receiver_id):
             sender=sender, receiver=receiver
         )
         if created:
-            return HttpResponse("好友邀請已發送！")
+            messages.success(req, "好友邀請已發送！")
+            return render(req, "friends/search_list.html")
         else:
-            return HttpResponse("好友邀請已經發送過了！")
-    return redirect("friends:friend_list")
+            messages.error(req, "好友邀請已經發送過了！")
+            return render(req, "friends/search_list.html")
+    return redirect("friends:member_list")
 
 
 @login_required
@@ -66,7 +69,8 @@ def accept_friend_request(req, friend_request_id):
     try:
         friend_request = Friend.objects.get(id=friend_request_id, status="1")
     except Friend.DoesNotExist:
-        return HttpResponse("好友邀請不存在或已處理。")
+        messages.error(req, "好友邀請已經發送過了！")
+        return render(req, "friends/search_list.html")
 
     if friend_request.receiver == req.user:
         sender = friend_request.sender
@@ -79,9 +83,11 @@ def accept_friend_request(req, friend_request_id):
         friend_request.status = "2"
         friend_request.save()
 
-        return HttpResponse("好友邀請已接受！")
+        messages.success(req, "好友邀請已接受")
+        return render(req, "friends/friend_list.html")
     else:
-        return HttpResponse("好友邀請未被接受。")
+        messages.error(req, "好友邀請已接受")
+        return render(req, "friends/friend_list.html")
 
 
 @login_required
@@ -91,8 +97,6 @@ def reject_friend_request(req, friend_request_id):
         if friend_request.receiver == req.user:
             friend_request.status = "3"
             friend_request.save()
-            return HttpResponse("好友邀請已拒絕。")
-        return HttpResponse("好友邀請未被拒絕。")
     return redirect("friend_requests")
 
 
