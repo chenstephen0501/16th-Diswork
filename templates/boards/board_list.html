@@ -47,11 +47,13 @@
           <div class="flex items-end text-sm text-gray-500 ">
             <span>板主：{{ category.member }}</span>
           </div>
+          {% if user.member_status == "1" and category.member.id == user.id %}
           <div>
             <a href="{% url 'boards:edit' pk=category.pk %}">
               <button class="px-2 py-1 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">編輯</button>
             </a>
           </div>
+          {% endif %}
         </div>
       </div>
     </div>
