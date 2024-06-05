@@ -1,4 +1,4 @@
-from django.db.models import Exists, OuterRef, Count
+from django.db.models import Exists, OuterRef,Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_POST
@@ -17,14 +17,11 @@ from members.models import Member
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
     model = Article
-    boards_model = Category
     template_name = "articles/index.html"
 
     def get_queryset(self):
         category_id = self.kwargs.get("category_id")
-        return Article.objects.filter(category_id=category_id).annotate(
-            like_count=Count("article")
-        )
+        return Article.objects.with_count().filter(category_id=category_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -38,13 +35,12 @@ class ArticleIndexView(ListView):
 class NewView(FormView):
     template_name = "articles/new.html"
     form_class = ArticleForm
+    success_url = reverse_lazy("articles:index")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["category"] = get_object_or_404(
-            Category, id=self.kwargs.get("category_id")
-        )
-        return context
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["author"] = self.request.user.username
+        return initial
 
     def form_valid(self, form):
         article = form.save(commit=False)
@@ -53,11 +49,18 @@ class NewView(FormView):
         article.save()
         return redirect("articles:index", category_id=self.kwargs.get("category_id"))
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["author"] = self.request.user
+        context["category"] = get_object_or_404(
+            Category, id=self.kwargs.get("category_id")
+        )
+        return context
+
 
 @method_decorator(login_required, name="dispatch")
 class ShowView(DetailView):
     model = Article
-    boards_model = Category
     extra_context = {"comment_form": CommentForm()}
 
     def get_initial(self):
@@ -78,7 +81,7 @@ class ShowView(DetailView):
         ).values("pk")
         comments_with_likes = self.object.comments.annotate(
             is_like=Exists(like_comment_subquery), like_count=Count("like_comment")
-        )
+        ).prefetch_related("member")
         context["comments"] = comments_with_likes
         context["comment_form"] = CommentForm(initial={"member": self.request.user.id})
         context["category_list"] = Category.objects.all()
@@ -103,7 +106,8 @@ def create(request, category_id):
         article.category_id = category_id
         article.save()
         return redirect("articles:index", category_id=article.category_id)
-    return redirect("articles:new", category_id=request.POST.get("category_id"))
+    return redirect("articles:new", category_id=category_id)
+
 
 
 @method_decorator(login_required, name="dispatch")
@@ -114,7 +118,6 @@ class ArticleUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("articles:show", kwargs={"pk": self.object.id})
-
 
 @login_required
 def edit(request, id):
@@ -140,7 +143,7 @@ def add_like(req, pk):
     article.like_article.add(req.user)
     article.save()
     article.is_like = True
-    return render(req, "articles/shared/like_button.html", {"article": article})
+    return render(req, "shared/like_button.html", {"article": article})
 
 
 @login_required
@@ -150,4 +153,4 @@ def remove_like(req, pk):
     article.like_article.remove(req.user)
     article.save()
     article.is_like = False
-    return render(req, "articles/shared/like_button.html", {"article": article})
+    return render(req, "shared/like_button.html", {"article": article})
