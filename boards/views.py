@@ -9,8 +9,9 @@ from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.urls import reverse_lazy
 from members.models import Member
-import rules
+from django.http import Http404
 from django.contrib.auth.decorators import permission_required
+from django.core.exceptions import PermissionDenied
 
 @method_decorator(login_required, name="dispatch")
 class BoardIndexView(ListView):
@@ -74,7 +75,12 @@ class BoardUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("boards:list")
-
+    
+    def get_object(self, queryset=None):
+        obj = super(BoardUpdateView, self).get_object(queryset=queryset)
+        if obj != self.request.user:
+            raise PermissionDenied()
+        return obj
 
 @method_decorator(login_required, name="dispatch")
 class BoardDeleteView(DeleteView):

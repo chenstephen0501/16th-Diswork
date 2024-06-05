@@ -9,6 +9,8 @@ from .models import Member
 from .forms import MemberUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import Http404, HttpResponseForbidden
+from django.core.exceptions import PermissionDenied
 
 # csrf_exempt - wu 2024/05/16增加csrf_exempt
 from django.utils.decorators import method_decorator
@@ -22,10 +24,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import get_backends
 from dotenv import load_dotenv
 import os
-import rules
 
 load_dotenv()
-
 
 @login_required
 def subscribe(request):
@@ -98,7 +98,12 @@ class ProfileView(DetailView):
     model = Member
     template_name = "registration/profile.html"
     context_object_name = "member"
-
+    
+    def get_object(self, queryset=None):
+        obj = super(ProfileView, self).get_object(queryset=queryset)
+        if obj != self.request.user:
+            raise PermissionDenied()
+        return obj
 
 @method_decorator(login_required, name="dispatch")
 class MemberUpdateView(UpdateView):
@@ -112,8 +117,11 @@ class MemberUpdateView(UpdateView):
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get("pk")
-        return Member.objects.get(pk=pk)
-
+        obj = Member.objects.get(pk=pk)
+        if obj != self.request.user:
+            raise PermissionDenied()
+        return obj
+    
 
 def activate(request, uidb64, token):
     try:

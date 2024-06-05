@@ -19,10 +19,7 @@
       <a href="{% url 'articles:index' category.id %}">
         {% if category.picture %}
         <div class="aspect-video ">
-          <<<<<<< HEAD <img src="{{ category.picture.url }}" class="object-cover object-center w-full h-full">
-            =======
-            <img src="{{ category.picture.url }}" class="w-full h-full object-center object-cover">
-            >>>>>>> 7543e88 (rules)
+          <img src="{{ category.picture.url }}" class="object-cover object-center w-full h-full">
         </div>
         {% else %}
         <div class="aspect-video as b">

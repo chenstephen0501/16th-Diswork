@@ -12,7 +12,7 @@ from django.utils.decorators import method_decorator
 from comments.models import LikeComment
 from boards.models import Category
 from .models import Category
-import rules
+from django.http import Http404
 
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
@@ -118,6 +118,12 @@ class ArticleUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("articles:show", kwargs={"pk": self.object.id})
+    
+    def get_object(self, queryset=None):
+        obj = super(ArticleUpdateView, self).get_object(queryset=queryset)
+        if obj != self.request.user:
+            return Http404("")
+        return obj
 
 @login_required
 def edit(request, id):
