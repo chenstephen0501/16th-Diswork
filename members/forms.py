@@ -61,7 +61,7 @@ class SignUpForm(UserCreationForm):
         if email_domain not in allowed_domains:
             allowed_domains_str = ", ".join(allowed_domains)
             raise forms.ValidationError(
-                f"只接受以下域名的郵箱註冊：{allowed_domains_str}。"
+                f"只接受以下信箱進行註冊：{allowed_domains_str}。"
             )
         return email
 
