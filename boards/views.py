@@ -1,5 +1,5 @@
 from django.db.models.query import QuerySet
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from .models import Category
 from .forms import CategoryForm
 from django.views.generic import ListView, FormView, DetailView, UpdateView, DeleteView
@@ -53,6 +53,16 @@ class BoardDetailView(DetailView):
 class BoardNewView(FormView):
     form_class = CategoryForm
     template_name = "boards/new.html"
+    
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+        try:
+            member = Member.objects.get(username=user.username)
+        except Member.DoesNotExist:
+            raise PermissionDenied()
+        if member.member_status != "1":
+            return render(request, "403.html", {"member_status":False})
+        return super(BoardNewView, self).dispatch(request, *args, **kwargs)
 
 @permission_required('boards.create', raise_exception=True)
 @login_required

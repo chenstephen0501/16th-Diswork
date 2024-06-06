@@ -14,7 +14,7 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-LOGIN_URL = "/members/login/"
+LOGIN_URL = "/"
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,7 +32,7 @@ DEBUG = True
 
 HOST_NAME = os.getenv("HOST_NAME")
 
-ALLOWED_HOSTS = ["127.0.0.1", HOST_NAME]
+ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [
     f"https://{HOST_NAME}",
@@ -70,6 +70,16 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # 第三方登入
 SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": ["profile", "email"],
+        "APP": {
+            "client_id": os.getenv("GOOGLE_CLIENT_ID"),
+            "secret": os.getenv("GOOGLE_CLIENT_SECRET"),
+        },
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    },
     "line": {
         "APP": {
             "client_id": os.getenv("LINE_CLIENT_ID"),
@@ -77,20 +87,7 @@ SOCIALACCOUNT_PROVIDERS = {
         },
         "SCOPE": ["profile", "openid", "email"],
     },
-    "google": {
-        "SCOPE": ["profile", "email"],
-        "AUTH_PARAMS": {
-            "access_type": "online",
-            "prompt": "consent",
-        },
-        "APP": {
-            "client_id": os.getenv("GOOGLE_CLIENT_ID"),
-            "secret": os.getenv("GOOGLE_CLIENT_SECRET"),
-            "key": "",
-        },
-    },
 }
-SOCIALACCOUNT_AUTO_SIGNUP = False
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -225,4 +222,5 @@ AUTHENTICATION_BACKENDS = {
     "allauth.account.auth_backends.AuthenticationBackend",
 }
 
+SITE_ID = int(os.getenv("SITE_ID", 1))
 LOGIN_REDIRECT_URL = "/"

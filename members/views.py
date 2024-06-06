@@ -11,12 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import Http404, HttpResponseForbidden
 from django.core.exceptions import PermissionDenied
-
-# csrf_exempt - wu 2024/05/16增加csrf_exempt
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-
-# email check start
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
@@ -63,7 +58,7 @@ class LogoutView(TemplateView):
         return redirect("root")
 
 
-@method_decorator(csrf_exempt, name="dispatch")
+
 class RegisterView(FormView):
     template_name = "registration/register.html"
     form_class = SignUpForm
