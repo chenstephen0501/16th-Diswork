@@ -15,6 +15,14 @@
           <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
           {% endif %}
           <div class="text-gray-800">{{ friend.sender.username }}</div>
+
+          <section>
+              <div class="py-2 border-2 border-solid">{{friend.sender.id}}
+                  <a class="" href="{% url 'chats:private_message_receiver' friend.sender.id %}">{{friend.sender.username}}</a>
+              </div>
+                  <button type="button"></button>
+          </section> 
+
           {% else %}
           {% if friend.receiver.user_img %}
           <img src="{{ friend.receiver.user_img.url }}" alt="photo"
@@ -23,13 +31,26 @@
           <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
           {% endif %}
           <div class="text-gray-800">{{ friend.receiver.username }}</div>
+
+          <section>
+              <div class="py-2 border-2 border-solid">{{friend.receiver.id}}
+                  <a class="" href="{% url 'chats:private_message_receiver' friend.receiver.id %}">{{friend.receiver.username}}</a>
+              </div>
+                  <button type="button"></button>
+          </section> 
+
           {% endif %}
         </div>
         <div class="flex items-center flex-shrink-0 mr-2 space-x-2">
+
+          
+           
+
           <a href="#" class="pt-2">
             <span class="text-gray-500 hover:text-gray-700 material-symbols-outlined"
               style="font-size: 30px;">sms</span>
           </a>
+
           <div x-data="{ isOpen: false }" class="relative">
             <button @click="isOpen = !isOpen"
               class="pt-1 text-gray-500 hover:text-gray-700 material-symbols-outlined focus:outline-none"

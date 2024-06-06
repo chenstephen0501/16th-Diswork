@@ -8,7 +8,15 @@ from channels.db import database_sync_to_async
 class PrivateChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
-    
+        self.room_group_name = 'chat_%s' % self.room_name
+        print("connect")
+        print(self.room_group_name )
+        # Join room group
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+
         @sync_to_async
         def get_room_name(room_name):
             PrivateChatRoom.objects.get_or_create(room_name = room_name, defaults = {"room_name": room_name})
@@ -18,7 +26,13 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        pass
+        print("disconnect")
+        # Leave room group
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+        # pass
 
     @database_sync_to_async
     def get_private_room_id(self):
@@ -29,6 +43,9 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json["message"]
         self.private_room_id = await self.get_private_room_id()
 
+        print(message)
+        print("receiver")
+
         @database_sync_to_async
         def create_message(self, data):
             PrivateMessage.objects.create(
@@ -38,9 +55,20 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
                 private_room_id = self.private_room_id,
             )
         
+        async def send_message_to_room(self, data):
+            await self.channel_layer.group_send(
+                    self.room_group_name,
+                {
+                    "type": "chat_message",
+                    "sender_id" : data["senderId"],
+                    "receiver_id" : data["receiverId"],
+                    "content" : data["message"],
+                    "private_room_id" : self.private_room_id,
+                }
+            )
+
         await create_message(self, text_data_json)
+        await send_message_to_room(self, text_data_json)
 
     async def chat_message(self, event):
-        message = event["message"]
-
-        await self.send(text_data=json.dumps({"message": message}))
+        await self.send(text_data=json.dumps({**event}))
