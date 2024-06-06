@@ -6,6 +6,7 @@
     background: var(--g), var(--g), var(--g);
     background-size: 30px 30px;
     animation: l10 1.5s infinite;
+    z-index: 9999,
 }
 
 @keyframes l10 {

@@ -1,4 +1,9 @@
 {% extends "boards/base.html" %}
+{% load static %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'styles/loading.css' %}">
+<script src="{% static 'scripts/picture.js' %}" defer></script>
+{% endblock %}
 
 {% block content %}
 <div class="relative block max-w-2xl p-6 mx-auto rounded-md" style="height: calc(100vh - 96.97px);">

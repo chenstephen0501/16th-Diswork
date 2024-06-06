@@ -5,7 +5,6 @@
 <script src="{% static 'scripts/loading.js' %}" defer></script>
 <script src="{% static 'scripts/picture.js' %}" defer></script>
 {% endblock %}
-
 {% block content %}
 <div class="relative block max-w-2xl p-6 mx-auto rounded-md" style="height: calc(100vh - 96.97px);">
   <div class="flex flex-col w-full">
@@ -15,38 +14,46 @@
         <span class="px-4 py-2 ml-2 text-sm text-white rounded-md btn-system-color">
           {{ user.username }}</span></label>
     </div>
-    <form action="{% url 'boards:add' %}" method="post" enctype="multipart/form-data" class="space-y-2">
+    <form id="editProfileForm" action="{% url 'boards:add' %}" method="post" enctype="multipart/form-data"
+      class="space-y-2">
       {% csrf_token %}
       <div class="my-2">
         <label for="title" class="block mb-1 text-base font-medium text-black">看版</label>
         {{ form.title }}
       </div>
-      <div class="my-2">
+      <div class="flex flex-col items-end w-full gap-6">
+        <div class="relative w-full min-w-[200px]">
+          {{ form.rule }}
+          <label
+            class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+            {{ form.rule.label }}
+          </label>
+        </div>
+      </div>
+      <div>
         <label class="block mb-1 text-base font-medium text-black" for="id_picture">
           {{ form.picture.label}}</label>
         {{ form.picture }}
       </div>
       <div class="mb-2">
         <div id="preview-container" class="mb-2">
-          {% if article.picture %}
-          <img id="preview" src="{{ article.picture.url }}" alt="photo"
-            class="w-auto max-h-[500px] block  border-gray-200">
-          {% endif %}
+          {% if category.picture %}
+          <img id="preview" src="{{ category.picture.url }}" alt="photo"
+            class="w-auto max-h-[500px] block border-gray-200">
+          {% else %}
           <p id="preview-text"></p>
+          {% endif %}
         </div>
-        <div class="flex justify-end gap-2">
-          <a class="inline-flex items-center justify-center px-2 py-2 text-sm text-gray-500 rounded-md hover:text-gray-300"
-            value="取消" href="{% url 'boards:list' %}">上一頁</a>
-          <button
-            class="inline-flex items-center justify-center px-4 py-2 mr-3 text-sm text-white rounded-md btn-system-color hover:bg-sky-400"
-            type="submit" value="新增">新增</button>
-        </div>
+      </div>
+      <div class="flex justify-end gap-2">
+        <a class="inline-flex items-center justify-center px-2 py-2 text-sm text-gray-500 rounded-md hover:text-gray-300"
+          value="取消" href="{% url 'boards:list' %}">上一頁</a>
+        <button id="saveButton"
+          class="inline-flex items-center justify-center px-4 py-2 mr-3 text-sm text-white rounded-md btn-system-color hover:bg-sky-400"
+          type="submit" value="新增">新增</button>
+      </div>
     </form>
   </div>
 </div>
-<div id="loading-overlay" class="fixed top-0 left-0 z-50 hidden w-full h-full bg-black opacity-50"></div>
-<div id="loading-spinner" class="absolute z-50 hidden transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-  <div class="loader"></div>
-</div>
-</div>
+<div class="loader"></div>
 {% endblock %}

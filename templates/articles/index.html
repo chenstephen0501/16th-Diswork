@@ -18,7 +18,7 @@
         <img class="block object-cover w-12 h-12 rounded-full" src="{{ category.picture.url }}"
           class="object-cover w-full h-full">
         {% else %}
-        <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-full h-full rounded-full">
+        <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-12 h-12 rounded-full">
         {% endif %}
         <h1 class="ml-3 text-2xl">{{ category.title }}</h1>
       </div>

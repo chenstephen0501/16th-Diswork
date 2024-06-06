@@ -14,6 +14,7 @@ from boards.models import Category
 from .models import Category
 from django.http import Http404
 
+
 @method_decorator(login_required, name="dispatch")
 class ArticleIndexView(ListView):
     model = Article
@@ -21,7 +22,12 @@ class ArticleIndexView(ListView):
 
     def get_queryset(self):
         category_id = self.kwargs.get("category_id")
-        return Article.objects.with_count().filter(category_id=category_id).annotate(like_count=Count("like_article", distinct=True)).order_by("-like_count")
+        return (
+            Article.objects.with_count()
+            .filter(category_id=category_id)
+            .annotate(like_count=Count("like_article", distinct=True))
+            .order_by("-like_count")
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -117,7 +123,7 @@ class ArticleUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("articles:show", kwargs={"pk": self.object.id})
-    
+
     def get_object(self, queryset=None):
         obj = super(ArticleUpdateView, self).get_object(queryset=queryset)
         if obj.author != self.request.user:
