@@ -13,8 +13,8 @@
       <p class="text-lg font-medium">所有看板</p>
     </div>
     {% for category in category_list %}
-    <a class="w-full" href="{% url 'articles:index' category.id %}">
-      <div class="flex items-center overflow-hidden py-2 my-2 forum_list md:flex-row" href="{% url 'articles:index' category.id %}">
+    <div class="flex w-full items-center justify-between">
+      <a class="flex items-center  flex-1 overflow-hidden py-2 my-2 forum_list md:flex-row" href="{% url 'articles:index' category.id %}">
         <div class="w-12 aspect-square rounded-full overflow-hidden forum_list_pic">
           {% if category.picture %}
             <img src="{{ category.picture.url }}" class="object-cover w-full h-full">
@@ -24,19 +24,24 @@
         </div>
 
         <div class="flex flex-1 items-center justify-between category_card">
-          <div class="text-lg font-medium forum_list_title ml-5">
+          <div class="flex-1 text-lg font-medium list-title ml-5">
             {{ category.title }}
           </div>
-          <div class="flex items-center gap-3">
-            <span class="text-sm text-gray-500">板主：{{ category.member }}</span>
-            <div href="{% url 'boards:edit' pk=category.pk %}">
-              <button class="px-2 py-1 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">進入看板</button>
-              {% if user.member_status == "1" and category.member.id == user.id %}
-            </div>
-          </div>
+          <span class="text-sm text-gray-500">板主：{{ category.member }}</span>
         </div>
+      </a>
+      <div class="ml-4">
+        {% if user.member_status == "1" and category.member.id == user.id %}
+          <a href="{% url 'boards:edit' pk=category.pk %}">
+            <button class="px-2 py-1 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">編輯</button>
+          </a>
+        {% else %}
+          <a href="{% url 'articles:index' category.id %}">
+            <button class="px-2 py-1 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">進入看板</button>
+          </a>
+        {% endif %}
       </div>
-    </a>
+    </div>
     {% endfor %}
   </div>
 
