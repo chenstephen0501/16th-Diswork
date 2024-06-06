@@ -9,9 +9,6 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = 'chat_%s' % self.room_name
-        print("connect")
-        print(self.room_group_name )
-        # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
@@ -26,13 +23,10 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        print("disconnect")
-        # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
-        # pass
 
     @database_sync_to_async
     def get_private_room_id(self):
@@ -40,11 +34,7 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json["message"]
         self.private_room_id = await self.get_private_room_id()
-
-        print(message)
-        print("receiver")
 
         @database_sync_to_async
         def create_message(self, data):
