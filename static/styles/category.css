@@ -1,5 +1,48 @@
 
 
 .category-list.active {
-    background: #f97316;
+    background: #111827;
+    
+}
+
+.aspect-16-4 {
+    aspect-ratio: 16 / 4;
+}
+
+.border-b-1 {
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.article-filter-btn {
+    position: relative;
+    line-height: 60px;
+    padding: 0 16px;
+}
+.article-filter-btn.active::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    left: 0;
+    bottom: -1px;
+    background: #3397cf;
+}
+
+.list-title, .list-content {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+/* <a href="{% url 'boards:new' %}" class="px-4 py-3 text-white bg-orange-500 rounded hover:bg-orange-600">新增看板</a> */
+.board-aside-list-icon {
+    width: 28px;
+    fill: #fff;
+}
+
+.board-aside-list-btn {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding: 0 12px 0 20px;
 }
