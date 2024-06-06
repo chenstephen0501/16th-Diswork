@@ -27,13 +27,14 @@
             <div class="flex flex-col justify-between flex-1 pr-3 overflow-hidden">
               <div class="text-lg font-semibold forum_list_title">
                 <div class="text-lg text-black list-title">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum officia quidem tenetur saepe perspiciatis, {{ article.title }}
+                  {{ article.title }}
                 </div>
               </div>
-              <div class="my-2 text-sm text-gray-600 list-content">咖啡電子避免熱線眼光有什麼，區別溫度相對合作忽然草魚概念相對業績十年百姓孤獨，如有顧客終於表明，感到受傷一支到處{{ article.content }}
+              <div class="my-2 text-sm text-gray-600 list-content">
+                {{ article.content }}
               </div>
               <div class="inline-flex w-full text-sm gap-3">
-                <p class="">留言: 2123{{article.comment_count}}</p>
+                <p>留言: {{article.comment_count}}</p>
                 <p>讚數: {{article.like_count}}</p>
               </div>
             </div>
@@ -44,81 +45,6 @@
                 </div>
               </div>
             {% endif %}
-          </a>
-          <a href="{% url 'articles:show' article.id %}" class="flex w-full items-center py-5 border-b-1">
-            
-            <div class="flex flex-col justify-between flex-1 pr-3 overflow-hidden">
-              <div class="text-lg font-semibold forum_list_title">
-                <div class="text-black hover:underline">
-                  {{ article.title }}
-                </div>
-              </div>
-              <div class="my-2 overflow-hidden text-sm text-gray-600 whitespace-nowrap text-ellipsis">{{ article.content }}
-              </div>
-              <div class="inline-flex w-full text-sm gap-3">
-                <p class="">留言: 2123{{article.comment_count}}</p>
-                <p>讚數: {{article.like_count}}</p>
-              </div>
-            </div>
-            <div class="w-[70px] md:w-[84px] ml-4 md:ml-6">
-              <div class="w-full aspect-square rounded-lg overflow-hidden">
-                {% if article.picture %}
-                <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
-                {% else %}
-                <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-full h-full">
-                {% endif %}
-              </div>
-            </div>
-          </a>
-          <a href="{% url 'articles:show' article.id %}" class="flex w-full items-center py-5 border-b-1">
-            
-            <div class="flex flex-col justify-between flex-1 pr-3 overflow-hidden">
-              <div class="text-lg font-semibold forum_list_title">
-                <div class="text-black hover:underline">
-                  {{ article.title }}
-                </div>
-              </div>
-              <div class="my-2 overflow-hidden text-sm text-gray-600 whitespace-nowrap text-ellipsis">{{ article.content }}
-              </div>
-              <div class="inline-flex w-full text-sm gap-3">
-                <p class="">留言: 2123{{article.comment_count}}</p>
-                <p>讚數: {{article.like_count}}</p>
-              </div>
-            </div>
-            <div class="w-[70px] md:w-[84px] ml-4 md:ml-6">
-              <div class="w-full aspect-square rounded-lg overflow-hidden">
-                {% if article.picture %}
-                <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
-                {% else %}
-                <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-full h-full">
-                {% endif %}
-              </div>
-            </div>
-          </a>
-          <a href="{% url 'articles:show' article.id %}" class="flex w-full items-center py-5 border-b-1">
-            
-            <div class="flex flex-col justify-between flex-1 pr-3 overflow-hidden">
-              <div class="text-lg font-semibold forum_list_title">
-                <div class="text-black hover:underline">
-                  {{ article.title }}
-                </div>
-              </div>
-              <div class="my-2 overflow-hidden text-sm text-gray-600 whitespace-nowrap text-ellipsis">{{ article.content }}
-              </div>
-              <div class="inline-flex w-full text-sm gap-3">
-                <p class="">留言: 2123{{article.comment_count}}</p>
-                <p>讚數: {{article.like_count}}</p>
-              </div>
-            </div>
-            <div class="w-[70px] md:w-[84px] ml-4 md:ml-6">
-              <div class="w-full aspect-square rounded-lg overflow-hidden">
-                {% if article.picture %}
-                <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
-                {% else %}
-                <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-full h-full">
-                {% endif %}
-              </div>
-            </div>
           </a>
         </div>
     
