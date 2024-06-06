@@ -80,14 +80,7 @@
               <p>留言: {{article.comment_count}}</p>
               <p>讚數: {{article.like_count}}</p>
             </div>
-          </div>
-          {% if article.picture %}
-          <div class="w-[70px] md:w-[84px] ml-4 md:ml-6">
-            <div class="w-full overflow-hidden rounded-lg aspect-square">
-              <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="object-cover w-full h-full">
-            </div>
-          </div>
-          {% endif %}
+            {% endif %}
         </a>
       </div>
     </div>
