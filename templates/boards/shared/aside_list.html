@@ -14,26 +14,28 @@
                 </span>
                 <p class="text-base text-white pl-2">新增看板</p>
             </a>
-            {% if user.is_authenticated %}
-                <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="#">
-                    <span class="material-symbols-outlined board-aside-list-icon">
-                        calendar_month
-                    </span>
-                    <p class="text-base text-white pl-2">活動日曆</p>
-                </a>
-                {% if user.member_status == "1" %}
-                    <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="#">
+            {% if category.id != None %}
+                {% if user.is_authenticated %}
+                    <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="{% url 'events:calendar' category.id %}">
                         <span class="material-symbols-outlined board-aside-list-icon">
-                            event_note
+                            calendar_month
                         </span>
-                        <p class="text-base text-white pl-2">活動列表</p>
+                        <p class="text-base text-white pl-2">活動日曆</p>
                     </a>
-                    <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="#">
-                        <span class="material-symbols-outlined board-aside-list-icon">
-                            calendar_add_on
-                        </span>
-                        <p class="text-base text-white pl-2">新增活動</p>
-                    </a>
+                    {% if user.member_status == "1" %}
+                        <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="{% url 'events:list' category.id %}">
+                            <span class="material-symbols-outlined board-aside-list-icon">
+                                event_note
+                            </span>
+                            <p class="text-base text-white pl-2">活動列表</p>
+                        </a>
+                        <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="{% url 'events:new' category.id %}">
+                            <span class="material-symbols-outlined board-aside-list-icon">
+                                calendar_add_on
+                            </span>
+                            <p class="text-base text-white pl-2">新增活動</p>
+                        </a>
+                    {% endif %}
                 {% endif %}
             {% endif %}
 
