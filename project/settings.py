@@ -41,6 +41,7 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 INSTALLED_APPS = [
     "daphne",
+    "chats",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -56,7 +57,6 @@ INSTALLED_APPS = [
     "storages",
     "members",
     "news",
-    "chats",
     "tasks",
     "events",
     "friends",
@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "articles",
     "boards",
     "paies",
+    "channels",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
@@ -124,12 +125,7 @@ WSGI_APPLICATION = "project.wsgi.application"
 ASGI_APPLICATION = "project.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [
-                (os.getenv("CHANNEL_LAYERS_URL"), os.getenv("CHANNEL_LAYERS_PORT"))
-            ],
-        },
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
 }
 
