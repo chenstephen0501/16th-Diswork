@@ -109,7 +109,6 @@ def create(request, category_id):
     return redirect("articles:new", category_id=category_id)
 
 
-
 @method_decorator(login_required, name="dispatch")
 class ArticleUpdateView(UpdateView):
     model = Article
@@ -125,6 +124,7 @@ class ArticleUpdateView(UpdateView):
             return Http404("")
         return obj
 
+
 @login_required
 def edit(request, id):
     article = get_object_or_404(Article, pk=id)
@@ -138,8 +138,8 @@ class DeleteView(DeleteView):
     model = Article
 
     def get_success_url(self):
-        messages.success(self.request, "已刪除")
-        return reverse("articles:index")
+        category_id = self.object.category.id
+        return reverse("articles:index", kwargs={"category_id": category_id})
 
 
 @login_required
