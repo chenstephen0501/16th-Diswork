@@ -3,9 +3,8 @@
 
 {% block content %}
 <div class="flex justify-center">
-  <div class="mt-2 text-center">
-    <h1 class="text-2xl">版主大大你好</h1>
-    <p>以下是您板上的活動</p>
+  <div class="sticky top-0 text-2xl font-bold text-gray-800 bg-white">
+    <h1 class="text-2xl">{{ category.title }}版 活動列表</h1>
   </div>
 </div>
 {% for event in event_list %}
