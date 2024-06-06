@@ -21,7 +21,7 @@ class ArticleIndexView(ListView):
 
     def get_queryset(self):
         category_id = self.kwargs.get("category_id")
-        return Article.objects.with_count().filter(category_id=category_id)
+        return Article.objects.filter(category_id=category_id).annotate(like_count=Count("like_article")).order_by("-like_count")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

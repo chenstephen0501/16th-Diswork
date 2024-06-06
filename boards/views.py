@@ -21,7 +21,9 @@ class BoardIndexView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         keyword = self.request.GET.get("keyword", "").strip()
-        return queryset.filter(title__icontains=keyword)
+        if keyword:
+            queryset = queryset.filter(tittle__icontains=keyword)
+        return queryset.order_by("-created_at")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
