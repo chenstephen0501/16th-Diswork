@@ -3,12 +3,12 @@
 {% include 'friends/navbar.html' %}
 <div class="flex items-center justify-center w-full ">
 	<div class="w-full overflow-hidden bg-white rounded-md">
-		<div class="flex items-center justify-between px-4 py-2 text-gray-500 border-b border-gray-300">
+		<div class="flex items-center justify-between px-4 py-2 font-normal text-black border-b border-gray-300">
 			<div class="flex items-center">
 				<img src="https://via.placeholder.com/32" alt="Profile Picture" class="w-12 h-12 mr-2 rounded-full">
 				<div>
 					<h2 class="text-lg">{{ user.name }}</h2>
-					<p class="text-sm text-gray-400">{{ user.username }}</p>
+					<p class="text-sm text-gray-500">{{ user.username }}</p>
 				</div>
 			</div>
 			<div x-data="{ showDropdown: false }">
