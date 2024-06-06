@@ -1,93 +1,94 @@
-{% extends 'layouts/base.html' %}
+{% extends 'boards/base.html' %}
 {% block content %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
-</head>
-<body>
-    
-    <h2>使用者: {{user.username}}</h2>
-    <p>聊天室代號: {{room_name}}</p>
-    <section  class=" ">
-        <div class="w-6/12 border-2 border-yellow-500 mx-auto flex flex-col">
-            {% for message in private_messages %}
-                {% if message.sender.id == user.id %}
-                <div class="mt-3 self-start">
-                    {% if message.sender.user_img %}
-                    <img src="{{ message.sender.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
-                    {% else %}
-                    <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
-                    {% endif %}
-                    <p>發話者: {{message.sender}}</p>
-                    <p>內容: {{message.content}}</p>
-                    <p>時間: {{message.created_at}}</p>
-                </div>
-                {% else %}
-                <div class="mt-3 self-end">
-                    {% if message.sender.user_img %}
-                    <img src="{{ message.sender.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
-                    {% else %}
-                    <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
-                    {% endif %}
-                    <p>發話者: {{message.sender}}</p>
-                    <p>內容: {{message.content}}</p>
-                    <p>時間: {{message.created_at}}</p>
-                </div>
-                {% endif %}
-            {% endfor %}
-            <input type="text" id="chat-message-userId" value="{{user.id}}">
-            <textarea id="chat-log" cols="2" rows="2"></textarea><br>
-            <input id="chat-message-input" type="text" size="10"><br>
-            <input id="chat-message-submit" type="button" value="Send">
-        </div>
-    </section>
-    {{ room_name|json_script:"room-name" }}
-    <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+{% include 'friends/navbar.html' %}
+<div class="flex items-center justify-center w-full ">
+	<div class="w-full overflow-hidden bg-white rounded-md">
+		<div class="flex items-center justify-between px-4 py-2 text-gray-500 border-b border-gray-300">
+			<div class="flex items-center">
+				<img src="https://via.placeholder.com/32" alt="Profile Picture" class="w-12 h-12 mr-2 rounded-full">
+				<div>
+					<h2 class="text-lg">{{ user.name }}</h2>
+					<p class="text-sm text-gray-400">{{ user.username }}</p>
+				</div>
+			</div>
+			<div x-data="{ showDropdown: false }">
+				<button @click="showDropdown = !showDropdown" class="focus:outline-none">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+					</svg>
+				</button>
+				<div x-show="showDropdown" @click.away="showDropdown = false"
+					class="absolute py-2 mt-2 bg-white rounded-md shadow-md">
+					<a href="#"
+						class="inline-block px-2 py-1 text-sm font-light text-red-600 hover:text-red-800">刪除好友</a>
+				</div>
+			</div>
+		</div>
+		<div class="flex-1 p-2 border-t border-b border-gray-300">
+			<div id="chat-log" class="overflow-y-auto rounded-md h-80"></div>
+		</div>
+		<div class="flex h-20 p-4">
+			<input type="text" id="chat-message-userId" value="{{ user.id }}" hidden>
+			<input id="chat-message-input" type="text" placeholder="輸入訊息..."
+				class="flex-1 px-2 rounded-md focus:outline-none">
+			<button id="chat-message-submit"
+				class="bg-[#3397cf] text-white font-light px-4 rounded-md hover:bg-sky-400">送出</button>
+		</div>
+	</div>
+	{{ room_name|json_script:"room-name" }}
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded', (event) => {
+		const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/chat/'
-            + roomName
-            + '/'
-        );
+		const chatSocket = new WebSocket(
+			'ws://'
+			+ window.location.host
+			+ '/ws/chat/'
+			+ roomName
+			+ '/'
+		);
 
-        chatSocket.onmessage = function(e) {          
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.content + '\n' + data.created_at + '\n');
-        };
+		chatSocket.onmessage = function (e) {
+			const data = JSON.parse(e.data);
+			const chatLog = document.querySelector('#chat-log');
+			const messageElement = document.createElement('div');
+			messageElement.classList.add('p-2', 'border-b', 'border-gray-200', 'bg-white', 'rounded-md', 'mb-2', 'shadow-sm');
+			messageElement.textContent = data.message;
+			chatLog.appendChild(messageElement);
+			chatLog.scrollTop = chatLog.scrollHeight;
+		};
 
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
+		chatSocket.onclose = function (e) {
+			console.error('Chat socket closed unexpectedly');
+		};
 
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.key === 'Enter') {  
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
+		const messageInputDom = document.querySelector('#chat-message-input');
+		const messageSubmitDom = document.querySelector('#chat-message-submit');
+		const userId = document.querySelector("#chat-message-userId").value;
 
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            const currentUserId = document.querySelector("#chat-message-userId").value
-            const privateUsers = roomName.split("_")
-            const receiverId = privateUsers[0] == currentUserId ? privateUsers[1] : privateUsers[0]
+		messageInputDom.focus();
+		messageInputDom.onkeyup = function (e) {
+			if (e.key === 'Enter') {
+				messageSubmitDom.click();
+			}
+		};
 
-            chatSocket.send(JSON.stringify({
-                "senderId": currentUserId,
-                "receiverId": receiverId,
-                "message": message
-            }));
-            
-            messageInputDom.value = '';
-        };
-    </script>
-</body>
-</html>
+		messageSubmitDom.onclick = function (e) {
+			const message = messageInputDom.value;
+			const privateUsers = roomName.split("_");
+			const receiverId = privateUsers[0] == userId ? privateUsers[1] : privateUsers[0];
 
+			chatSocket.send(JSON.stringify({
+				"senderId": userId,
+				"receiverId": receiverId,
+				"message": message
+			}));
+
+			messageInputDom.value = '';
+		};
+	});
+</script>
 {% endblock %}
