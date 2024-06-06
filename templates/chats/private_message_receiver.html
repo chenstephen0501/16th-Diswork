@@ -2,8 +2,6 @@
 {% block content %}
 
 <div>
-    <h1>接收者: {{receiver}} | {{receiver.id}} </h1>
-    <p>當下使用者: {{user.id}} | {{user.name}} | {{user.email}}</p>
     <h1>private_message</h1>
     <br>What chat room would you like to enter?<br>
     <input id="room-name-input" type="text" size="100" hidden value="{{user.id}},{{receiver.id}}"><br>
