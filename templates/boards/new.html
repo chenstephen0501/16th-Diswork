@@ -7,7 +7,8 @@
     <h1 class="inline-block pb-4 mb-4 text-2xl border-b-2 border-black">新增看版</h1>
     <div class="flex items-center">
       <label for="member" class="block mb-1 text-base font-medium text-black">版主:
-        <span class="px-4 py-2 ml-2 text-sm text-white rounded-md btn-system-color">{{ user.username }}</span></label>
+        <span class="px-4 py-2 ml-2 text-sm text-white rounded-md btn-system-color">
+          {{ user.username }}</span></label>
     </div>
     <form action="{% url 'boards:add' %}" method="post" enctype="multipart/form-data" class="space-y-2">
       {% csrf_token %}

@@ -1,40 +1,32 @@
 {% extends "boards/base.html" %}
-{% load static %}
-{% block header %}
-<script src="{% static 'scripts/picture.js' %}" defer></script>
-{% endblock %}
 
 {% block content %}
-<div class="flex flex-col items-center justify-center min-h-screen px-4 py-12 sm:px-6 lg:px-8">
-  <div class="w-full max-w-2xl p-8 space-y-8 border border-gray-400 rounded-lg">
-    <div>
-      <h2 class="mt-6 text-2xl font-bold tracking-tight text-center text-gray-800 sm:text-3xl">
-        編輯文章
-      </h2>
-    </div>
-    <form class="space-y-6" action="{% url 'articles:edit' article.id %}" method="POST" enctype="multipart/form-data">
+<div class="relative block max-w-2xl p-6 mx-auto rounded-md" style="height: calc(100vh - 96.97px);">
+  <div class="flex flex-col w-full">
+    <h2 class="inline-block pb-4 mb-2 text-2xl border-b-2 border-black">編輯文章</h2>
+    <form class="space-y-4" action="{% url 'articles:edit' article.id %}" method="POST">
       {% csrf_token %}
-
-      <div class="mb-4">
-        <label for="id_title" class="block text-sm font-medium text-gray-700">標題</label>
-        <input type="text" name="title" value="{{ form.title.value }}"
-          class="w-full px-4 py-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-600">
+      <div class="my-2">
+        <label class="block mb-1 text-base font-medium text-black" for="id_title">
+          {{ form.title.label }}</label>
+        {{ form.title }}
       </div>
-
-      <div class="mb-4">
-        <label for="id_content" class="block text-sm font-medium text-gray-700">內容</label>
-        <textarea name="content"
-          class="peer h-full min-h-[220px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50 bg-white"
-          placeholder="" style="height: 100px">{{ form.content.value }}</textarea>
+      <div class="flex flex-col items-end w-full gap-6 mt-3">
+        <div class="relative w-full min-w-[200px]">
+          {{ form.content }}
+          <label
+            class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+            {{ form.content.label }}
+          </label>
+        </div>
       </div>
-
-      <div class="mb-4">
-        <label for="id_picture" class="block text-sm font-medium text-gray-700">文章圖片</label>
-        <input type="file" id="id_picture" name="picture"
-          class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+      <div>
+        <label class="block mb-1 text-base font-medium text-black" for="id_picture">
+          {{ form.picture.label}}</label>
+        {{ form.picture }}
+        <input type="hidden" id="id_picture" name="picture">
       </div>
-
-      <div class="mb-4">
+      <div class="mb-2">
         <div id="preview-container" class="mb-2">
           {% if article.picture %}
           <img id="preview" src="{{ article.picture.url }}" alt="photo"
@@ -42,7 +34,7 @@
           {% endif %}
           <p id="preview-text"></p>
         </div>
-        <div class="flex justify-center">
+        <<<<<<< HEAD <div class="flex justify-center">
           <button
             class="px-6 py-3 mx-2 text-white bg-gray-300 rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-gray-800"
             type="submit" value="新增">儲存</button>
@@ -50,9 +42,16 @@
             <button type="button"
               class="px-6 py-3 text-white bg-gray-300 rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-gray-800">取消</button>
           </a>
-        </div>
       </div>
-    </form>
   </div>
+  <div class="flex justify-end gap-2 mb-4">
+    <a class="inline-flex items-center justify-center px-2 py-2 text-sm text-gray-500 rounded-md hover:text-gray-300"
+      value="取消" href="{% url 'articles:show' article.pk %}">上一頁</a>
+    <button
+      class="inline-flex items-center justify-center px-4 py-2 mr-3 text-sm text-white rounded-md btn-system-color hover:bg-sky-400"
+      type="submit" value="儲存">儲存</button>
+  </div>
+  </form>
+</div>
 </div>
 {% endblock %}
