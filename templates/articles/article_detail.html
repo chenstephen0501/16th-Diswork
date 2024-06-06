@@ -5,13 +5,13 @@
 {% block content %}
 <div class="relative block w-full h-screen overflow-auto bg-opacity-60">
   <div class="w-full h-full bg-white mx-auto flex flex-col">
-    <div class="flex sticky top-0 w-full items-center px-4 py-2 bg-white border-b-2">
+    <div class="flex sticky top-0 w-full md:w-4/5 md:mx-auto items-center px-4 md:px-0 py-2 md:pb-4 bg-white border-b-1">
       <img class="block w-8 h-8 object-cover rounded-full" src="{% static 'image/defaultImage.jpg' %}" alt="">
       <h4 class="text-lg font-bold text-gray-800 ml-4">{{ article.category.title }}</h4>
     </div>
     <div class="flex-1 overflow-scroll">
-      <div class="px-4 py-2 space-y-2">
-        <h1 class="text-2xl font-bold text-gray-800">{{ article.title }}</h1>
+      <div class="p-4 md:py-0">
+        <h1 class="text-2xl pt-4 mb-3 font-bold text-gray-800">{{ article.title }}</h1>
         <div class="flex items-center justify-between space-x-1">
           <div class="flex items-center gap-3">
             <img class="block w-8 h-8 object-cover rounded-full" src="{% static 'image/defaultImage.jpg' %}" alt="">
@@ -34,22 +34,35 @@
             {% endif %}
           </div>
         </div>
-        <div class="mt-4 prose prose-gray dark:prose-invert">
-          <p class="whitespace-pre-line">
+        <div class="mt-4 prose prose-gray py-5">
+          <p class="">
             {{ article.content }}
-            {% if article.picture %}
-            <img src="{{ article.picture.url }}" alt="photo" loading="lazy"
-              class="w-auto max-h-[500px] block  border-gray-200">
-            {% endif %}
           </p>
         </div>
-        <div class="container flex items-end md:py-2 lg:py-1">
-          <div class="ml-auto">
+      </div>
+
+      <div class="flex items-center justify-between px-4 md:py-2">
+        <div class="flex w-full justify-between pt-4 pb-3 border-t-1">
+          <div class="flex flex-1 items-center text-sm">
+            <div class="flex items-center gap-1">
+              <span class="material-symbols-outlined">
+                favorite
+              </span>
+              123{{article.like_count}}
+            </div>
+            <p class="">｜留言  23{{article.comment_count}}</p>
+          </div>
+          <div class="">
             {% include 'articles/shared/like_button.html' %}
           </div>
         </div>
+      </div>
+      
+      <div class="w-full px-4 bg-slate-300"><p class="pt-7 pb-2 text-sm">共 {{article.comment_count}} 則留言</p></div>
+
+      <div class="px-4">
         {% for comment in comments %}
-        <div class="w-full mx-auto mb-2 bg-white rounded-lg shadow-md">
+        <div class="w-full mx-auto border-b-1 bg-white pt-5 pb-4">
           <div class="px-4 py-2">
             <div class="flex items-center">
               {% if comment.member.user_img %}
