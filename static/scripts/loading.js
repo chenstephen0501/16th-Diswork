@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('editProfileForm');
+    const form = document.getElementById('editForm');
     const saveButton = document.getElementById('saveButton');
     const spinner = document.getElementById('loading-spinner');
     const overlay = document.getElementById('loading-overlay');
