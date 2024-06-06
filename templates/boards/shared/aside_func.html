@@ -1,44 +1,21 @@
 <aside class="absolute md:relative bg-[#01314D] w-[300px] h-full overflow-hidden top-0 right-[-100%] md:right-0">
-  <div class="flex flex-col w-full h-full p-5 mr-auto">
-    <div class="flex flex-col head-block">
-      {% if category.id != None %}
-      <a href="{% url 'events:calendar' category.id %}"
-        class="flex items-center gap-2 p-3 text-lg text-white transition ease-linear delay-75 border-white rounded-md hover:bg-orange-500">
-        <span class="material-symbols-outlined">
-          event_available</span>活動日曆
-      </a>
-      {% if user.member_status == "1" %}
-      <a href="{% url 'events:list' category.id %}"
-        class="flex items-center gap-2 p-3 text-lg text-white transition ease-linear delay-75 border-white rounded-md hover:bg-orange-500">
-        <span class="material-symbols-outlined">
-          event_note
-        </span>活動列表
-      </a>
-      <a href="{% url 'events:new' category.id %}"
-        class="flex items-center gap-2 p-3 text-lg text-white transition ease-linear delay-75 border-white rounded-md hover:bg-orange-500">
-        <span class="material-symbols-outlined">
-          calendar_add_on
-        </span>新增活動
-      </a>
-      {% endif %}
-      {% endif %}
-      {% if category.id != None %}
-      <a href="{% url 'articles:new' category.id %}"
-        class="flex items-center gap-2 p-3 text-lg text-white transition ease-linear delay-75 border-white rounded-md hover:bg-orange-500">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
-          <path d="M5 12h14"></path>
-          <path d="M12 5v14"></path>
-        </svg>
-        新增文章
-      </a>
-      {% endif %}
-      <p class="block py-2 text-white border-white text-md">版規</p>
-    </div>
-    <div class="h-full overflow-hidden">
-      <div
-        class="body-block h-full overflow-y-scroll [&>div>a:hover]:bg-white [&>div>a:hover]:text-black [&>div>a]:rounded-sm [&>div>a]:p-2 [&>div>a]:my-2">
-        <p class="p-2 bg-white rounded-md">{{ category.rule }}</p>
+  <div class="flex flex-col w-full h-full mt-5 mr-auto">
+    <div class="over-hidden">
+
+      <div class="w-full h-64 bg-gray-900">
+  
+      </div>
+      <div class="w-full h-64 bg-gray-900">
+  
+      </div>
+      <div class="w-full h-64 bg-gray-900">
+  
+      </div>
+      <div class="w-full h-64 bg-gray-900">
+  
+      </div>
+      <div class="w-full h-64 bg-gray-900">
+  
       </div>
     </div>
   </div>
