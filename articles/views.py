@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, FormView, DetailView, DeleteView, UpdateView
-from django.contrib import messages
 from .models import Article, LikeArticle
 from .forms import ArticleForm
 from comments.forms import CommentForm
@@ -98,7 +97,6 @@ class ShowView(DetailView):
         form = CommentForm(request.POST, instance=article)
         if form.is_valid():
             form.save()
-            messages.success(request, "更新成功")
         return redirect("articles:show", pk=article.id)
 
 

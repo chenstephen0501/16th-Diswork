@@ -1,15 +1,21 @@
 {% extends 'boards/base.html' %}
+
 {% load static %}
+
 {% block header %}
+<link rel="stylesheet" href="{% static 'styles/loading.css' %}">
+<script src="{% static 'scripts/loading.js' %}" defer></script>
 <script src="{% static 'scripts/picture.js' %}" defer></script>
 {% endblock %}
+
 {% block content %}
 <div class="flex justify-center">
   <div class="w-full p-8 lg:w-2/3 xl:w-1/2">
     <a href="{% url 'boards:list' %}" class="text-orange-500 hover:text-orange-600">
       <h1 class="mb-4 text-2xl font-bold">編輯看版</h1>
     </a>
-    <form action="{% url 'boards:edit' category.pk %}" method="post" enctype="multipart/form-data" class="space-y-4 ">
+    <form id="editForm" action="{% url 'boards:edit' category.pk %}" method="post" enctype="multipart/form-data"
+      class="space-y-4 ">
       {% csrf_token %}
       <div>
         <label for="picture" class="mb-1 text-lg font-medium">看版圖片：</label>
@@ -38,8 +44,13 @@
         <label for="status" class="mb-1 text-lg font-medium">看版狀態</label>
         {{ form.status }}
       </div>
-      <input type="submit" value="儲存編輯" class="px-4 py-2 text-white bg-orange-500 rounded hover:bg-orange-600">
+      <input id="saveButton" type="submit" value="儲存編輯"
+        class="px-4 py-2 text-white bg-orange-500 rounded hover:bg-orange-600">
     </form>
   </div>
+</div>
+<div id="loading-overlay" class="fixed top-0 left-0 z-50 hidden w-full h-full bg-black opacity-50"></div>
+<div id="loading-spinner" class="absolute z-50 hidden transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+  <div class="loader"></div>
 </div>
 {% endblock %}
