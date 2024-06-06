@@ -2,9 +2,9 @@ const previewContainer = document.getElementById('preview-container');
 const previewImage = document.getElementById('preview');
 const previewText = document.getElementById('preview-text');
 const pictureInput = document.getElementById('id_picture');
-console.log("test");
-pictureInput.addEventListener('change', function (e) {
-  console.log("test");
+
+pictureInput.addEventListener('change', function () {
+
   const file = this.files[0];
 
   if (file) {
