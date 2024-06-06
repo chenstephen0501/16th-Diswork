@@ -1,13 +1,13 @@
 <div id="like-btn" class="flex items-end gap-2">
     {% if article.is_like %}
-    <form id="remover-btn" hx-post="{% url 'articles:remove_like' article.id %}" hx-target="#like-btn" hx-throttle="500ms" hx-swap="outerHTML" class="w-6 h-6">
+    <form id="remover-btn" hx-post="{% url 'articles:remove_like' article.id %}" hx-target="#like-btn" hx-throttle="500ms" hx-swap="outerHTML">
         {% csrf_token %}
-        <button type="submit" class="material-symbols-outlined text-2xl text-black duration-150 ease-linear leading-none active:bg-slate-700 focus:outline-none focus:shadow-sky-800">favorite</button>
+        <button type="submit" class="material-symbols-outlined like-btn text-2xl leading-none text-white duration-150 ease-linear">favorite</button>
         </form>
         {% else %}
-    <form id="add-btn" hx-post="{% url 'articles:add_like' article.id %}" hx-target="#like-btn" hx-throttle="500ms" hx-swap="outerHTML" class="w-6 h-6">
+    <form id="add-btn" hx-post="{% url 'articles:add_like' article.id %}" hx-target="#like-btn" hx-throttle="500ms" hx-swap="outerHTML">
         {% csrf_token %}
-        <button type="submit" class="material-symbols-outlined text-2xl text-black duration-150 ease-linear leading-none active:bg-slate-700 focus:outline-none focus:shadow-sky-800">favorite</button>
+        <button type="submit" class="material-symbols-outlined like-btn text-2xl leading-none bg-transparent duration-150 ease-linear">favorite</button>
     </form>
     {% endif %}
 </div>

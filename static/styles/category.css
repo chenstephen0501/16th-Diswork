@@ -52,3 +52,12 @@
     height: 44px;
     padding: 0 12px 0 20px;
 }
+
+.like-btn {
+    color: #333;
+    font-size: 20px;
+    border-radius: 50%;
+    background: #EB5E5F;
+    padding: 6px;
+    line-height: 1;
+}

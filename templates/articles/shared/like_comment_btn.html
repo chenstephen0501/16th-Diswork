@@ -2,16 +2,16 @@
   
   {% if comment.is_like %}
   <form hx-post="{% url 'comments:remove_like' comment.id %}" hx-throttle="500ms"
-    hx-target="#like_comment_btn-{{comment.id}}" hx-swap="outHTML" class="w-5 h-5">
+    hx-target="#like_comment_btn-{{comment.id}}" hx-swap="outHTML">
     {% csrf_token %}
-    <button class="material-symbols-outlined text-xl text-black duration-150 ease-linear leading-none active:bg-slate-700 focus:outline-none focus:shadow-sky-800">favorite</button>
+    <button class="material-symbols-outlined like-btn text-white duration-150 ease-linear">favorite</button>
   </form>
   {% else %}
   <form hx-post="{% url 'comments:add_like' comment.id %}" hx-throttle="500ms"
-    hx-target="#like_comment_btn-{{comment.id}}" hx-swap="outHTML" class="w-5 h-5">
+    hx-target="#like_comment_btn-{{comment.id}}" hx-swap="outHTML">
     {% csrf_token %}
-    <button class="material-symbols-outlined text-xl text-black duration-150 ease-linear leading-none active:bg-slate-700 focus:outline-none focus:shadow-sky-800">favorite</button>
+    <button class="material-symbols-outlined like-btn bg-transparent duration-150 ease-linear">favorite</button>
   </form>
   {% endif %}
-  <p class="leading-none">{{comment.like_count}}</p>
+  <p class="flex-1 leading-none">{{comment.like_count}}</p>
 </div>
