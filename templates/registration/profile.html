@@ -23,7 +23,8 @@
     <div class="mb-6">
       <div class="flex items-center mb-2">
         <h3 class="text-2xl font-semibold">個人資料</h3>
-        <a href="{% url 'members:edit' pk=member.pk %}" class="ml-4 text-orange-500 hover:underline">修改</a>
+        <a href="{% url 'members:edit' pk=member.pk %}"
+          class="px-2 py-1 ml-4 text-base text-white rounded-md btn-system-color hover:bg-sky-400">修改</a>
       </div>
       <div class="p-5 mt-3 bg-gray-100 rounded-lg">
         <div class="mb-4">

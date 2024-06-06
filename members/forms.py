@@ -4,55 +4,46 @@ from .models import Member
 
 
 class SignUpForm(UserCreationForm):
-    name = forms.CharField(
-        label="暱稱",
-        widget=forms.TextInput(
-            attrs={
-                "class": "p-2 border-2 border-gray-300 w-full",
-                "placeholder": "請輸入暱稱",
-            }
-        ),
-    )
-    username = forms.CharField(
-        label="帳號",
-        widget=forms.TextInput(
-            attrs={
-                "class": "p-2 border-2 border-gray-300 w-full",
-                "placeholder": "請輸入帳號",
-            }
-        ),
-    )
-    email = forms.CharField(
-        label="信箱",
-        widget=forms.EmailInput(
-            attrs={
-                "class": "p-2 border-2 border-gray-300 w-full",
-                "placeholder": "請輸入信箱",
-            }
-        ),
-    )
-    password1 = forms.CharField(
-        label="密碼",
-        widget=forms.PasswordInput(
-            attrs={
-                "class": "p-2 border-2 border-gray-300 w-full",
-                "placeholder": "請輸入密碼",
-            }
-        ),
-    )
-    password2 = forms.CharField(
-        label="密碼確認",
-        widget=forms.PasswordInput(
-            attrs={
-                "class": "p-2 border-2 border-gray-300 w-full",
-                "placeholder": "確認密碼",
-            }
-        ),
-    )
-
     class Meta:
         model = Member
         fields = ("name", "username", "email", "password1", "password2", "user_img")
+        widgets = {
+            "name": forms.TextInput(
+                attrs={
+                    "class": "p-2 border-2 border-gray-300 w-full",
+                    "placeholder": "請輸入暱稱",
+                }
+            ),
+            "username": forms.TextInput(
+                attrs={
+                    "class": "p-2 border-2 border-gray-300 w-full",
+                    "placeholder": "請輸入帳號",
+                }
+            ),
+            "email": forms.EmailInput(
+                attrs={
+                    "class": "p-2 border-2 border-gray-300 w-full",
+                    "placeholder": "請輸入信箱",
+                }
+            ),
+            "password1": forms.PasswordInput(
+                attrs={
+                    "class": "p-2 border-2 border-gray-300 w-full",
+                    "placeholder": "請輸入密碼",
+                }
+            ),
+            "password2": forms.PasswordInput(
+                attrs={
+                    "class": "p-2 border-2 border-gray-300 w-full",
+                    "placeholder": "確認密碼",
+                }
+            ),
+            "user_img": forms.FileInput(
+                attrs={
+                    "class": "mx-1 border-2 border-gray-300",
+                }
+            ),
+        }
 
     def clean_email(self):
         email = self.cleaned_data["email"]
@@ -81,7 +72,36 @@ class MemberUpdateForm(UserChangeForm):
     )
     user_img = forms.ImageField(label="上傳頭貼", required=False)
     password = None
+    email = None
 
     class Meta:
         model = Member
         fields = ("name", "username", "email", "user_img")
+        labels = {
+            "name": "暱稱",
+            "username": "帳號",
+            "email": "信箱",
+            "user_img": "頭貼",
+        }
+        widgets = {
+            "name": forms.TextInput(
+                attrs={
+                    "class": "mx-1 border-2 border-gray-300",
+                }
+            ),
+            "username": forms.TextInput(
+                attrs={
+                    "class": "mx-1 border-2 border-gray-300",
+                }
+            ),
+            "email": forms.EmailInput(
+                attrs={
+                    "class": "mx-1 border-2 border-gray-300",
+                }
+            ),
+            "user_img": forms.FileInput(
+                attrs={
+                    "class": "block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-400 file:text-white hover:file:bg-[#3397cf]"
+                },
+            ),
+        }

@@ -91,6 +91,7 @@ class RegisterView(FormView):
 
 class ProfileView(DetailView):
     model = Member
+    form_class = MemberUpdateForm
     template_name = "registration/profile.html"
     context_object_name = "member"
     
