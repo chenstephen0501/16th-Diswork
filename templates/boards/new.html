@@ -2,31 +2,41 @@
 {% block title %}討論板{% endblock %}
 
 {% block content %}
-<div class="flex justify-center mt-2">
-  <div class="w-full p-8 lg:w-2/3 xl:w-1/2">
-    <h1 class="mb-4 text-2xl font-bold text-orange-500">新增看板</h1>
-    <form action="{% url 'boards:add' %}" method="post" enctype="multipart/form-data" class="space-y-4">
+<div class="relative block max-w-2xl p-6 mx-auto rounded-md" style="height: calc(100vh - 96.97px);">
+  <div class="flex flex-col w-full">
+    <h1 class="inline-block pb-4 mb-4 text-2xl border-b-2 border-black">新增看版</h1>
+    <div class="flex items-center">
+      <label for="member" class="block mb-1 text-base font-medium text-black">版主:
+        <span class="px-4 py-2 ml-2 text-sm text-white rounded-md btn-system-color">{{ user.username }}</span></label>
+    </div>
+    <form action="{% url 'boards:add' %}" method="post" enctype="multipart/form-data" class="space-y-2">
       {% csrf_token %}
-      <div>
-        <label for="picture" class="mb-1 text-lg font-medium">看版圖片：</label>
-        <input type="file" id="picture" name="picture" accept="image/*" class="border-solid">
+      <div class="my-2">
+        <label class="block mb-1 text-base font-medium text-black" for="id_picture">
+          {{ form.picture.label}}</label>
+        {{ form.picture }}
       </div>
-      <div class="mb-4">
-        <label for="title" class="mb-1 text-lg font-medium">看版</label>
+      <div class="my-2">
+        <label for="title" class="block mb-1 text-base font-medium text-black">看版</label>
         {{ form.title }}
       </div>
-      <div class="mb-4">
-        <label for="member"  class="mb-1 text-lg font-medium">版主: {{user.username}}</label>
+      <div class="flex flex-col items-end w-full gap-6">
+        <div class="relative w-full min-w-[200px]">
+          {{ form.rule }}
+          <label
+            class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+            {{ form.rule.label }}
+          </label>
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="rule" class="mb-1 text-lg font-medium">版規</label>
-        {{ form.rule }}
+
+      <div class="flex justify-end gap-2">
+        <a class="inline-flex items-center justify-center px-2 py-2 text-sm text-gray-500 rounded-md hover:text-gray-300"
+          value="取消" href="{% url 'boards:list' %}">上一頁</a>
+        <button
+          class="inline-flex items-center justify-center px-4 py-2 mr-3 text-sm text-white rounded-md btn-system-color hover:bg-sky-400"
+          type="submit" value="新增">新增</button>
       </div>
-      <div class="mb-4">
-        <label for="status" class="mb-1 text-lg font-medium">看板狀態</label>
-        {{ form.status }}
-      </div>
-      <input type="submit" value="新增" class="px-4 py-2 text-white bg-orange-500 rounded hover:bg-orange-600">
     </form>
   </div>
 </div>
