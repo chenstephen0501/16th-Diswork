@@ -25,6 +25,7 @@
                 </span>
                 <p class="pl-2 text-base text-white">活動日曆</p>
             </a>
+
             {% if user.member_status == "1" %}
             <a class="flex items-center pl-5 pr-3 h-11 hover:bg-gray-900" href="{% url 'events:list' category.id %}">
                 <span class="material-symbols-outlined board-aside-list-icon">
@@ -50,8 +51,13 @@
                     <a class="flex items-center gap-2 text-base text-white category-list board-aside-list-btn"
                         href="{% url 'articles:index' category.id %}" id="category_{{category.id}}"
                         data-state="inactive">
-                        <img class="block object-cover rounded-full w-7 h-7" src="{% static 'image/defaultImage.jpg' %}"
-                            alt="">
+                        {% if category.picture %}
+                        <img class="block object-cover rounded-full w-7 h-7" src="{{ category.picture.url }}"
+                            class="object-cover w-full h-full">
+                        {% else %}
+                        <img src="{% static 'image/defaultImage.jpg' %}" alt=""
+                            class="object-cover rounded-full w-7 h-7">
+                        {% endif %}
                         {{ category.title }}
                     </a>
                     {% endfor %}
