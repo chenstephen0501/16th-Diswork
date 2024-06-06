@@ -30,5 +30,3 @@ class CategoryForm(forms.ModelForm):
                 },
             ),
         }
-
-        # required=False,
