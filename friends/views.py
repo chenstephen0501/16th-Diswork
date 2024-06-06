@@ -47,7 +47,7 @@ def send_friend_request(req, receiver_id):
         sender_id = req.user.id
         receiver = get_object_or_404(Member, id=receiver_id)
         if sender_id == receiver_id:
-            messages.error("不能像自己發送好友邀請")
+            messages.error("不能向自己發送好友邀請")
             return render("friends:member_list")
 
         sender = get_object_or_404(Member, id=sender_id)
