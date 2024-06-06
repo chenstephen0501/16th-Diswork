@@ -34,10 +34,13 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
-/* <a href="{% url 'boards:new' %}" class="px-4 py-3 text-white bg-orange-500 rounded hover:bg-orange-600">新增看板</a> */
+
 .board-aside-list-icon {
     width: 28px;
+    height: 28px;
+    font-size: 28px;
     fill: #fff;
+    color: #fff;
 }
 
 .board-aside-list-btn {
