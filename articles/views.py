@@ -121,7 +121,7 @@ class ArticleUpdateView(UpdateView):
     
     def get_object(self, queryset=None):
         obj = super(ArticleUpdateView, self).get_object(queryset=queryset)
-        if obj != self.request.user:
+        if obj.author != self.request.user:
             return Http404("")
         return obj
 
