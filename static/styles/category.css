@@ -1,8 +1,9 @@
-
-
 .category-list.active {
     background: #111827;
-    
+}
+
+.btn-system-color {
+    background: #3397cf;
 }
 
 .aspect-16-4 {
@@ -21,6 +22,7 @@
     line-height: 60px;
     padding: 0 16px;
 }
+
 .article-filter-btn.active::after {
     content: '';
     display: block;
@@ -32,7 +34,8 @@
     background: #3397cf;
 }
 
-.list-title, .list-content {
+.list-title,
+.list-content {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
