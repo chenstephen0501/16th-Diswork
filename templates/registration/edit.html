@@ -38,12 +38,12 @@
         <input type="email" id="email" name="email" readonly value="{{ member.email }}" class="w-full px-3 py-2 ">
       </div>
       <div class="flex justify-end mt-4 space-x-4">
-        <button id="saveButton" type="submit"
-          class="px-4 py-2 text-base text-white bg-[#3397cf] rounded hover:bg-sky-300 focus:outline-none focus:shadow-outline">儲存</button>
         <a href="{% url 'members:profile' user.id %}">
           <button type="button"
             class="inline-flex items-center justify-center py-2 mr-2 text-base text-gray-500 rounded-md hover:text-gray-300">取消</button>
         </a>
+        <button id="saveButton" type="submit"
+          class="px-4 py-2 text-base text-white bg-[#3397cf] rounded hover:bg-sky-300 focus:outline-none focus:shadow-outline">儲存</button>
       </div>
     </div>
   </form>

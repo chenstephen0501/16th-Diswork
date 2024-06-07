@@ -5,6 +5,14 @@ from boards.models import Category
 from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
+import os
+import uuid
+
+
+def upload_to(instance, filename):
+    _, ext = os.path.splitext(filename)
+    filename = f"{uuid.uuid4().hex}{ext}"
+    return f"images/{filename}"
 
 
 class ArticleManager(models.Manager):
@@ -39,7 +47,7 @@ class Article(models.Model):
         settings.AUTH_USER_MODEL, through="LikeArticle", related_name="like_article"
     )
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
-    picture = models.ImageField(null=True, blank=True, upload_to="images/")
+    picture = models.ImageField(null=True, blank=True, upload_to=upload_to)
 
     objects = ArticleManager()
 
@@ -51,30 +59,21 @@ class Article(models.Model):
         self.save()
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         if self.picture:
             img = Image.open(self.picture)
             max_size = (400, 400)
-            img_ratio = img.width / img.height
-            max_ratio = max_size[0] / max_size[1]
-
-            if img_ratio > max_ratio:
-                new_width = max_size[0]
-                new_height = int(new_width / img_ratio)
-            else:
-                new_height = max_size[1]
-                new_width = int(new_height * img_ratio)
-
-            img = img.resize((new_width, new_height), Image.LANCZOS)
-            thumb_io = BytesIO()
+            img.thumbnail(max_size, Image.LANCZOS)
             img_format = "PNG" if img.mode == "RGBA" else "JPEG"
+            thumb_io = BytesIO()
             if img_format == "JPEG":
                 img.save(thumb_io, format=img_format, quality=85)
             else:
                 img.save(thumb_io, format=img_format)
             thumb_io.seek(0)
-            file_extension = "png" if img.mode == "RGBA" else "jpg"
-            new_file_name = f"{self.picture.name.split('.')[0]}_thumb.{file_extension}"
-            self.picture.save(new_file_name, ContentFile(thumb_io.read()), save=False)
+            self.picture.save(
+                self.picture.name, ContentFile(thumb_io.read()), save=False
+            )
         super().save(*args, **kwargs)
 
 
