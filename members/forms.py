@@ -79,7 +79,7 @@ class MemberUpdateForm(UserChangeForm):
         label="信箱：",
         widget=forms.EmailInput(attrs={"class": "mx-1 border-2 border-gray-300"}),
     )
-    user_img = forms.ImageField(label="上傳頭貼")
+    user_img = forms.ImageField(label="上傳頭貼", required=False)
     password = None
 
     class Meta:

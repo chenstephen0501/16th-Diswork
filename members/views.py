@@ -117,6 +117,12 @@ class MemberUpdateView(UpdateView):
             raise PermissionDenied()
         return obj
     
+    def for_valid(self, form):
+        member = form.save(commit=False)
+        if not form.cleaned_data["user_img"]:
+            member.user_img = self.get_object().user_img
+        member.save()
+        return super().form_valid(form)
 
 def activate(request, uidb64, token):
     try:
