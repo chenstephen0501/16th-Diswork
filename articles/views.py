@@ -33,6 +33,7 @@ class ArticleIndexView(ListView):
         context["category"] = get_object_or_404(
             Category, id=self.kwargs.get("category_id")
         )
+        context["category_list"] = Category.objects.all()
         return context
 
 

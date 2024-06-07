@@ -25,6 +25,7 @@ class CalendarView(ListView):
         context = super().get_context_data(**kwargs)
         category_id = self.kwargs.get('category_id')
         context['category'] = get_object_or_404(Category, id=category_id)
+        context["category_list"] = Category.objects.all()
         return context
 
     
@@ -40,6 +41,7 @@ class EventListView(ListView):
         context = super().get_context_data(**kwargs)
         category_id = self.kwargs.get("category_id")
         context["category"] = get_object_or_404(Category, id=category_id)
+        context["category_list"] = Category.objects.all()
         return context
 
 @method_decorator(login_required, name="dispatch")
@@ -55,6 +57,7 @@ class NewView(FormView):
         context = super().get_context_data(**kwargs)
         category_id = self.kwargs.get("category_id")
         context["category"] = get_object_or_404(Category, id=category_id)
+        context["category_list"] = Category.objects.all()
         return context
 
     def form_valid(self, form):
