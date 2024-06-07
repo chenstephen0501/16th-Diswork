@@ -48,7 +48,6 @@ class CommentCreateView(CreateView):
             comment_html = render_to_string(
                 "articles/shared/comment.html", {"comments": comments}
             )
-            print(type(comment_html))
             return JsonResponse({"comment_html": comment_html})
         else:
             return redirect("articles:show", pk=article_id)
