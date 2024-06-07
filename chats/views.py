@@ -2,9 +2,11 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import ChatGroup
+from .models import ChatGroup, PrivateChatRoom, PrivateMessage
 from .forms import ChatmessageCreateForm
 from members.models import Member
+from friends.models import Friend
+from django.db.models import Q, Prefetch
 
 @login_required
 def chat_home(request):
@@ -55,4 +57,20 @@ def private_message_receiver(request, pk):
 
 @login_required
 def private_message_room(request, room_name):
-    return render(request, "chats/private_message_room.html", {"room_name": room_name})
+    privates_users = room_name.split("_")
+
+    if int(privates_users[0]) == request.user.id or int(privates_users[1]) == request.user.id:
+        check_private_room = PrivateChatRoom.objects.filter(room_name=room_name).exists()
+        if check_private_room:
+            private_room = PrivateChatRoom.objects.prefetch_related(
+            Prefetch('private_messages', queryset=PrivateMessage.objects.select_related('sender', 'receiver'))).get(room_name=room_name)
+            private_messages = private_room.private_messages.all()
+
+            return render(request, "chats/private_message_room.html", {"room_name": room_name, "private_messages": private_messages})
+        
+        else:
+            return render(request, "chats/private_message_room.html", {"room_name": room_name})
+    else:
+        friend_list = Friend.objects.filter(Q(receiver_id=request.user.id) | Q(sender_id=request.user.id) & ~Q(receiver_id=request.user.id) & ~Q(sender_id=request.user.id) & Q(status=2))
+        messages.error(request, '操作錯誤')
+        return render(request, "friends/friend_list.html", {"friend_list": friend_list})
