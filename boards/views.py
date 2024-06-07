@@ -54,6 +54,7 @@ class BoardDetailView(DetailView):
 
 @method_decorator(login_required, name="dispatch")
 class BoardNewView(FormView):
+    model = Category
     form_class = CategoryForm
     template_name = "boards/new.html"
 
@@ -66,6 +67,11 @@ class BoardNewView(FormView):
         if member.member_status != "1":
             return render(request, "403.html", {"member_status": False})
         return super(BoardNewView, self).dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
 
 
 @login_required
