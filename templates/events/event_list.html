@@ -19,8 +19,8 @@
             <a href="#" class="text-black hover:underline">
               {{ event.summary }}</a>
           </div>
-          <p class="mt-2 text-sm text-gray-600">開始：{{ event.start_time }}</p>
-          <p class="text-sm text-gray-600">結束： {{ event.end_time }} </p>
+          <p class="mt-2 text-sm text-gray-600">開始：{{ event.start_time|date:"Y-m-d H:i" }}</p>
+          <p class="text-sm text-gray-600">結束： {{ event.end_time|date:"Y-m-d H:i" }} </p>
         </div>
         <div class="ml-auto">
           <a href="{% url 'events:edit' category.id event.id %}">

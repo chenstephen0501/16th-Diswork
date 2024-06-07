@@ -12,9 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('activeLink', this.id);
         });
     });
-
-    let activeLinkId = localStorage.getItem('activeLink');
-    console.log(activeLinkId);
+    const activeLinkId = localStorage.getItem('activeLink');
     if (activeLinkId) {
         document.getElementById(activeLinkId).classList.add('active');
     }

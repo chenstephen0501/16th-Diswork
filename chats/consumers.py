@@ -4,7 +4,6 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from .models import PrivateMessage, PrivateChatRoom
 from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
-from django.utils import timezone
 from datetime import datetime
 
 class PrivateChatConsumer(AsyncWebsocketConsumer):
@@ -40,7 +39,6 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
 
         @database_sync_to_async
         def create_message(self, data):
-            current_time = timezone.now()
             PrivateMessage.objects.create(
                 sender_id = data["senderId"],
                 receiver_id = data["receiverId"],

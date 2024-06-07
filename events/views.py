@@ -8,6 +8,7 @@ from .models import Event
 from django.http import JsonResponse
 from django.views.generic import FormView, ListView, UpdateView, DeleteView, CreateView
 from boards.models import Category
+from datetime import timedelta
 
 
 @method_decorator(login_required, name="dispatch")
@@ -57,9 +58,6 @@ class NewView(FormView):
         return context
 
     def form_valid(self, form):
-        print("^"*80)
-        print(self)
-        print("^"*80)
         form.instance.category_id = self.kwargs["category_id"]
         form.save()
         return super().form_valid(form)
@@ -124,16 +122,14 @@ class EventDeleteView(DeleteView):
 @login_required
 def all_events(req, category_id):
     all_events = Event.objects.filter(category_id=category_id)
+    utc_offset = timedelta(hours=8)
     out = []
     for event in all_events:
-        print("+"*70)
-        print(event.start_time, event.end_time)
-        print("+"*70)
         start_time = (
-            event.start_time.strftime("%Y-%m-%dT%H:%M:%S") if event.start_time else None
+            (event.start_time + utc_offset).strftime("%Y-%m-%dT%H:%M:%S") if event.start_time else None
         )
         end_time = (
-            event.end_time.strftime("%Y-%m-%dT%H:%M:%S") if event.end_time else None
+            (event.end_time + utc_offset).strftime("%Y-%m-%dT%H:%M:%S") if event.end_time else None
         )
         out.append(
             {
