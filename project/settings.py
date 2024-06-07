@@ -123,13 +123,11 @@ WSGI_APPLICATION = "project.wsgi.application"
 
 # Channels
 ASGI_APPLICATION = "project.asgi.application"
-CHANNEL_LAYERS = (
-    {
-        "default": {
-            "BACKEND": "channels.layers.InMemoryChannelLayer",
-        },
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
-)
+}
 
 
 # Database
