@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.utils import timezone
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -45,13 +45,21 @@ def create_order(request):
         save_order = Paies(
             member = member,
             order = order['MerchantOrderNo'],
-            amount = order['Amt']
+            amount = order['Amt'],
+            merchant_id = order['MerchantID'],
+            version = order['Version'],
+            item_desc = order['ItemDesc'],
+            return_url = order['ReturnURL'],
+            notify_url = order['NotifyURL']
         )
         save_order.save()
-        orders[timestamp] = order
-        print(orders)
+
+        # orders[timestamp] = order
+        print("order: ", order)
+        # print(orders)
         
-        return redirect('paies:check_order', timestamp)
+        return redirect('paies:check_order', Timestamp=timestamp)
+        # return redirect('paies:check_order', timestamp)
 
 
     return HttpResponse('Method Not Allowed', status=405)
@@ -88,10 +96,13 @@ def create_sha_encrypt(edata1):
 # views.py
 @csrf_exempt
 def check_order(request, TimeStamp):
-    order = orders.get(TimeStamp)
+    # order = orders.get(TimeStamp)
+
+    order = get_object_or_404(Paies, order=str(TimeStamp))
+    print(order)
     if not order:
         return HttpResponse("訂單編號錯誤", status=404)
-    print(order)
+    # print(order)
 
     # 將要加密的資料串接為字串
     data_chain = gen_data_chain(order)
