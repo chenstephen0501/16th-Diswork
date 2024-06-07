@@ -8,12 +8,14 @@
                 </span>
                 <p class="text-base text-white pl-2">所有看板</p>
             </a>
-            <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="{% url 'boards:new' %}">
-                <span class="material-symbols-outlined board-aside-list-icon">
-                    playlist_add
-                </span>
-                <p class="text-base text-white pl-2">新增看板</p>
-            </a>
+            {% if user.member_status == "1" %}
+                <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="{% url 'boards:new' %}">
+                    <span class="material-symbols-outlined board-aside-list-icon">
+                        playlist_add
+                    </span>
+                    <p class="text-base text-white pl-2">新增看板</p>
+                </a>
+            {% endif %}
             {% if category.id != None %}
                 {% if user.is_authenticated %}
                     <a class="flex items-center h-11 pl-5 pr-3 hover:bg-gray-900" href="{% url 'events:calendar' category.id %}">

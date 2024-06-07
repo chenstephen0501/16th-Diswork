@@ -5,9 +5,10 @@ from .models import Category
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ["title", "status", "picture"]
+        fields = ["title", "rule","status", "picture"]
         labels = {
             "title": "看版",
+            "rule": "版規",
             "status": "看版狀態",
             "picture": "看版圖片",
         }
