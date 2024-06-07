@@ -53,19 +53,14 @@ def create_order(request):
             notify_url = order['NotifyURL']
         )
         save_order.save()
-
-        # orders[timestamp] = order
-        print("order: ", order)
-        # print(orders)
-        
-        return redirect('paies:check_order', Timestamp=timestamp)
-        # return redirect('paies:check_order', timestamp)
+        return redirect('paies:check_order', timestamp)
 
 
     return HttpResponse('Method Not Allowed', status=405)
 
 def gen_data_chain(order):
-    return f"MerchantID={order['MerchantID']}&TimeStamp={order['TimeStamp']}&Version={order['Version']}&RespondType={order['RespondType']}&MerchantOrderNo={order['MerchantOrderNo']}&Amt={order['Amt']}&NotifyURL={order['NotifyURL']}&ReturnURL={order['ReturnURL']}&ItemDesc={order['ItemDesc']}"
+    return f"MerchantID={order['MerchantID']}&TimeStamp={order['TimeStamp']}&Version={order['Version']}&RespondType={order['RespondType']}&MerchantOrderNo={order['MerchantOrderNo']}&Amt={int(order["Amt"])}&NotifyURL={order['NotifyURL']}&ReturnURL={order['ReturnURL']}&ItemDesc={order['ItemDesc']}"
+
 
 def aes_encrypt(data):
     # 將密鑰和初始向量轉換為 bytes
@@ -97,39 +92,48 @@ def create_sha_encrypt(edata1):
 @csrf_exempt
 def check_order(request, TimeStamp):
     # order = orders.get(TimeStamp)
+    str_timestamp = TimeStamp
 
-    order = get_object_or_404(Paies, order=str(TimeStamp))
-    print(order)
-    if not order:
-        return HttpResponse("訂單編號錯誤", status=404)
-    # print(order)
+    order = get_object_or_404(Paies, order=str_timestamp)
 
     # 將要加密的資料串接為字串
-    data_chain = gen_data_chain(order)
+    # data_chain = gen_data_chain(order)
+    data_chain = gen_data_chain({
+        'MerchantID': MerchantID,
+        'RespondType': 'JSON',
+        'TimeStamp': order.order,  # 使用order对象中的属性
+        'Version': '2.0',
+        'Amt': order.amount,
+        'MerchantOrderNo': order.order,
+        'ItemDesc': 'Premium會員',  # 假设ItemDesc是固定的
+        'ReturnURL': ReturnUrl,
+        'NotifyURL': NotifyUrl,
+        'CREDIT': 1,
+    })
     
     # 進行 AES 加密
     encrypted_data = aes_encrypt(data_chain)
 
     # 進行 SHA256 加密
     sha_encrypt = create_sha_encrypt(encrypted_data)
-    
+
     return render(request, 'paies/check.html', {
         'MerchantID': MerchantID,
         'TradeInfo': encrypted_data,
         'TradeSha': sha_encrypt,
         'Version': Version,
-        'MerchantOrderNo': order['MerchantOrderNo'],
-        'ItemDesc': order['ItemDesc'],
+        'MerchantOrderNo': order.order,
+        'ItemDesc': order.item_desc,
     })
 
 @csrf_exempt
 def newebpay_return(request):
+    
     if request.method == 'POST':
         # 在這裡處理從藍新回傳的數據
         # 處理完畢後，重定向到結帳成功頁面
         enc_data = request.POST.get('TradeInfo')
         decrypt = decrypt_aes_cbc(enc_data, HASHKEY, HASHIV)
-
         decrypt_dict = json.loads(decrypt)
 
         merchant_order = decrypt_dict["Result"]["MerchantOrderNo"]
@@ -172,9 +176,7 @@ def decrypt_aes_cbc(encrypted_data, key, iv):
 
         iv_bytes = iv.encode('utf-8')[:16]
 
-
         encrypted_bytes = bytes.fromhex(encrypted_data)
-
 
         # 創建 Cipher 物件
         cipher = Cipher(algorithms.AES(key_bytes), modes.CBC(iv_bytes), backend=default_backend())
@@ -182,7 +184,7 @@ def decrypt_aes_cbc(encrypted_data, key, iv):
         decryptor = cipher.decryptor()
 
         decrypted_padded_data = decryptor.update(encrypted_bytes) + decryptor.finalize()
-
+        
         # 去除填充
         unpadder = padding.PKCS7(128).unpadder()
 
