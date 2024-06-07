@@ -47,7 +47,7 @@ class Article(models.Model):
         settings.AUTH_USER_MODEL, through="LikeArticle", related_name="like_article"
     )
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
-    picture = models.ImageField(null=True, blank=True, upload_to="upload_to")
+    picture = models.ImageField(null=True, blank=True, upload_to=upload_to)
 
     objects = ArticleManager()
 
