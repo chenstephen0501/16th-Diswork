@@ -1,4 +1,4 @@
-from django.db.models import Exists, OuterRef, Count
+from django.db.models import Exists, OuterRef, Count, Prefetch
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_POST
@@ -21,7 +21,7 @@ class ArticleIndexView(ListView):
 
     def get_queryset(self):
         category_id = self.kwargs.get("category_id")
-        return Article.objects.filter(category_id=category_id).annotate(like_count=Count("like_article")).order_by("-like_count")
+        return Article.objects.with_count().filter(category_id=category_id).annotate(like_count=Count("like_article", distinct=True)).order_by("-like_count")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
