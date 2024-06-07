@@ -14,9 +14,10 @@
 				</span>
 				<p class="pl-2 text-base text-white">新增看板</p>
 			</a>
-			{% if category.id != None %}
-			{% if user.is_authenticated %}
-			<a class="flex items-center pl-5 pr-3 h-11 hover:bg-gray-900" href="{% url 'events:calendar' category.id %}">
+			{% if category.id != None and user.is_authenticated %}
+
+			<a class="flex items-center pl-5 pr-3 h-11 hover:bg-gray-900"
+				href="{% url 'events:calendar' category.id %}">
 				<span class="material-symbols-outlined board-aside-list-icon">
 					calendar_month
 				</span>
@@ -38,7 +39,6 @@
 			</a>
 			{% endif %}
 			{% endif %}
-			{% endif %}
 
 		</div>
 		<div class="h-full py-5 overflow-hidden">
@@ -46,12 +46,14 @@
 				<div class="flex flex-col">
 					{% for category in category_list %}
 					<a class="flex items-center gap-2 text-base text-white category-list board-aside-list-btn"
-						href="{% url 'articles:index' category.id %}" id="category_{{category.id}}" data-state="inactive">
+						href="{% url 'articles:index' category.id %}" id="category_{{category.id}}"
+						data-state="inactive">
 						{% if category.picture %}
 						<img class="block object-cover rounded-full w-7 h-7" src="{{ category.picture.url }}"
 							class="object-cover w-full h-full">
 						{% else %}
-						<img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover rounded-full w-7 h-7">
+						<img src="{% static 'image/defaultImage.jpg' %}" alt=""
+							class="object-cover rounded-full w-7 h-7">
 						{% endif %}
 						{{ category.title }}
 					</a>
