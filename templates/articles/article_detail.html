@@ -46,9 +46,9 @@
           <div class="flex flex-1 items-center text-sm">
             <div class="flex items-center gap-1 text-base md:text-lg">
               {% include 'articles/shared/like_button.html' %}
-              123{{article.like_count}}
+              {{article.like_count}}
             </div>
-            <p class="text-base md:text-lg">｜留言  23{{article.comment_count}}</p>
+            <p class="text-base md:text-lg">｜留言{{article.comment_count}}</p>
           </div>
         </div>
       </div>
