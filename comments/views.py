@@ -8,6 +8,9 @@ from articles.models import Article
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
 
 @method_decorator(login_required, name="dispatch")
 class CommentListView(ListView):
@@ -26,6 +29,7 @@ class CommentListView(ListView):
         context["form"] = CommentForm()
         return context
 
+
 @method_decorator(login_required, name="dispatch")
 class CommentCreateView(CreateView):
     model = Comment
@@ -38,7 +42,16 @@ class CommentCreateView(CreateView):
         form.instance.article = article
         form.instance.member = self.request.user
         self.object = form.save()
-        return redirect("articles:show", pk=article_id)
+
+        if self.request.headers.get("Accept") == "application/json":
+            comments = Comment.objects.filter(article=article)
+            comment_html = render_to_string(
+                "articles/shared/comment.html", {"comments": comments}
+            )
+            print(type(comment_html))
+            return JsonResponse({"comment_html": comment_html})
+        else:
+            return redirect("articles:show", pk=article_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -46,9 +59,7 @@ class CommentCreateView(CreateView):
         member = get_object_or_404(Member, id=member_id)
         article = get_object_or_404(Article, id=self.kwargs["pk"])
         context["member_id"] = member_id
-        context["comments"] = Comment.objects.filter(member=member).order_by(
-            "-created_at"
-        )
+        context["comments"] = Comment.objects.filter(member=member)
         context["article"] = article
         return context
 
