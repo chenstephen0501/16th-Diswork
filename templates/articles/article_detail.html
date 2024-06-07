@@ -1,30 +1,38 @@
 {% extends 'boards/base.html' %}
+
 {% load static %}
 
 {% block content %}
 <div class="relative block w-full h-screen overflow-auto bg-opacity-60">
-  <div class="flex flex-col w-full h-full mx-auto bg-white">
-    <div class="sticky top-0 flex items-center w-full px-4 py-2 bg-white border-b-2">
-      <img class="block object-cover w-8 h-8 rounded-full"
-        src="{% if article.category.picture %}{{ article.category.picture.url }}{% else %}{% static 'image/defaultImage.jpg' %}{% endif %}"
-        alt="">
+  <div class="flex flex-col w-full h-full mx-auto bg-white md:w-4/5">
+    <div class="sticky top-0 flex items-center w-full px-4 py-2 bg-white md:mx-auto md:px-0 md:py-4 border-b-1">
+      {% if article.category.picture %}
+      <img class="block object-cover w-8 h-8 rounded-full" src="{{ article.category.picture.url }}"
+        class="object-cover w-full h-full">
+      {% else %}
+      <img src="{% static 'image/defaultImage.jpg' %}" alt="" class="object-cover w-8 h-8 rounded-full">
+      {% endif %}
       <h4 class="ml-4 text-lg font-bold text-gray-800">{{ article.category.title }}</h4>
     </div>
     <div class="flex-1 overflow-scroll">
-      <div class="px-4 py-2 space-y-2">
-        <h1 class="text-2xl font-bold text-gray-800">{{ article.title }}</h1>
+      <div class="w-full p-4 mx-auto md:px-0">
+        <h1 class="pt-4 mb-3 text-2xl font-bold text-gray-800">{{ article.title }}</h1>
         <div class="flex items-center justify-between space-x-1">
           <div class="flex items-center gap-3">
-            <img class="block object-cover w-8 h-8 rounded-full"
-              src="{% if article.author.user_img %}{{ article.author.user_img.url }}{% else %}{% static 'image/defaultImage.jpg' %}{% endif %}"
-              alt="">
+            {% if article.author.user_img %}
+            <img class="block object-cover w-8 h-8 rounded-full" src="{{ article.author.user_img.url }}"
+              class="object-cover w-full h-full">
+            {% else %}
+            <img src="/static/image/cathead.png" alt="" class="object-cover w-8 h-8 border border-black rounded-full">
+            {% endif %}
             <div class="flex flex-col">
               <p class="text-sm text-gray-600">{{ article.author }}</p>
               <p class="text-sm text-gray-600">{{ article.created_at }}</p>
             </div>
           </div>
           <div class="flex gap-3">
-            {% if user.is_authenticated and user == article.author %}
+            {% if user.is_authenticated %}
+            {% if user == article.author %}
             <a href="{% url 'articles:edit' article.id %}">
               <button class="text-sm text-gray-400 hover:text-gray-600">編輯</button>
             </a>
@@ -33,43 +41,63 @@
               <button class="text-sm text-gray-400 hover:text-gray-600" type="submit">刪除</button>
             </form>
             {% endif %}
+            {% endif %}
           </div>
         </div>
-        <div class="mt-4 prose prose-gray dark:prose-invert">
-          <p class="whitespace-pre-line">
-            {{ article.content }}
-            {% if article.picture %}
-            <img src="{{ article.picture.url }}" alt="photo" loading="lazy"
-              class="w-auto max-h-[500px] block border-gray-200">
-            {% endif %}
+        <div class="py-5 mt-4 prose prose-gray">
+          <p class="">
+            {{ article.content|linebreaksbr }}
           </p>
         </div>
-        <div class="container flex items-end md:py-2 lg:py-1">
-          <div class="ml-auto">
-            {% include 'articles/shared/like_button.html' %}
+      </div>
+
+      <div class="flex items-center justify-between w-full px-4 mx-auto md:py-2 md:px-0">
+        <div class="flex justify-between w-full pt-4 pb-3 border-t-1">
+          <div class="flex items-center flex-1 text-sm">
+            <div class="flex items-center gap-1 text-base md:text-lg">
+              {% include 'articles/shared/like_button.html' %}
+              {{ article.like_count }}
+            </div>
+            <p class="text-base md:text-lg">｜留言{{article.comment_count}}</p>
           </div>
         </div>
+      </div>
+
+      <div class="w-full px-4 md:px-0 bg-slate-300 md:bg-white">
+        <p class="pb-2 text-sm pt-7">共 {{article.comment_count}} 則留言</p>
+      </div>
+
+      <div class="px-4">
         {% for comment in comments %}
-        <div class="w-full mx-auto mb-2 bg-white rounded-lg shadow-md">
-          <div class="px-4 py-2">
-            <div class="flex items-center">
-              {% if comment.member.user_img %}
-              <img class="w-10 h-10 mr-2 rounded-full" src="{{ comment.member.user_img.url }}" alt="photo">
-              {% else %}
-              <img class="w-10 h-10 mr-2 border border-black rounded-full" src="/static/image/cathead.png" alt="photo">
-              {% endif %}
-              <div>
-                <p class="inline">{{ comment.member.name }}</p>
-                <p class="inline text-sm">{{ comment.member }}</p>
-                <p class="text-sm text-gray-400">{{ comment.created_at|date:"Y-m-d H:i" }}</p>
+        <div class="w-full pt-5 pb-4 mx-auto bg-white border-b-1">
+          <div class="py-2">
+            <div class="flex items-start">
+              <div class="mt-1">
+                {% if comment.member.user_img %}
+                <img class="w-8 h-8 rounded-full" src="{{ comment.member.user_img.url }}" alt="photo">
+                {% else %}
+                <img class="w-8 h-8 border border-black rounded-full" src="/static/image/cathead.png" alt="photo">
+                {% endif %}
+              </div>
+              <div class="flex-1 ml-2">
+                <div class="flex items-center justify-between">
+                  <p class="inline text-sm font-bold">{{ comment.member }}</p>
+                  <div class="flex items-center">
+                    {% include 'articles/shared/like_comment_btn.html' %}
+                  </div>
+                </div>
+
+                <div class="w-full my-1">
+                  <p class="break-words">{{ comment.content|linebreaksbr }}</p>
+                </div>
+
+                <div>
+                  <p class="text-sm text-gray-400">{{ comment.created_at|date:"Y-m-d H:i" }}</p>
+                </div>
               </div>
             </div>
-            <div class="mt-2">
-              <p class="break-words">{{ comment.content|linebreaksbr }}</p>
-            </div>
           </div>
-          <div class="flex justify-end pb-2 pr-4">
-            {% include 'articles/shared/like_comment_btn.html' %}
+          <div class="flex justify-end pb-2">
             {% if comment.member.id == user.id %}
             <form action="{% url 'comments:delete' pk=comment.id %}" method="post" class="inline">
               {% csrf_token %}
@@ -89,8 +117,12 @@
         {{ comment_form.content }}
         {{ comment_form.member }}
         <button type="submit"
-          class="absolute px-2 py-1 mx-2 mb-1 font-bold text-white -translate-y-1/2 rounded top-1/2 right-5 bg-sky-400">送出</button>
+          class="absolute px-2 py-1 mx-2 mb-1 font-bold text-white -translate-y-1/2 rounded top-1/2 right-5 bg-sky-400">
+          送出
+        </button>
       </form>
     </div>
   </div>
-  {% endblock %}
+
+</div>
+{% endblock %}
