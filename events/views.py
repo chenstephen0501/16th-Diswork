@@ -57,6 +57,9 @@ class NewView(FormView):
         return context
 
     def form_valid(self, form):
+        print("^"*80)
+        print(self)
+        print("^"*80)
         form.instance.category_id = self.kwargs["category_id"]
         form.save()
         return super().form_valid(form)
@@ -123,6 +126,9 @@ def all_events(req, category_id):
     all_events = Event.objects.filter(category_id=category_id)
     out = []
     for event in all_events:
+        print("+"*70)
+        print(event.start_time, event.end_time)
+        print("+"*70)
         start_time = (
             event.start_time.strftime("%Y-%m-%dT%H:%M:%S") if event.start_time else None
         )

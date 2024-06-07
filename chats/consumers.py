@@ -5,6 +5,7 @@ from .models import PrivateMessage, PrivateChatRoom
 from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from django.utils import timezone
+from datetime import datetime
 
 class PrivateChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -39,6 +40,7 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
 
         @database_sync_to_async
         def create_message(self, data):
+            current_time = timezone.now()
             PrivateMessage.objects.create(
                 sender_id = data["senderId"],
                 receiver_id = data["receiverId"],
@@ -47,7 +49,7 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
             )
         
         async def send_message_to_room(self, data):
-            created_at = timezone.now().isoformat() 
+            created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
             await self.channel_layer.group_send(
                     self.room_group_name,
                 {
