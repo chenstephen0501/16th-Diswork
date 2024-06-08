@@ -2,7 +2,6 @@ function setupCarousel(carousel) {
 
     const slides = carousel.querySelectorAll(".slide")
     const track = carousel.querySelector(".track")
-    console.log(slides.length)
     function setupSlides() {
         const w = track.clientWidth
     
@@ -19,7 +18,6 @@ function setupCarousel(carousel) {
             slideIndex = (slideIndex + 1) % slides.length;
             track.style.transform = `translateX(-${slideIndex * w}px)`
         }, 3000)
-        console.log("test")
     }
     setupSlides()
 }
