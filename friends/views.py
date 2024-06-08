@@ -13,6 +13,7 @@ class MemberListView(ListView):
     model = Member
     template_name = "friends/search_list.html"
     context_object_name = "search_list"
+    paginate_by = 5
 
     def get_queryset(self):
         query = super().get_queryset().exclude(username=self.request.user)
@@ -20,7 +21,7 @@ class MemberListView(ListView):
         if keyword:
             return query.filter(username__icontains=keyword)
         return query
-
+    
 
 @method_decorator(login_required, name="dispatch")
 class FriendListView(ListView):

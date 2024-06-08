@@ -5,7 +5,11 @@
 	<div class="w-full overflow-hidden bg-white rounded-md">
 		<div class="flex items-center justify-between px-4 py-2 font-normal text-black border-b border-gray-300">
 			<div class="flex items-center">
-				<img src="https://via.placeholder.com/32" alt="Profile Picture" class="w-12 h-12 mr-2 rounded-full">
+				{% if user.user_img %}
+					<img src="{{ user.user_img.url }}" alt="" class="w-12 h-12 mr-2 rounded-full">
+				{% else %}	
+					<img src="https://via.placeholder.com/32" alt="Profile Picture" class="w-12 h-12 mr-2 rounded-full">
+				{% endif %}
 				<div>
 					<h2 class="text-lg">{{ user.name }}</h2>
 					<p class="text-sm text-gray-500">{{ user.username }}</p>
@@ -27,7 +31,7 @@
 			</div>
 		</div>
 		<div class="flex-1 p-2 border-t border-b border-gray-300">
-			<div id="chat-log" class="overflow-y-auto rounded-md h-80"></div>
+			<div id="chat-log" class="overflow-y-auto rounded-md h-80">qwe</div>
 		</div>
 		<div class="flex h-20 p-4">
 			<input type="text" id="chat-message-userId" value="{{ user.id }}" hidden>
@@ -56,7 +60,8 @@
 			const chatLog = document.querySelector('#chat-log');
 			const messageElement = document.createElement('div');
 			messageElement.classList.add('p-2', 'border-b', 'border-gray-200', 'bg-white', 'rounded-md', 'mb-2', 'shadow-sm');
-			messageElement.textContent = data.message;
+			messageElement.textContent = data.content;
+			console.log("data", data)
 			chatLog.appendChild(messageElement);
 			chatLog.scrollTop = chatLog.scrollHeight;
 		};
