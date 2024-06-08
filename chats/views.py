@@ -64,9 +64,11 @@ def private_message_room(request, room_name):
         if check_private_room:
             private_room = PrivateChatRoom.objects.prefetch_related(
             Prefetch('private_messages', queryset=PrivateMessage.objects.select_related('sender', 'receiver'))).get(room_name=room_name)
+            sender_id = next(user_id for user_id in privates_users if request.user.id != int(user_id))
+            receiver = Member.objects.get(id=sender_id)
             private_messages = private_room.private_messages.all()
 
-            return render(request, "chats/private_message_room.html", {"room_name": room_name, "private_messages": private_messages})
+            return render(request, "chats/private_message_room.html", {"room_name": room_name, "private_messages": private_messages, "receiver": receiver})
         
         else:
             return render(request, "chats/private_message_room.html", {"room_name": room_name})
