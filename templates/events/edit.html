@@ -1,35 +1,47 @@
-{% extends 'layouts/base.html' %}
+{% extends 'boards/base.html' %}
+
 {% block content %}
-<div class="flex justify-center">
-    <div class="w-full p-8 lg:w-2/3 xl:w-1/2">
-        <a href="{% url 'events:list' category.id  %}" class="text-orange-500 hover:text-orange-600">
-            <h1 class="mb-4 text-2xl font-bold">編輯活動</h1>
-        </a>
-        <form action="{% url 'events:edit' category.id event.id %}" method="post" class="space-y-4">
-            {% csrf_token %}
-            <div class="mb-4">
-                <label for="summary" class="mb-1 text-lg font-medium">活動</label>
-                <input type="text" id="summary" name="summary" value="{{ event.summary }}"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+<form action="{% url 'events:edit' category.id event.id %}" method="post">
+    {% csrf_token %}
+    <div class="relative block max-w-2xl p-6 mx-auto rounded-md" style="height: calc(100vh - 96.97px);">
+        <div class="flex flex-col w-full">
+            <h1 class="inline-block pb-4 mb-2 text-2xl border-b-2 border-black">新增活動</h1>
+            <div class="space-y-4">
+                <div class="my-1">
+                    <label for="title" class="block mb-1 text-base font-medium text-black">活動</label>
+                    {{ form.summary }}
+                </div>
+                <div>
+                    <label class="block mb-1 text-base font-medium text-black" for="id_picture">
+                        {{ form.start_time.label}}</label>
+                    {{ form.start_time}}
+                </div>
+                <div>
+                    <label class="block mb-1 text-base font-medium text-black" for="id_picture">
+                        {{ form.end_time.label}}</label>
+                    {{ form.end_time}}
+                </div>
+                <div class="flex flex-col items-end w-full gap-6">
+                    <div class="relative w-full min-w-[200px]">
+                        {{ form.description }}
+                        <label
+                            class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                            {{ form.description.label }}
+                        </label>
+                    </div>
+                </div>
+                <div class="flex justify-end pb-4">
+                    <a href="{% url 'events:list' category.id %}">
+                        <button type="button"
+                            class="inline-flex items-center justify-center py-2 mr-2 text-base text-gray-500 rounded-md hover:text-gray-300">取消</button>
+                    </a>
+                    <button
+                        class="inline-flex items-center justify-center px-4 py-2 mr-3 text-sm text-white rounded-md btn-system-color hover:bg-sky-400"
+                        type="submit" value="新增">新增</button>
+                </div>
             </div>
-            <div class="mb-4">
-                <label for="start_time" class="mb-1 text-lg font-medium">開始時間</label>
-                <input type="datetime-local" id="start_time" name="start_time" value="
-                {{ event.start_time }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
-            </div>
-            <div class="mb-4">
-                <label for="end_time" class="mb-1 text-lg font-medium">結束時間</label>
-                <input type="datetime-local" id="end_time" name="end_time" value="
-                {{ event.end_time }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
-            </div>
-            <div class="mb-4">
-                <label for="description" class="mb-1 text-lg font-medium">描述</label>
-                <textarea id="description" name="description"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg">
-                    {{ event.description }}</textarea>
-            </div>
-            <input type="submit" value="儲存編輯" class="px-4 py-2 text-white bg-orange-500 rounded hover:bg-orange-600">
-        </form>
+        </div>
     </div>
-</div>
+</form>
+
 {% endblock %}

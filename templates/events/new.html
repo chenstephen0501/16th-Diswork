@@ -1,7 +1,5 @@
 {% extends 'boards/base.html' %}
 
-{% block title %}Calendar{% endblock %}
-
 {% block content %}
 <form action="{% url 'events:add' category.id %}" method="post">
   {% csrf_token %}

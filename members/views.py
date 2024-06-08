@@ -22,6 +22,7 @@ import os
 
 load_dotenv()
 
+
 @login_required
 def subscribe(request):
     user = request.user
@@ -42,7 +43,7 @@ def subscribe(request):
 class LoginView(FormView):
     template_name = "registration/login.html"
     form_class = AuthenticationForm
-    success_url = reverse_lazy("boards:list")
+    success_url = reverse_lazy("root")
 
     def form_valid(self, form):
         login(self.request, form.get_user())
@@ -56,7 +57,6 @@ class LogoutView(TemplateView):
         logout(request)
         messages.success(request, "登出成功！")
         return redirect("root")
-
 
 
 class RegisterView(FormView):
@@ -94,12 +94,13 @@ class ProfileView(DetailView):
     form_class = MemberUpdateForm
     template_name = "registration/profile.html"
     context_object_name = "member"
-    
+
     def get_object(self, queryset=None):
         obj = super(ProfileView, self).get_object(queryset=queryset)
         if obj != self.request.user:
             raise PermissionDenied()
         return obj
+
 
 @method_decorator(login_required, name="dispatch")
 class MemberUpdateView(UpdateView):
@@ -117,13 +118,14 @@ class MemberUpdateView(UpdateView):
         if obj != self.request.user:
             raise PermissionDenied()
         return obj
-    
+
     def for_valid(self, form):
         member = form.save(commit=False)
         if not form.cleaned_data["user_img"]:
             member.user_img = self.get_object().user_img
         member.save()
         return super().form_valid(form)
+
 
 def activate(request, uidb64, token):
     try:
