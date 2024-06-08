@@ -35,6 +35,3 @@ class PrivateMessage(models.Model):
 
     def __str__(self):
         return f"{self.sender.username}: {self.content}"     
-
-    class Meta:
-        ordering= ['-created_at']  

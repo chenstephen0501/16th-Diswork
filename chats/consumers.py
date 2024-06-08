@@ -57,6 +57,8 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
                     "content" : data["message"],
                     "private_room_id" : self.private_room_id,
                     "created_at": created_at,
+                    "sender_img": data["senderImg"],
+                    "sender_name": data["senderName"],
                 }
             )
 

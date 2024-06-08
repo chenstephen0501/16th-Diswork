@@ -30,16 +30,44 @@
 				</div>
 			</div>
 		</div>
-		<div class="flex-1 p-2 border-t border-b border-gray-300">
-			<div id="chat-log" class="overflow-y-auto rounded-md h-80"></div>
+		<div id="chat-log" class="flex flex-col p-4 border-t border-b border-gray-300">
+			{% for message in private_messages %}
+			<div class="mt-3 p-4 flex border-b-2 border-gray-200 rounded-md bg-white ">
+        		{% if message.sender.id == user.id %}
+				<div class="pic">
+				{% if message.sender.user_img %}
+        	    	<img src="{{ message.sender.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
+				{% else %}
+					<img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+				{% endif %}
+				</div>
+				<div class="content ml-2">
+					<p class="text-xl">{{message.sender}} <span class="text-xs">{{message.created_at|date:"Y-m-d H:i"}}</span></p>
+					<p>{{message.content}}</p>								
+				</div>
+        		{% else %}
+				<div class="pic">
+				{% if message.sender.user_img %}
+        			<img src="{{ message.sender.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
+				{% else %}
+					<img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+				{% endif %}
+				</div>
+				<div class="content ml-2 ">
+					<p class="text-xl">{{message.sender}} <span class="text-xs">{{message.created_at|date:"Y-m-d H:i"}}</span></p>
+					<p>{{message.content}}</p>								
+				</div>
+				{% endif %}
+        	</div>
+        	{% endfor %}
 		</div>
 		<div class="flex h-20 p-4">
-			<input type="text" id="chat-message-userId" value="{{ user.id }}" hidden>
+			<div class="hidden" id="chat-message-user" data-user-id="{{ user.id }}" data-user-name="{{ user.username }}" data-user-img="{{ user.user_img.url }}"></div>
 			<input id="chat-message-input" type="text" placeholder="輸入訊息..."
 				class="flex-1 px-2 rounded-md focus:outline-none">
 			<button id="chat-message-submit"
 				class="bg-[#3397cf] text-white font-light px-4 rounded-md hover:bg-sky-400">送出</button>
-		</div>
+	
 	</div>
 	{{ room_name|json_script:"room-name" }}
 </div>
@@ -56,11 +84,22 @@
 		);
 
 		chatSocket.onmessage = function (e) {
-			const data = JSON.parse(e.data);
+			let data = JSON.parse(e.data);
+			const userId = document.querySelector("#chat-message-user").dataset.userId;
 			const chatLog = document.querySelector('#chat-log');
-			const messageElement = document.createElement('div');
-			messageElement.classList.add('p-2', 'border-b', 'border-gray-200', 'bg-white', 'rounded-md', 'mb-2', 'shadow-sm');
-			messageElement.textContent = data.content;
+			let messageElement = document.createElement('div');
+			messageElement.classList.add("mt-3", "flex", 'p-4', 'border-b', 'border-gray-200', 'bg-white', 'rounded-md');
+			messageElement.innerHTML = `
+		
+				<div class="pic">
+					<img src="${data.sender_img}" alt="頭貼" class="w-12 h-12 rounded-full">
+				</div>
+				<div class="content ml-2">
+					<p class="text-xl">${data.sender_name} <span class="text-xs">${data.created_at}</span></p>
+					<p>${data.content}</p>								
+				</div>
+       
+			`
 			chatLog.appendChild(messageElement);
 			chatLog.scrollTop = chatLog.scrollHeight;
 		};
@@ -71,7 +110,6 @@
 
 		const messageInputDom = document.querySelector('#chat-message-input');
 		const messageSubmitDom = document.querySelector('#chat-message-submit');
-		const userId = document.querySelector("#chat-message-userId").value;
 
 		messageInputDom.focus();
 		messageInputDom.onkeyup = function (e) {
@@ -81,6 +119,9 @@
 		};
 
 		messageSubmitDom.onclick = function (e) {
+			const userId = document.querySelector("#chat-message-user").dataset.userId;
+			const userName = document.querySelector('#chat-message-user').dataset.userName;
+			const userImg = document.querySelector('#chat-message-user').dataset.userImg;
 			const message = messageInputDom.value;
 			const privateUsers = roomName.split("_");
 			const receiverId = privateUsers[0] == userId ? privateUsers[1] : privateUsers[0];
@@ -88,7 +129,9 @@
 			chatSocket.send(JSON.stringify({
 				"senderId": userId,
 				"receiverId": receiverId,
-				"message": message
+				"message": message,
+				"senderName": userName,
+				"senderImg": userImg,
 			}));
 
 			messageInputDom.value = '';
