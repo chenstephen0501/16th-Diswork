@@ -25,11 +25,9 @@
           <div class="font-semibold">{{ member.username }}</div>
         </div>
 
-        <section>
-              <div class="py-2 border-2 border-solid">{{member.id}}
-                  <a class="" href="{% url 'chats:private_message_receiver' member.id %}">{{member.username}}</a>
-              </div>
-                  <button type="button"></button>
+        <section class="mt-3">              
+              <input class="room-name-input" type="text" size="100" hidden value="{{user.id}},{{member.id}}">
+              <button class="room-name-submit " type="button"><span class="text-gray-500 hover:text-gray-700 material-symbols-outlined" style="font-size: 30px;">sms</span></button>
         </section> 
 
         <form method="post" action="{% url 'friends:send_request' receiver_id=member.id %}">
@@ -65,4 +63,16 @@
   </div>
 
 </div>
+
+<script>
+        const roomNameInputs = document.querySelectorAll(".room-name-input")
+        const roomNameSubmits = document.querySelectorAll(".room-name-submit")
+        roomNameSubmits.forEach((submitButton, index) => {
+          submitButton.addEventListener("click", function() {
+            const roomName = roomNameInputs[index].value.split(',').sort((a, b) => (a - b))
+            const newRoomName = roomName[0] + "_" + roomName[1]
+            window.location.pathname = '/chat/' + newRoomName + '/';
+          })
+        })
+    </script>
 {% endblock %}
