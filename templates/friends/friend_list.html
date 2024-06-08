@@ -2,7 +2,7 @@
 {% block content %}
 {% include 'friends/navbar.html' %}
 
-<div class="max-w-4xl mx-auto mt-">
+<div class="max-w-4xl mx-auto mt-4">
   <div class="px-4">
     <div class="space-y-2">
       {% for friend in friend_list %}
@@ -70,7 +70,7 @@
   <div class="">
   {% if is_paginated %}
 
-    <div class="pagination  flex grow justify-center  ">
+    <div class="pagination  flex grow justify-center">
       <span class="step-links">
         {% if page_obj.has_previous %}
           <a href="?page=1{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}">&laquo; first</a>

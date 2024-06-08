@@ -4,14 +4,14 @@
 {% include 'shared/message.html' %}
 
 
-<div class="mx-auto max-w-4/5 flex flex-col  ">
-  <div class="w-full p-4 grow-0 ">
+<div class="mx-auto max-w-4/5 flex flex-col">
+  <div class="w-full p-4">
     <form method="GET" action="." class="flex justify-end">
       <input type="search" name="username" class="w-5/6 px-2 py-1 border-2 border-gray-500 rounded" placeholder="搜尋">
       <button type="submit" class="px-4 py-1 ml-2 mr-6 bg-gray-200 rounded hover:bg-gray-300">搜尋</button>
     </form>
   </div>
-  <div class="px-4 grow-0 ">
+  <div class="px-4">
     <div class="space-y-2">
       {% if search_list %}
       {% for member in search_list %}
@@ -46,27 +46,21 @@
     </div>
   </div>
 
-  <div class="">
+  <div class="pagination flex grow justify-center">
   {% if is_paginated %}
-
-    <div class="pagination  flex grow justify-center ">
       <span class="step-links">
         {% if page_obj.has_previous %}
           <a href="?page=1{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}">&laquo; first</a>
           <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}">previous</a>
         {% endif %}
-
         <span class="current">
           Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
         </span>
-
         {% if page_obj.has_next %}
           <a href="?page={{ page_obj.next_page_number }}{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}">next</a>
           <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}">last &raquo;</a>
         {% endif %}
       </span>
-    </div>
-
   {% endif %}
   </div>
 
