@@ -1,7 +1,5 @@
 {% extends 'boards/base.html' %}
 {% load static %}
-{% block title %}討論板{% endblock %}
-
 
 {% block aside %}
 {% include 'shared/board_aside.html' %}
@@ -28,7 +26,7 @@
         <div class="flex-1 ml-5 text-lg font-medium list-title">
           {{ category.title }}
         </div>
-        <span class="text-sm text-gray-500">板主：{{ category.member }}</span>
+        <span class="text-sm text-gray-500">版主：{{ category.member }}</span>
       </div>
     </a>
     <div class="ml-4">
@@ -38,7 +36,7 @@
       </a>
       {% else %}
       <a href="{% url 'articles:index' category.id %}">
-        <button class="px-2 py-1 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">進入看板</button>
+        <button class="px-2 py-1 text-gray-500 bg-gray-200 rounded hover:bg-gray-300">進入看版</button>
       </a>
       {% endif %}
     </div>
