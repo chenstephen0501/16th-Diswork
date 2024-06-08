@@ -11,7 +11,7 @@ class CommentForm(ModelForm):
         widgets = {
             "content": forms.Textarea(
                 attrs={
-                    "class": "border border-gray-300 h-20 w-full p-2 pr-20",
+                    "class": "h-20 w-full p-2 pr-20 resize-none focus:outline-none",
                     "placeholder": "這邊留言...",
                 }
             ),
