@@ -66,7 +66,7 @@
                 {% endif %}
               </div>
             </td>
-            <td class="px-6 py-2 text-sm text-center whitespace-nowrap">{{ ad.created_at }}</td>
+            <td class="px-6 py-2 text-sm text-center whitespace-nowrap">{{ ad.created_at|date:"Y-m-d" }}</td>
             <td class="px-6 py-2 text-sm whitespace-nowrap">
               {% csrf_token %}
               <div class="flex space-x-2">
