@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "boards",
     "paies",
     "channels",
+    "ads",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True

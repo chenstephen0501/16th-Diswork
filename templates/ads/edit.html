@@ -1,0 +1,74 @@
+{% extends 'boards/base.html' %}
+{% block content %}
+
+<body class="bg-gray-100">
+    <div class="container p-4 mx-auto">
+        <h1 class="mb-4 text-2xl font-bold">廣告看板管理</h1>
+        <div class="p-4 bg-white rounded-lg shadow-md">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="id_title" class="block text-sm font-medium text-gray-700">廣告商</label>
+                    {{ form.title }}
+                </div>
+                <div class="mb-4">
+                    <label for="id_url" class="block text-sm font-medium text-gray-700">廣告URL</label>
+                    {{ form.url }}
+                </div>
+                <div class="mb-4">
+                    <label for="id_image" class="block text-sm font-medium text-gray-700">刊登圖片</label>
+                    {{ form.picture }}
+                </div>
+                <button type="submit" class="px-2 py-1 text-white bg-blue-500 rounded-md">刊登</button>
+            </form>
+        </div>
+        <div class="mt-8">
+            <h2 class="mb-4 text-xl font-bold">當前刊登廣告</h2>
+            <div class="p-4 bg-white rounded-lg shadow-md">
+                <table class="min-w-full">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500">廣告商</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500">廣告URL</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500">刊登圖片</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500">刊登時間</th>
+                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr x-data="{ editing: false }" x-show="!editing">
+                            <td class="px-6 py-4 whitespace-nowrap">英姬靈</td>
+                            <td class="px-6 py-4 whitespace-nowrap"><a href="{{ ads.url }}"
+                                    class="text-blue-500">https://EngiLink.com</a></td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <img src="{{ ads.picture.url }}" alt="{{ ads.title }}" class="object-cover w-16 h-16">
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">2024年6月15日</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <form action="#" method="post" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="text-red-600 hover:text-red-900">下架</button>
+                                    <button @click.prevent="editing = true"
+                                        class="text-blue-600 hover:text-blue-900">編輯</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr x-show="editing">
+                            <td class="px-6 py-4 whitespace-nowrap"><input type="text"
+                                    class="px-2 py-1 border rounded-md"></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><input type="text"
+                                    class="px-2 py-1 border rounded-md"></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><input type="file"
+                                    class="px-2 py-1 border rounded-md"></td>
+                            <td class="px-6 py-4 whitespace-nowrap">2024年6月15日</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="text-blue-600 hover:text-blue-900" @click="editing = false">儲存</button>
+                            </td>
+                        </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}

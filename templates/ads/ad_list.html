@@ -1,0 +1,72 @@
+{% extends 'boards/base.html' %}
+{% block content %}
+
+<div class="relative block max-w-2xl p-2 mx-auto rounded-md">
+    <div class="flex flex-col w-full mt-2">
+        <h1 class="inline-block pb-2 text-2xl border-b-2 border-black">廣告看板管理</h1>
+        <div class="p-4 bg-white rounded-lg ">
+            <form action="{% url 'ads:list' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="id_title" class="block text-sm font-medium text-gray-700">廣告商</label>
+                    {{ form.title }}
+                </div>
+                <div class="mb-4">
+                    <label for="id_url" class="block text-sm font-medium text-gray-700">網址</label>
+                    {{ form.url }}
+                </div>
+                <div class="mb-4">
+                    <label for="id_image" class="block text-sm font-medium text-gray-700">刊登圖片</label>
+                    {{ form.picture }}
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="px-2 py-1 text-white bg-[#3397cf] hover:bg-sky-400 rounded-md">刊登</button>
+                </div>
+            </form>
+        </div>
+        <div class="flex flex-col w-full mt-2">
+            <h2 class="inline-block pb-2 text-2xl border-b-2 border-black">刊登中</h2>
+            <div class="p-4 mt-8 overflow-y-auto bg-white rounded-lg max-h-72">
+                <table class="min-w-full">
+                    <thead>
+                        <tr>
+                            <th class="px-6 pb-2 text-xs font-medium tracking-wider text-center text-gray-500">廣告商</th>
+                            <th class="px-6 pb-2 text-xs font-medium tracking-wider text-center text-gray-500">網址</th>
+                            <th class="px-6 pb-2 text-xs font-medium tracking-wider text-center text-gray-500">刊登圖片</th>
+                            <th class="px-6 pb-2 text-xs font-medium tracking-wider text-center text-gray-500">刊登時間</th>
+                            <th class="px-6 pb-2 text-xs font-medium tracking-wider text-center text-gray-500"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for ad in ads %}
+                        <tr x-data="{ editing: false }" x-show="!editing">
+                            <td class="px-6 py-2 text-sm text-center whitespace-nowrap">{{ ad.title }}</td>
+                            <td class="px-6 py-2 text-sm text-center whitespace-nowrap"><a href="{{ ads.url }}"
+                                    class="text-[#3397cf]">{{ ad.url }}</a></td>
+                            <td class="px-6 py-2 whitespace-nowrap">
+                                <img src="{{ ads.picture.url }}" alt="{{ ads.title }}" class="object-cover w-16 h-16">
+                            </td>
+                            <td class="px-6 py-2 text-sm text-center whitespace-nowrap">{{ ad.created_at }}</td>
+                            <td class="px-6 py-2 text-sm whitespace-nowrap">
+                                <form action="{% url 'ads:delete' ad.pk %}" method="post" class="inline">
+                                    {% csrf_token %}
+                                    <div class="flex space-x-2">
+                                        <button type="submit" class="text-red-600 hover:text-red-900">下架</button>
+                                        <a href="{% url 'ads:delete' ad.pk %}">
+                                            <button class="text-blue-600 hover:text-blue-900">編輯</button>
+                                        </a>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

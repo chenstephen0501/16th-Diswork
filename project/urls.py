@@ -18,5 +18,6 @@ urlpatterns = [
     path("comments/", include("comments.urls")),
     path("articles/", include("articles.urls")),
     path("paies/", include("paies.urls")),
+    path("ads/", include("ads.urls")),
     path("admin/", admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
