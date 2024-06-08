@@ -32,7 +32,7 @@
           <a href="{% url 'members:profile' pk=user.id %}"
             class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">個人資料</a>
           {% if user.is_superuser == True %}
-          <a href="#"
+          <a href="{% url 'ads:list' %}"
             class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">廣告管理</a>
           {% endif %}
           <a href="{% url 'members:logout' %}"
