@@ -63,23 +63,18 @@ def gen_data_chain(order):
 
 
 def aes_encrypt(data):
-    # 將密鑰和初始向量轉換為 bytes
     key_bytes = HASHKEY.encode('utf-8')[:32]
     iv_bytes = HASHIV.encode('utf-8')[:16]
 
-    # 創建 Cipher 物件，使用 AES 算法和 CBC 模式
     cipher = Cipher(algorithms.AES(key_bytes), modes.CBC(iv_bytes), backend=default_backend())
 
-    # 創建 encryptor 對象
     encryptor = cipher.encryptor()
 
-    # 計算填充所需的字節數
     padder = padding.PKCS7(128).padder()
     padded_data = padder.update(data.encode('utf-8')) + padder.finalize()
-    # 加密資料
+
     ciphertext = encryptor.update(padded_data) + encryptor.finalize()
 
-    # 返回加密後的資料的十六進制表示形式
     return ciphertext.hex()
 
 def create_sha_encrypt(edata1):
@@ -88,33 +83,27 @@ def create_sha_encrypt(edata1):
 
     return sha256_hash.upper()
 
-# views.py
 @csrf_exempt
 def check_order(request, TimeStamp):
-    # order = orders.get(TimeStamp)
     str_timestamp = TimeStamp
 
     order = get_object_or_404(Paies, order=str_timestamp)
 
-    # 將要加密的資料串接為字串
-    # data_chain = gen_data_chain(order)
     data_chain = gen_data_chain({
         'MerchantID': MerchantID,
         'RespondType': 'JSON',
-        'TimeStamp': order.order,  # 使用order对象中的属性
+        'TimeStamp': order.order,
         'Version': '2.0',
         'Amt': order.amount,
         'MerchantOrderNo': order.order,
-        'ItemDesc': 'Premium會員',  # 假设ItemDesc是固定的
+        'ItemDesc': 'Premium會員',
         'ReturnURL': ReturnUrl,
         'NotifyURL': NotifyUrl,
         'CREDIT': 1,
     })
     
-    # 進行 AES 加密
     encrypted_data = aes_encrypt(data_chain)
 
-    # 進行 SHA256 加密
     sha_encrypt = create_sha_encrypt(encrypted_data)
 
     return render(request, 'paies/check.html', {
@@ -130,8 +119,6 @@ def check_order(request, TimeStamp):
 def newebpay_return(request):
     
     if request.method == 'POST':
-        # 在這裡處理從藍新回傳的數據
-        # 處理完畢後，重定向到結帳成功頁面
         enc_data = request.POST.get('TradeInfo')
         decrypt = decrypt_aes_cbc(enc_data, HASHKEY, HASHIV)
         decrypt_dict = json.loads(decrypt)
@@ -143,7 +130,6 @@ def newebpay_return(request):
             update_order.amount = decrypt_dict["Result"]["Amt"]
             update_order.status = decrypt_dict["Status"]
             update_order.paid_at = decrypt_dict["Result"]["PayTime"]
-            # 保存更改
             update_order.save()
             
             member = update_order.member
@@ -153,10 +139,9 @@ def newebpay_return(request):
 
             return render(request, 'paies/success.html')
         except Paies.DoesNotExist:
-            return HttpResponse("訂单不存在", status=404)
+            return HttpResponse("訂單不存在", status=404)
         
     else:
-        # 如果是 GET 請求，可以根據需要進行其他處理
         return HttpResponse("Method Not Allowed", status=405)
 
 @csrf_exempt
@@ -171,21 +156,18 @@ def checkout_success(request):
 
 def decrypt_aes_cbc(encrypted_data, key, iv):
     try:
-        # 將密鑰和IV轉換為字節並確保長度正確
         key_bytes = key.encode('utf-8')[:32]
 
         iv_bytes = iv.encode('utf-8')[:16]
 
         encrypted_bytes = bytes.fromhex(encrypted_data)
 
-        # 創建 Cipher 物件
         cipher = Cipher(algorithms.AES(key_bytes), modes.CBC(iv_bytes), backend=default_backend())
 
         decryptor = cipher.decryptor()
 
         decrypted_padded_data = decryptor.update(encrypted_bytes) + decryptor.finalize()
         
-        # 去除填充
         unpadder = padding.PKCS7(128).unpadder()
 
         decrypted_data = unpadder.update(decrypted_padded_data) + unpadder.finalize()
