@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import PremiumView, index
+from .views import AboutUsView, index
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path("", index, name="root"),
-    path("premium/", PremiumView.as_view(), name="premium"),
+    path("aboutus/", AboutUsView.as_view(), name="aboutus"),
     path("members/", include("members.urls")),
     path("friends/", include("friends.urls")),
     path("events/", include("events.urls")),

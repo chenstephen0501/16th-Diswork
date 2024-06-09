@@ -13,16 +13,24 @@ def index(request):
             member_status = False
     else:
         member_status = False
-    return render(request, "pages/index.html", {"member_status": member_status, "member":member_log})
+    return render(
+        request,
+        "pages/index.html",
+        {"member_status": member_status, "member": member_log},
+    )
+
+
 from news.models import News
+
 
 class IndexView(TemplateView):
     template_name = "pages/index.html"
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["news_items"] = News.objects.all().order_by("-created_at")[:10]
         return context
 
-class PremiumView(TemplateView):
-    template_name = "pages/premium.html"
+
+class AboutUsView(TemplateView):
+    template_name = "pages/aboutus.html"

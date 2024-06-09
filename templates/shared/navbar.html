@@ -12,9 +12,9 @@
         <div class="relative">
           <button class="flex items-center focus:outline-none" @click="open = !open" @click.away="open = false"
             aria-expanded="false" aria-haspopup="true">
-            {% if member.user_img %}
+            {% if user.user_img %}
             <img class="w-12 h-12 transition duration-300 border-2 border-gray-200 rounded-full"
-              src="{{ member.user_img.url }}" alt="photo">
+              src="{{ user.user_img.url }}" alt="photo">
             {% else %}
             <span class="material-symbols-outlined" style="font-size: 45px;">account_circle</span>
             {% endif %}
@@ -31,8 +31,8 @@
             class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">好友</a>
           <a href="{% url 'members:profile' pk=user.id %}"
             class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">個人資料</a>
-          {% if member.is_superuser == True %}
-          <a href="{% url 'ads:list' %}"
+          {% if user.is_superuser == True %}
+          <a href="#"
             class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">廣告管理</a>
           {% endif %}
           <a href="{% url 'members:logout' %}"
