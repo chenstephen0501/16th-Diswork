@@ -45,15 +45,6 @@ def chat_create(request):
             messages.error(request, '群組名稱重複請更換名稱')
     return redirect('chats:home')
 
-@login_required
-def private_message_home(request):
-    members = Member.objects.all()
-    return render(request, "chats/private_message_home.html", {"members": members})
-
-@login_required
-def private_message_receiver(request, pk):
-    receiver = get_object_or_404(Member, pk = pk)
-    return render(request, "chats/private_message_receiver.html", {"receiver": receiver})
 
 @login_required
 def private_message_room(request, room_name):

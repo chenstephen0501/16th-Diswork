@@ -5,10 +5,10 @@
 	<div class="w-full overflow-hidden bg-white rounded-md">
 		<div class="flex items-center justify-between px-4 py-2 font-normal text-black border-b border-gray-300">
 			<div class="flex items-center">
-				{% if user.user_img %}
+				{% if receiver.user_img %}
 					<img src="{{ receiver.user_img.url }}" alt="" class="w-12 h-12 mr-2 rounded-full">
 				{% else %}	
-					<img src="https://via.placeholder.com/32" alt="Profile Picture" class="w-12 h-12 mr-2 rounded-full">
+					<img src="/static/image/cathead.png" alt="Profile Picture" class="w-12 h-12 mr-2 rounded-full">
 				{% endif %}
 				<div class="pb-2">
 					<h2 class="text-3xl self-center">{{ receiver.name }}</h2>
@@ -61,7 +61,11 @@
         	{% endfor %}
 		</div>
 		<div class="flex h-20 p-4">
+			{% if user.user_img %}
 			<div class="hidden" id="chat-message-user" data-user-id="{{ user.id }}" data-user-name="{{ user.username }}" data-user-img="{{ user.user_img.url }}"></div>
+			{% else %}
+			<div class="hidden" id="chat-message-user" data-user-id="{{ user.id }}" data-user-name="{{ user.username }}" data-user-img="/static/image/cathead.png"></div>
+			{% endif %}
 			<input id="chat-message-input" type="text" placeholder="輸入訊息..."
 				class="flex-1 px-2 rounded-md focus:outline-none">
 			<button id="chat-message-submit"
