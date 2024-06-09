@@ -1,1 +1,54 @@
-<h1>card</h1>
+{% extends 'boards/base.html' %}
+{% block content %}
+<div class="bg-white shadow-lg rounded-lg p-4 w-full max-w-xs mx-auto" x-data="cardComponent()">
+    <div class="flex flex-col items-center">
+        <img class="w-24 h-24 rounded-full" src="https://via.placeholder.com/300" alt="avatar">
+        <h2 class="mt-2 text-lg font-semibold">{{ user.username }}</h2>
+    </div>
+    <div class="mt-4">
+        <h3 class="text-sm font-semibold text-gray-700">抽卡機制</h3>
+        <p>非訂閱者每日限定抽卡1次，已訂閱者每日抽卡3次。</p>
+        <button class="mt-2 bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600"
+            @click="drawCard()">立即抽卡</button>
+    </div>
+    <div x-show="drawLimitReached" class="mt-4 bg-red-100 text-red-700 p-4 rounded-lg">
+        今日抽卡次數已達上限！請明天再來。
+    </div>
+    <template x-if="card">
+        <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+            <div class="mb-2">
+                <span class="block text-sm font-medium text-gray-700">暱稱：</span>
+                <span class="block text-sm text-gray-500" x-text="card.name"></span>
+            </div>
+            <div class="mb-2">
+                <span class="block text-sm font-medium text-gray-700">生日：</span>
+                <span class="block text-sm text-gray-500" x-text="card.birthdate"></span>
+            </div>
+            <div>
+                <span class="block text-sm font-medium text-gray-700">星座：</span>
+                <span class="block text-sm text-gray-500" x-text="card.constellation"></span>
+            </div>
+            <div class="mt-4">
+                <button class="mt-2 bg-green-500 text-white py-1 px-2 rounded hover:bg-green-600"
+                    @click="sendFriendRequest()">加好友</button>
+            </div>
+        </div>
+    </template>
+</div>
+<script>
+    function cardComponent() {
+        return {
+            card: null,
+            drawLimitReached: false,
+            drawCard() {
+                this.card = {
+                    name: "小高",
+                    birthdate: "2014-06-09",
+                    constellation: "摩羯座"
+                };
+                this.drawLimitReached = false;
+            }
+        }
+    }
+</script>
+{% endblock %}
