@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import FriendListView, MemberListView, FriendDeleteView
+from .views import FriendListView, MemberListView, FriendDeleteView, DrawCardView
 from . import views
 
 app_name = "friends"
@@ -31,5 +31,10 @@ urlpatterns = [
         "friend_requests/",
         views.friend_requests,
         name="requests",
+    ),
+    path(
+        "random/",
+        DrawCardView.as_view(),
+        name="draw_card",
     ),
 ]

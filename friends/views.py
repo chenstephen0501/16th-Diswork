@@ -1,11 +1,16 @@
 from django.views.generic import ListView, DeleteView
-from .models import Friend
+from django.http import JsonResponse
+from .models import Friend, Card
 from members.models import Member
+from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404, render
+from django.shortcuts import redirect, get_object_or_404, render, HttpResponse
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.utils import timezone
+import random
+from django.db.models.functions import TruncDate
 
 
 @method_decorator(login_required, name="dispatch")
@@ -107,3 +112,51 @@ def friend_requests(req):
     return render(
         req, "friends/friend_requests.html", {"received_requests": received_requests}
     )
+
+class DrawCardView(ListView):
+    model = Member
+    template_name = 'cards/show.html'
+    context_object_name = 'members'
+    
+    def get_queryset(self):
+        user = self.request.user
+        
+        friends = Friend.objects.filter(
+            Q(sender=user, status="2") | Q(receiver=user, status="2")
+        )
+        
+        friend_ids = set()
+        for friend in friends:
+            if friend.sender == user:
+                friend_ids.add(friend.receiver.id)
+            elif friend.receiver == user:
+                friend_ids.add(friend.sender.id)
+        
+        return Member.objects.exclude(id__in=friend_ids).exclude(id=user.id)
+    
+    def get(self, request):
+        members = list(self.get_queryset())
+        
+        today = timezone.now().date()
+
+        already_drew_today = Card.objects.annotate(date=TruncDate('created_at')).filter(drawer=request.user).exists()
+
+        if already_drew_today:
+            return HttpResponse("今日已抽過")
+        
+        count = 0
+        max_count = 10
+        random_member = None
+        
+        while count < max_count:
+            random_member = random.choice(members)
+            existing_card = Card.objects.filter(drawer=request.user, drawn=random_member).exists()
+            if not existing_card:
+                break
+            count += 1
+        
+        if count == max_count:
+            return HttpResponse("會員人數新增中")
+
+        card = Card.objects.create(drawer=request.user, drawn=random_member)
+        return render(request, "cards/show.html", {'drawn_member': random_member})
