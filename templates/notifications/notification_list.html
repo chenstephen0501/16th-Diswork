@@ -1,0 +1,14 @@
+<body>
+  <h1>Notification List</h1>
+  <ul>
+    {% for notification in notifications %}
+    <li>
+      <strong>{{ notification.title }}</strong> - {{ notification.message }}
+      {% if not notification.is_read %}
+      <a href="{% url 'notifications:as_read' notification.id %}">Mark as Read</a>
+      {% endif %}
+      <a href="{% url 'notifications:delete' notification.id %}">Delete</a>
+    </li>
+    {% endfor %}
+  </ul>
+</body>
