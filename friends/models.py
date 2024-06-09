@@ -27,3 +27,9 @@ class Friend(SoftDeleteable, models.Model):
         default="1",
     )
     deleted_at = models.DateTimeField(null=True)
+
+
+class Card(models.Model):
+    drawer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="draw", on_delete=models.CASCADE)
+    drawn = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="drawn", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)

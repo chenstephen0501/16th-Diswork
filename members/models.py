@@ -24,6 +24,7 @@ class Member(AbstractUser):
         through="articles.LikeArticle",
         related_name="liking_article_members",
     )
+    cards = models.ManyToManyField("self", through="friends.Card", symmetrical=False, related_name="related_to_card")
 
     def save(self, *args, **kwargs):
         if self.user_img:
