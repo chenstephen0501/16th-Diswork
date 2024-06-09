@@ -1,14 +1,40 @@
-<body>
-  <h1>Notification List</h1>
-  <ul>
-    {% for notification in notifications %}
-    <li>
-      <strong>{{ notification.title }}</strong> - {{ notification.message }}
-      {% if not notification.is_read %}
-      <a href="{% url 'notifications:as_read' notification.id %}">Mark as Read</a>
-      {% endif %}
-      <a href="{% url 'notifications:delete' notification.id %}">Delete</a>
-    </li>
-    {% endfor %}
-  </ul>
+{% extends 'boards/base.html' %}
+{% block content %}
+
+<body class="bg-gray-100">
+  <div class="container px-4 py-8 mx-auto">
+    <h1 class="mb-2 text-3xl font-bold text-gray-800">所有通知</h1>
+    {% if notifications %}
+    <ul class="divide-y divide-gray-300">
+      {% for notification in notifications %}
+      <a href="{% url 'notifications:as_read' notification.id %}">
+        <li class="relative px-6 py-1 transition duration-300">
+          {% if not notification.is_read %}
+          <div class="absolute left-0 w-2 h-2 transform -translate-y-1/2 bg-blue-500 rounded-full top-1/2"></div>
+          {% endif %}
+          <div class="flex items-center justify-between">
+            <div class="flex-1">
+              <div class="flex items-center">
+                <div class="text-lg font-semibold text-gray-800">{{ notification.title }}</div>
+                <div class="pt-1 ml-2 text-sm text-gray-500">{{ notification.date_sent|date:"Y-m-d H:i" }}
+                </div>
+              </div>
+              <p class="mt-1 text-gray-600">{{ notification.message }}</p>
+            </div>
+            <div class="flex space-x-4">
+              <a href="{% url 'notifications:delete' notification.id %}">
+                <span class="text-lg material-symbols-outlined hover:text-red-600">close</span>
+              </a>
+            </div>
+          </div>
+        </li>
+      </a>
+      <li class="border-b border-gray-300"></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-gray-600">目前沒有任何通知。</p>
+    {% endif %}
+  </div>
 </body>
+{% endblock %}
