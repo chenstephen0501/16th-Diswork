@@ -1,0 +1,41 @@
+{% extends 'boards/base.html' %}
+{% block content %}
+{% include 'friends/navbar.html' %}
+<div class="flex items-center justify-center w-full ">
+	<div class="w-full overflow-hidden bg-white rounded-md">
+		<div id="chat-log" class="flex flex-col p-4 border-t border-b border-gray-300">
+			{% for message in private_messages %}
+			<a class="" href="{% url 'chats:private_message_room' message.private_room %}">
+				<div class="mt-3 p-4 flex border-b-2 border-gray-200 rounded-md bg-white">
+        			{% if message.sender.id == user.id %}
+					<div class="pic">
+					{% if message.sender.user_img %}
+        		    	<img src="{{ message.sender.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
+					{% else %}
+						<img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+					{% endif %}
+					</div>
+					<div class="content ml-2">
+						<p class="text-xl">{{message.sender}} <span class="text-xs">{{message.created_at|date:"Y-m-d H:i"}}</span></p>
+						<p>{{message.content}}</p>								
+					</div>
+        			{% else %}
+					<div class="pic">
+					{% if message.sender.user_img %}
+        				<img src="{{ message.sender.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
+					{% else %}
+						<img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+					{% endif %}
+					</div>
+					<div class="content ml-2 ">
+						<p class="text-xl">{{message.sender}} <span class="text-xs">{{message.created_at|date:"Y-m-d H:i"}}</span></p>
+						<p>{{message.content}}</p>								
+					</div>
+					{% endif %}	
+        		</div>
+			</a>	
+        	{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}

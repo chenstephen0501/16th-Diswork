@@ -70,8 +70,8 @@
 				class="flex-1 px-2 rounded-md focus:outline-none">
 			<button id="chat-message-submit"
 				class="bg-[#3397cf] text-white font-light px-4 rounded-md hover:bg-sky-400">送出</button>
-	
-	</div>
+		</div>
+	</div>	
 	{{ room_name|json_script:"room-name" }}
 </div>
 <script>
@@ -101,7 +101,6 @@
 					<p class="text-xl">${data.sender_name} <span class="text-xs">${data.created_at}</span></p>
 					<p>${data.content}</p>								
 				</div>
-       
 			`
 			chatLog.appendChild(messageElement);
 			chatLog.scrollTop = chatLog.scrollHeight;
@@ -136,7 +135,6 @@
 				"senderName": userName,
 				"senderImg": userImg,
 			}));
-
 			messageInputDom.value = '';
 		};
 	});

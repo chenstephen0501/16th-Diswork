@@ -6,7 +6,7 @@ from .models import ChatGroup, PrivateChatRoom, PrivateMessage
 from .forms import ChatmessageCreateForm
 from members.models import Member
 from friends.models import Friend
-from django.db.models import Q, Prefetch
+from django.db.models import Q, Prefetch, OuterRef, Subquery
 
 @login_required
 def chat_home(request):
@@ -45,6 +45,20 @@ def chat_create(request):
             messages.error(request, '群組名稱重複請更換名稱')
     return redirect('chats:home')
 
+@login_required
+def private_message_home(request):
+    latest_messages_subquery = PrivateMessage.objects.filter(
+        receiver_id=OuterRef('receiver_id'),
+        sender_id=OuterRef('sender_id')
+    ).order_by('-created_at').values('created_at')[:1]
+
+    latest_messages = PrivateMessage.objects.filter(
+        receiver_id=request.user.id,
+        created_at=Subquery(latest_messages_subquery)
+    ).select_related("sender", "private_room").order_by("-created_at")
+    
+    return render(request, "chats/private_message_home.html", {"private_messages": latest_messages})
+
 
 @login_required
 def private_message_room(request, room_name):
@@ -55,14 +69,16 @@ def private_message_room(request, room_name):
         if check_private_room:
             private_room = PrivateChatRoom.objects.prefetch_related(
             Prefetch('private_messages', queryset=PrivateMessage.objects.select_related('sender', 'receiver'))).get(room_name=room_name)
-            sender_id = next(user_id for user_id in privates_users if request.user.id != int(user_id))
-            receiver = Member.objects.get(id=sender_id)
+            receiver_id = next(user_id for user_id in privates_users if request.user.id != int(user_id))
+            receiver = Member.objects.get(id=receiver_id)
             private_messages = private_room.private_messages.all()
 
             return render(request, "chats/private_message_room.html", {"room_name": room_name, "private_messages": private_messages, "receiver": receiver})
         
         else:
-            return render(request, "chats/private_message_room.html", {"room_name": room_name})
+            receiver_id = next(user_id for user_id in privates_users if request.user.id != int(user_id))
+            receiver = Member.objects.get(id=receiver_id)
+            return render(request, "chats/private_message_room.html", {"room_name": room_name, "receiver": receiver})
     else:
         friend_list = Friend.objects.filter(Q(receiver_id=request.user.id) | Q(sender_id=request.user.id) & ~Q(receiver_id=request.user.id) & ~Q(sender_id=request.user.id) & Q(status=2))
         messages.error(request, '操作錯誤')
