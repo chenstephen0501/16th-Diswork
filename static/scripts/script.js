@@ -4,20 +4,20 @@ function setupCarousel(carousel) {
     const track = carousel.querySelector(".track")
     function setupSlides() {
         const w = track.clientWidth
-    
+
         slides.forEach((slide, i) => {
             slide.style.left = `${i * w}px`
         })
         adsInterval(0, w)
     }
-    
+
     function adsInterval(index, w) {
         let slideIndex = index;
-        
-        setInterval(function() {
+
+        setInterval(function () {
             slideIndex = (slideIndex + 1) % slides.length;
             track.style.transform = `translateX(-${slideIndex * w}px)`
-        }, 3000)
+        }, 5000)
     }
     setupSlides()
 }

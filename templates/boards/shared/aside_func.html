@@ -1,21 +1,25 @@
 {% load static %}
 <aside class="absolute md:relative bg-[#01314D] w-[300px] h-full overflow-hidden top-0 right-[-100%] md:right-0">
   <div class="flex flex-col w-full h-full mt-5 mr-auto">
-    <div class="over-hidden">
-
-      <div class="ads-carousel relative w-full aspect-square bg-gray-900" x-data="{ open: true }" x-show="open">
-        <div class="track w-full h-full relative">
-          <a href="#" class="block slide absolute w-full h-full bg-white"><img class="block w-full h-full object-cover" src="{% static 'image/defaultImage.jpg' %}" alt=""></a>
-          <a href="#" class="block slide absolute w-full h-full bg-blue-500">222</a>
-          <a href="#" class="block slide absolute w-full h-full bg-white"><img class="block w-full h-full object-cover" src="{% static 'image/defaultImage.jpg' %}" alt=""></a>
-          <a href="#" class="block slide absolute w-full h-full bg-red-400">333</a>
-          <a href="#" class="block slide absolute w-full h-full bg-white"><img class="block w-full h-full object-cover" src="{% static 'image/defaultImage.jpg' %}" alt=""></a>
+    <div class="overflow-hidden">
+      <div class="relative w-full bg-gray-900 ads-carousel aspect-square" x-data="{ open: true }" x-show="open">
+        <div class="relative w-full h-full track">
+          {% if is_iterable %}
+          {% for ad in ads %}
+          <a href="{{ ad.url }}" class="absolute block w-full h-full bg-white slide"
+            x-show="currentSlide == {{ forloop.counter }}">
+            <img class="block object-cover w-full h-full" src="{{ ad.picture.url }}" alt="{{ ad.title }}">
+          </a>
+          {% endfor %}
+          {% else %}
+          <a href="{{ ads.url }}" class="absolute block w-full h-full bg-white slide" x-show="currentSlide == 1">
+            <img class="block object-cover w-full h-full" src="{{ ads.picture.url }}" alt="{{ ads.title }}">
+          </a>
+          {% endif %}
         </div>
-        {% if user.member_status == "1" %}
-          <span class="material-symbols-outlined absolute top-0 right-0 text-sm" @click="open = false">
-            close
-          </span>
-        {% endif %}
+        <span class="absolute top-0 right-0 text-sm material-symbols-outlined" @click="open = false">
+          close
+        </span>
       </div>
     </div>
   </div>

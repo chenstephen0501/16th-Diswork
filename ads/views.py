@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Ads
@@ -12,7 +12,6 @@ from django.core.exceptions import PermissionDenied
 class AdsListView(ListView):
     model = Ads
     template_name = "ads/ad_list.html"
-    context_object_name = "ads"
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -59,10 +58,15 @@ class AdsUpdateView(UpdateView):
         return reverse_lazy("ads:list")
 
     def get_object(self, queryset=None):
-        obj = super(AdsUpdateView, self).get_object(queryset=queryset)
         if not self.request.user.is_superuser:
             raise PermissionDenied()
-        return obj
+        return get_object_or_404(Ads, pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["ads"] = self.get_object()
+        context["is_iterable"] = False
+        return context
 
 
 @method_decorator(login_required, name="dispatch")
