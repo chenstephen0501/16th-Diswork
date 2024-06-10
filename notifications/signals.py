@@ -12,7 +12,7 @@ def handle_friend(sender, instance, created, **kwargs):
     if created:
         Notification.objects.create(
             user=instance.receiver,
-            title="New Friend Request",
+            title="好友邀請",
             message=f"{instance.sender.username} 要求加你好友。",
         )
 
@@ -40,26 +40,18 @@ def handle_comment(sender, instance, created, **kwargs):
 @receiver(post_save, sender=LikeArticle)
 def handle_like_article(sender, instance, created, **kwargs):
     if created:
-        user = instance.article.user
-        title = "新的文章按讚"
-        message = f"{instance.user.username} 說你的文章讚。"
-
         Notification.objects.create(
-            user=user,
-            title=title,
-            message=message,
+            user=instance.like_article.author,
+            title="新的文章按讚",
+            message=f"{instance.like_by_article.username} 說你的文章讚。",
         )
 
 
 @receiver(post_save, sender=LikeComment)
 def handle_like_comment(sender, instance, created, **kwargs):
     if created:
-        user = instance.comment.user
-        title = "新的留言按讚"
-        message = f"{instance.user.username} 說你的留言讚。"
-
         Notification.objects.create(
-            user=user,
-            title=title,
-            message=message,
+            user=instance.like_comment.member,
+            title="新的留言按讚",
+            message=f"{instance.like_by.username} 說你的留言讚。",
         )
