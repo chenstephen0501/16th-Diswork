@@ -13,7 +13,7 @@
 <div class="flex flex-col items-center justify-center w-full h-full">
 	<div class="flex sticky top-0 w-full bg-white items-center justify-between px-4 py-2 font-normal text-black border-b-1">
 		<div class="flex items-center">
-			<button onclick="window.history.back()" class="material-symbols-outlined">arrow_back</button>
+			<a href="{% url 'friends:friend_list' %}" class="material-symbols-outlined">arrow_back</a>
 			<div class="w-12 aspect-square rounded-full mx-2">
 				{% if receiver.user_img %}
 					<img src="{{ receiver.user_img.url }}" alt="" class="block w-full h-full object-cover">
