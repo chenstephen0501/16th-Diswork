@@ -22,4 +22,3 @@ document.getElementById('comment-form').addEventListener('submit', function (eve
             console.error('Error:', error);
         });
 });
-
