@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const roomName = JSON.parse(document.getElementById('room-name').textContent);
 	const chatSocket = new WebSocket(
-		'ws://'
+		'wss://'
 		+ window.location.host
 		+ '/ws/chat/'
 		+ roomName
