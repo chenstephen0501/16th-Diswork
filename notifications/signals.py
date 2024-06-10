@@ -22,7 +22,7 @@ def handle_message(sender, instance, created, **kwargs):
     if created:
         Notification.objects.create(
             user=instance.receiver,
-            title="新的訊息",
+            title="新訊息",
             message=f"{instance.sender.username} 傳了一則私訊。",
         )
 
@@ -32,7 +32,7 @@ def handle_comment(sender, instance, created, **kwargs):
     if created:
         Notification.objects.create(
             user=instance.article.author,
-            title="新的留言",
+            title="新留言",
             message=f"{instance.member.username} 在你的文章底下留言。",
         )
 
