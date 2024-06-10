@@ -166,12 +166,16 @@ class DrawCardView(ListView):
             return HttpResponse("會員人數新增中")
 
         card = Card.objects.create(drawer=request.user, drawn=random_member)
-        member_data = {
-            "username": random_member.username,
-            "name": random_member.name,
-            "user_mig": random_member.user_img.url if random_member.user_img else None,
-            "birthday": random_member.birthday,
-            "interest": random_member.interest,
-            "constellation": random_member.constellation,
-        }
-        return render(request, "friends/card.html", {'drawn_member': member_data})
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            member_data = {
+                "id": random_member.id,
+                "username": random_member.username,
+                "name": random_member.name,
+                "user_img": random_member.user_img.url if random_member.user_img else '/static/image/cathead.png',
+                "birthday": random_member.birthday.strftime("%Y-%m-%d"),
+                "interest": random_member.interest,
+                "constellation": random_member.constellation,
+            }
+            return JsonResponse(member_data)
+        else:
+            return render(request, "friends/card.html", {'drawn_member': random_member})

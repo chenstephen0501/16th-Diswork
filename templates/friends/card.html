@@ -3,7 +3,7 @@
 <div class="bg-white shadow-lg rounded-lg p-4 w-full max-w-xs mx-auto" x-data="cardComponent()">
     <div class="mt-4">
         <h3 class="text-sm font-semibold text-gray-700">抽卡機制</h3>
-        <p>非訂閱者每日限定抽卡1次，已訂閱者每日抽卡3次。</p>
+        <p>每日限定只能抽 1 次。</p>
         <button class="mt-2 bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600"
             @click="drawCard()">立即抽卡</button>
     </div>
@@ -13,8 +13,8 @@
     <template x-if="card">
         <div class="mt-4 bg-gray-50 p-4 rounded-lg">
             <div class="flex flex-col items-center">
-                <img class="w-24 h-24 rounded-full" :src="card.user_img || '/static/image/cathead.png'" alt="avatar">
-                <h2 class="mt-2 text-lg font-semibold">{{ drawn_member.username }}</h2>
+                <img class="w-24 h-24 rounded-full" :src="card.user_img" alt="avatar">
+                <h2 class="mt-2 text-lg font-semibold" x-text="card.username"></h2>
             </div>
             <div class="mb-2">
                 <span class="block text-sm font-medium text-gray-700">暱稱：</span>
@@ -40,8 +40,9 @@
             </div>
         </div>
         <div class="mt-4">
-            <button class="mt-2 bg-green-500 text-white py-1 px-2 rounded hover:bg-green-600"
-                @click="sendFriendRequest()">加好友</button>
+            <a :href="'/friends/send_friend_request/' + card.id">
+                <button class="mt-2 bg-green-500 text-white py-1 px-2 rounded hover:bg-green-600">加好友</button>
+            </a>
         </div>
 </div>
 </template>
@@ -52,15 +53,19 @@
             card: null,
             drawLimitReached: false,
             drawCard() {
-                this.card = {
-                    name: "小高",
-                    birthday: "2014-06-09",
-                    constellation: "摩羯座",
-                    interest: "codeing",
-                };
-                this.drawLimitReached = false;
+                fetch("/friends/random/", { headers: { "X-Requested-With": "XMLHttpRequest" } })
+                    .then(response => response.json())
+                    .then(data => {
+                        this.card = data;
+                        this.drawLimitReached = false;
+                    })
+                    .catch(error => console.error("Error:", error));
+            },
+            sendFriendRequest() {
+
             }
         }
     }
+
 </script>
 {% endblock %}
