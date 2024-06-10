@@ -62,12 +62,6 @@ def send_friend_request(req, receiver_id):
 
     sender_id = req.user.id
     receiver_exists = Member.objects.filter(id=receiver_id).exists()
-    if not receiver_exists:
-        messages.error(req, "沒有這個使用者!")
-        return redirect("friends:member_list")
-    elif sender_id == receiver_id:
-        messages.error(req, "操作錯誤!")
-        return redirect("friends:member_list")
 
     if req.method == "POST":
         is_friend = Friend.objects.filter(Q(sender_id=sender_id, receiver_id=receiver_id) | Q(sender_id=receiver_id, receiver_id=sender_id)).exists()
