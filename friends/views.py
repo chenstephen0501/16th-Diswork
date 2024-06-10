@@ -13,7 +13,7 @@ from lib.paginate_que import paginate_queryset
 import random
 from django.utils import timezone
 from django.db.models.functions import TruncDate
-
+from django.template.loader import render_to_string
 
 @method_decorator(login_required, name="dispatch")
 class MemberListView(ListView):
@@ -122,7 +122,7 @@ def friend_requests(req):
 
 class DrawCardView(ListView):
     model = Member
-    template_name = 'cards/show.html'
+    template_name = 'friends/card.html'
     context_object_name = 'members'
     
     def get_queryset(self):
@@ -143,14 +143,14 @@ class DrawCardView(ListView):
     
     def get(self, request):
         members = list(self.get_queryset())
-        
+
         today = timezone.now().date()
 
-        already_drew_today = Card.objects.annotate(date=TruncDate('created_at')).filter(drawer=request.user).exists()
+        already_drew_today = Card.objects.annotate(date=TruncDate('created_at')).filter(drawer=request.user, date=today).exists()
 
         if already_drew_today:
-            return HttpResponse("今日已抽過")
-        
+            return render(request, "friends/card.html", {"drawn_member": None})
+
         count = 0
         max_count = 10
         random_member = None
@@ -166,4 +166,12 @@ class DrawCardView(ListView):
             return HttpResponse("會員人數新增中")
 
         card = Card.objects.create(drawer=request.user, drawn=random_member)
-        return render(request, "cards/show.html", {'drawn_member': random_member})
+        member_data = {
+            "username": random_member.username,
+            "name": random_member.name,
+            "user_mig": random_member.user_img.url if random_member.user_img else None,
+            "birthday": random_member.birthday,
+            "interest": random_member.interest,
+            "constellation": random_member.constellation,
+        }
+        return render(request, "friends/card.html", {'drawn_member': member_data})

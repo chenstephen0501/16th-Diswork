@@ -25,6 +25,10 @@ class Member(AbstractUser):
         related_name="liking_article_members",
     )
     cards = models.ManyToManyField("self", through="friends.Card", symmetrical=False, related_name="related_to_card")
+    
+    birthday = models.DateField(null=True, blank=True)
+    interest = models.TextField(null=True, blank=True)
+    constellation = models.CharField(max_length=20, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.user_img:

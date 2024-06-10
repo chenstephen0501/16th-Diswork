@@ -16,7 +16,9 @@
             </span>
           </a>
         </div>
-        <a href="{% url 'friends:draw_card' %}">抽卡</a>
+        <a href="{% url 'friends:draw_card' %}">
+          <span class="material-symbols-outlined mr-2" style="font-size: 36px;">playing_cards</span>
+        </a>
         <div class="relative">
           <button class="flex items-center focus:outline-none" @click="open = !open" @click.away="open = false"
             aria-expanded="false" aria-haspopup="true">

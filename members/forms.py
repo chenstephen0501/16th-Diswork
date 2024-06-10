@@ -76,12 +76,15 @@ class MemberUpdateForm(UserChangeForm):
 
     class Meta:
         model = Member
-        fields = ("name", "username", "email", "user_img")
+        fields = ("name", "username", "email", "user_img", "birthday", "interest", "constellation")
         labels = {
             "name": "暱稱",
             "username": "帳號",
             "email": "信箱",
             "user_img": "頭貼",
+            "birthday": "生日",
+            "interest": "興趣",
+            "constellation": "星座",
         }
         widgets = {
             "name": forms.TextInput(
@@ -103,5 +106,20 @@ class MemberUpdateForm(UserChangeForm):
                 attrs={
                     "class": "block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-400 file:text-white hover:file:bg-[#3397cf]"
                 },
+            ),
+            "birthday": forms.TextInput(
+                attrs={
+                    "class": "mx-1 border-2 border-gray-300",
+                }
+            ),
+            "interest": forms.TextInput(
+                attrs={
+                    "class": "mx-1 border-2 border-gray-300",
+                }
+            ),
+            "constellation": forms.TextInput(
+                attrs={
+                    "class": "mx-1 border-2 border-gray-300",
+                }
             ),
         }
