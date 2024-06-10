@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST
 from lib.paginate_que import paginate_queryset
 import random
 from django.utils import timezone
+from django.db.models.functions import TruncDate
 
 
 @method_decorator(login_required, name="dispatch")
