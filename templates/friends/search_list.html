@@ -2,7 +2,7 @@
 {% block content %}
 {% include 'friends/navbar.html' %}
 {% include 'shared/message.html' %}
-
+{% load static %}
 
 <div class="mx-auto max-w-4/5 flex flex-col">
   <div class="w-full p-4">
@@ -32,6 +32,7 @@
 
         <form method="post" action="{% url 'friends:send_request' receiver_id=member.id %}">
           {% csrf_token %}
+          <input type="hidden" name="page" value="{{ page_obj.number }}">
           <button type="submit" class="flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full">
             <span class="material-symbols-outlined" style="font-size: 24px;">person_add</span>
           </button>
@@ -44,7 +45,7 @@
     </div>
   </div>
 
-  <div class="pagination flex grow justify-center">
+  <div class="pagination flex  justify-center">
   {% if is_paginated %}
       <span class="step-links">
         {% if page_obj.has_previous %}
@@ -64,15 +65,6 @@
 
 </div>
 
-<script>
-    const roomNameInputs = document.querySelectorAll(".room-name-input")
-    const roomNameSubmits = document.querySelectorAll(".room-name-submit")
-    roomNameSubmits.forEach((submitButton, index) => {
-      submitButton.addEventListener("click", function() {
-        const roomName = roomNameInputs[index].value.split(',').sort((a, b) => (a - b))
-        const newRoomName = roomName[0] + "_" + roomName[1]
-        window.location.pathname = '/chat/' + newRoomName + '/';
-      })
-    })
-</script>
+<script src="{% static 'scripts/add_private_room.js' %}"></script>
+
 {% endblock %}
