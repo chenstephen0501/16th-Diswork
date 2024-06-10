@@ -17,7 +17,7 @@ function setupCarousel(carousel) {
         setInterval(function () {
             slideIndex = (slideIndex + 1) % slides.length;
             track.style.transform = `translateX(-${slideIndex * w}px)`
-        }, 5000)
+        }, 8000)
     }
     setupSlides()
 }
