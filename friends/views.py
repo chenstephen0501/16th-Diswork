@@ -62,7 +62,6 @@ def send_friend_request(req, receiver_id):
 
     sender_id = req.user.id
     receiver_exists = Member.objects.filter(id=receiver_id).exists()
-
     if not receiver_exists:
         messages.error(req, "沒有這個使用者!")
         return redirect("friends:member_list")
@@ -72,17 +71,18 @@ def send_friend_request(req, receiver_id):
 
     if req.method == "POST":
         is_friend = Friend.objects.filter(Q(sender_id=sender_id, receiver_id=receiver_id) | Q(sender_id=receiver_id, receiver_id=sender_id)).exists()
+        friend = Friend.objects.filter(Q(sender_id=sender_id, receiver_id=receiver_id) | Q(sender_id=receiver_id, receiver_id=sender_id)).first()
         if is_friend:
-            friend = Friend.objects.filter(Q(sender_id=sender_id, receiver_id=receiver_id) | Q(sender_id=receiver_id, receiver_id=sender_id)).first()
             if friend.status == "2":
                 messages.error(req, "己經是好友了。")
+            elif friend.receiver_id == req.user.id:
+                messages.error(req, "對方己發送好友通知，請到等待中加好友!")        
             else:    
                 messages.error(req, "好友邀請已經發送過了！")
         else:
             Friend.objects.create(sender_id=sender_id, receiver_id=receiver_id)
             messages.success(req, "好友邀請已發送！")
-
-        return redirect(redirect_url)       
+    
     return redirect("friends:member_list")
 
 
