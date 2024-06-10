@@ -1,8 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const roomName = JSON.parse(document.getElementById('room-name').textContent);
+<<<<<<< HEAD
 	var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
 	const chatSocket = new WebSocket(
 		`${ws_scheme}://`
+=======
+	const chatSocket = new WebSocket(
+		'ws://'
+>>>>>>> 46affc8 (fix: 加入好友後導回版友頁面)
 		+ window.location.host
 		+ '/ws/chat/'
 		+ roomName

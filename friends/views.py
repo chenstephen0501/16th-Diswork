@@ -81,7 +81,7 @@ def send_friend_request(req, receiver_id):
     if page_number:
         redirect_url += f"?page={page_number}"
 
-    return redirect(redirect_url)
+    return redirect(redirect_url)    
 
 
 @login_required
