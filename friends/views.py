@@ -52,6 +52,7 @@ class FriendDeleteView(DeleteView):
     success_url = reverse_lazy("friends:friend_list")
 
 
+@login_required
 def send_friend_request(req, receiver_id):
     try:
         receiver_id = int(receiver_id)
@@ -60,28 +61,29 @@ def send_friend_request(req, receiver_id):
         return redirect("friends:member_list")
 
     sender_id = req.user.id
-    if sender_id == receiver_id:
-        messages.error(req, "不能向自己發送好友邀請")
+    receiver_exists = Member.objects.filter(id=receiver_id).exists()
+
+    if not receiver_exists:
+        messages.error(req, "沒有這個使用者!")
+        return redirect("friends:member_list")
+    elif sender_id == receiver_id:
+        messages.error(req, "操作錯誤!")
         return redirect("friends:member_list")
 
-    sender = req.user
-    receiver = get_object_or_404(Member, id=receiver_id)
+    if req.method == "POST":
+        is_friend = Friend.objects.filter(Q(sender_id=sender_id, receiver_id=receiver_id) | Q(sender_id=receiver_id, receiver_id=sender_id)).exists()
+        if is_friend:
+            friend = Friend.objects.filter(Q(sender_id=sender_id, receiver_id=receiver_id) | Q(sender_id=receiver_id, receiver_id=sender_id)).first()
+            if friend.status == "2":
+                messages.error(req, "己經是好友了。")
+            else:    
+                messages.error(req, "好友邀請已經發送過了！")
+        else:
+            Friend.objects.create(sender_id=sender_id, receiver_id=receiver_id)
+            messages.success(req, "好友邀請已發送！")
 
-    friend_request, created = Friend.objects.get_or_create(
-        sender=sender, receiver=receiver
-    )
-
-    if created:
-        messages.success(req, "好友邀請已發送！")
-    else:
-        messages.error(req, "好友邀請已經發送過了！")
-
-    redirect_url = reverse("friends:member_list")
-    page_number = req.POST.get("page")
-    if page_number:
-        redirect_url += f"?page={page_number}"
-
-    return redirect(redirect_url)    
+        return redirect(redirect_url)       
+    return redirect("friends:member_list")
 
 
 @login_required
