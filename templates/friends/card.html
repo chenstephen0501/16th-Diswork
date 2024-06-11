@@ -28,21 +28,25 @@
                     {{ drawn_member.birthday }}
                 </span>
             </div>
-            <span class="block text-sm font-medium text-gray-700">興趣：</span>
-            <span class="block text-sm text-gray-500" x-text="card.interest">
-                {{ drawn_member.interest }}
-            </span>
-            <div>
+            <div class="mb-2">
                 <span class="block text-sm font-medium text-gray-700">星座：</span>
                 <span class="block text-sm text-gray-500" x-text="card.constellation">
                     {{ drawn_member.constellation}}
                 </span>
             </div>
+            <div class="mb-2">
+                <span class="block text-sm font-medium text-gray-700">興趣：</span>
+                <span class="block text-sm text-gray-500" x-text="card.interest">
+                    {{ drawn_member.interest }}
+                </span>
+            </div>
+
         </div>
         <div class="mt-4">
-            <a :href="'/friends/send_friend_request/' + card.id">
+            <form method="post" action="{% url 'friends:send_request' receiver_id=drawn_member.id %}">
+                {% csrf_token %}
                 <button class="px-2 py-1 mt-2 text-white bg-green-500 rounded hover:bg-green-600">加好友</button>
-            </a>
+            </form>
         </div>
 </div>
 </template>

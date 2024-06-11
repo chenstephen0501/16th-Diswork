@@ -52,19 +52,21 @@ class FriendDeleteView(DeleteView):
     success_url = reverse_lazy("friends:friend_list")
 
 
-@login_required
-@require_POST
 def send_friend_request(req, receiver_id):
-    members = Member.objects.exclude(id=req.user.id)
-    page_number = req.POST.get("page")
-    page_obj, is_paginated = paginate_queryset(members, page_number, 5)
+    try:
+        receiver_id = int(receiver_id)
+    except ValueError:
+        messages.error(req, "無效的接收者ID")
+        return redirect("friends:member_list")
+
     sender_id = req.user.id
+    if sender_id == receiver_id:
+        messages.error(req, "不能向自己發送好友邀請")
+        return redirect("friends:member_list")
+
+    sender = req.user
     receiver = get_object_or_404(Member, id=receiver_id)
 
-    if sender_id == receiver_id:
-        messages.error("不能向自己發送好友邀請")
-        return render(req, "friends:member_list")
-    sender = get_object_or_404(Member, id=sender_id)
     friend_request, created = Friend.objects.get_or_create(
         sender=sender, receiver=receiver
     )
@@ -73,8 +75,10 @@ def send_friend_request(req, receiver_id):
         messages.success(req, "好友邀請已發送！")
     else:
         messages.error(req, "好友邀請已經發送過了！")
+
     redirect_url = reverse("friends:member_list")
-    if is_paginated:
+    page_number = req.POST.get("page")
+    if page_number:
         redirect_url += f"?page={page_number}"
 
     return redirect(redirect_url)
@@ -156,7 +160,7 @@ class DrawCardView(View):
                 member_data = {
                     "id": random_member.id,
                     "username": random_member.username,
-                    "name": random_member.name or "無名",
+                    "name": random_member.name or "未填寫",
                     "user_img": (
                         random_member.user_img.url
                         if random_member.user_img
@@ -167,8 +171,8 @@ class DrawCardView(View):
                         if random_member.birthday
                         else "未知"
                     ),
-                    "interest": random_member.interest or "未知",
-                    "constellation": random_member.constellation or "未知",
+                    "interest": random_member.interest or "未填寫",
+                    "constellation": random_member.constellation or "未填寫",
                 }
                 return JsonResponse(member_data)
             else:
@@ -189,7 +193,7 @@ class DrawCardView(View):
             member_data = {
                 "id": random_member.id,
                 "username": random_member.username,
-                "name": random_member.name or "無名",
+                "name": random_member.name or "未填寫",
                 "user_img": (
                     random_member.user_img.url
                     if random_member.user_img
@@ -198,10 +202,10 @@ class DrawCardView(View):
                 "birthday": (
                     random_member.birthday.strftime("%Y-%m-%d")
                     if random_member.birthday
-                    else "未知"
+                    else "未填寫"
                 ),
-                "interest": random_member.interest or "未知",
-                "constellation": random_member.constellation or "未知",
+                "interest": random_member.interest or "未填寫",
+                "constellation": random_member.constellation or "未填寫",
             }
             return JsonResponse(member_data)
         else:
