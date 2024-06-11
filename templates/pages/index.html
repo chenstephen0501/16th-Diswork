@@ -12,24 +12,24 @@
       <div class="w-1/2 ml-2 bg-gray-300 rounded-3xl">
         {% if member_status == 1 %}
         <div class="w-full bg-gray-300 rounded-3xl">
-          <p class="block w-full py-3 text-black">已訂閱</p>
+          <p class="block w-full py-3 text-black ">已訂閱</p>
         </div>
         {% else %}
         <div class="w-full bg-gray-300 hover:bg-amber-500 rounded-3xl ">
           <form action="{% url 'paies:create_order' %}" method="POST">
             {% csrf_token %}
-            <button type="submit" class="block w-full py-3 text-black hover:text-white">訂閱我們
+            <button type="submit" class="block w-full py-3 text-black hover:text-white transition-all duration-150 ease-linear">訂閱我們
             </button>
           </form>
         </div>
         {% endif %}
       </div>
       {% else %}
-      <div class="w-1/2 mr-2 bg-gray-300 hover:bg-[#FE952A] rounded-3xl">
-        <a href="{% url 'members:register' %}" class="block w-full py-3 text-black hover:text-white">註冊加入DISWORK</a>
+      <div class="w-1/2 mr-2 bg-gray-300 hover:bg-[#FE952A] rounded-3xl transition-all duration-150 ease-linear">
+        <a href="{% url 'members:register' %}" class="block w-full py-3 text-black hover:text-white transition-all duration-150 ease-linear">註冊加入DISWORK</a>
       </div>
-      <div class="w-1/2 ml-2 bg-gray-300 hover:bg-[#FE952A] rounded-3xl ">
-        <a href="{% url 'members:login' %}" class="block w-full py-3 text-black hover:text-white">登入使用DISWORK</a>
+      <div class="w-1/2 ml-2 bg-gray-300 hover:bg-[#FE952A] rounded-3xl transition-all duration-150 ease-linear">
+        <a href="{% url 'members:login' %}" class="block w-full py-3 text-black hover:text-white transition-all duration-150 ease-linear">登入使用DISWORK</a>
       </div>
       {% endif %}
     </div>
