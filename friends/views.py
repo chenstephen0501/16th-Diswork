@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from django.views.decorators.http import require_POST
 from lib.paginate_que import paginate_queryset
 import random
 from django.utils import timezone
@@ -49,7 +48,7 @@ class FriendListView(ListView):
 class FriendDeleteView(DeleteView):
     model = Friend
     template_name = "friends/confirm_delete.html"
-    success_url = reverse_lazy("friends:friend_list")
+    success_url = reverse_lazy("friends:friend_list")    
 
 
 @login_required
@@ -70,7 +69,7 @@ def send_friend_request(req, receiver_id):
             if friend.status == "2":
                 messages.error(req, "己經是好友了。")
             elif friend.receiver_id == req.user.id:
-                messages.error(req, "對方己發送好友通知，請到等待中加好友!")        
+                messages.error(req, "對方己發送好友通知，請到等待中加好友！")        
             else:    
                 messages.error(req, "好友邀請已經發送過了！")
         else:
@@ -80,41 +79,59 @@ def send_friend_request(req, receiver_id):
     
     return redirect("friends:member_list")
 
-
 @login_required
 def accept_friend_request(req, friend_request_id):
-    try:
-        friend_request = Friend.objects.get(id=friend_request_id, status="1")
-    except Friend.DoesNotExist:
-        messages.error(req, "好友邀請已經發送過了！")
-        return render(req, "friends/search_list.html")
+    members = Member.objects.exclude(id=req.user.id)
+    page_number = req.POST.get("page")
+    page_obj, is_paginated  = paginate_queryset(members, page_number, 5)
+    
+    if req.method == "POST":
+        friend_request_exists = Friend.objects.filter(id=friend_request_id).exists()
+        friend_request = Friend.objects.filter(id=friend_request_id).first()
+        if not friend_request_exists:
+            messages.error(req, "沒有這筆加好友資料!")
 
-    if friend_request.receiver == req.user:
-        sender = friend_request.sender
-        receiver = friend_request.receiver
-
-        if not Friend.objects.filter(sender=receiver, receiver=sender).exists():
-            receiver.friends.add(sender)
-            sender.friends.add(receiver)
-
-        friend_request.status = "2"
-        friend_request.save()
-
-        messages.success(req, "好友邀請已接受")
-        return render(req, "friends/friend_list.html")
+        if friend_request.status == "1":
+            friend_request.status = "2"
+            friend_request.save()
+            messages.success(req, "好友邀請已接受。")
+        else:
+            messages.error(req, "發送好友狀態代號不對。")    
     else:
-        messages.error(req, "好友邀請已接受")
-        return render(req, "friends/friend_list.html")
+        messages.error(req, "操作錯誤！")    
+
+    redirect_url = reverse("friends:member_list")
+    if is_paginated:
+        redirect_url += f"?page={page_number}"
+
+    return redirect(redirect_url)    
 
 
 @login_required
 def reject_friend_request(req, friend_request_id):
+    members = Member.objects.exclude(id=req.user.id)
+    page_number = req.POST.get("page")
+    page_obj, is_paginated  = paginate_queryset(members, page_number, 5)
+    print("reject", friend_request_id)
     if req.method == "POST":
-        friend_request = get_object_or_404(Friend, id=friend_request_id, status="1")
-        if friend_request.receiver == req.user:
+        friend_request_exists = Friend.objects.filter(id=friend_request_id).exists()
+        friend_request = Friend.objects.filter(id=friend_request_id).first()
+        if not friend_request_exists:
+            messages.error(req, "沒有這筆資料！")
+
+        if friend_request.status == "1":
             friend_request.status = "3"
             friend_request.save()
-    return redirect("friend_requests")
+            messages.success(req, "拒絕加入好友！")
+        else:
+            messages.error(req, "發送好友狀態代號不對。")      
+    else:
+        messages.error(req, "操作錯誤！")
+    redirect_url = reverse("friends:member_list")
+    if is_paginated:
+        redirect_url += f"?page={page_number}"
+
+    return redirect(redirect_url)   
 
 
 @login_required
