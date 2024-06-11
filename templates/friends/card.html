@@ -1,17 +1,17 @@
 {% extends 'boards/base.html' %}
 {% block content %}
-<div class="bg-white shadow-lg rounded-lg p-4 w-full max-w-xs mx-auto" x-data="cardComponent()">
+<div class="w-full max-w-xs p-4 mx-auto bg-white rounded-lg shadow-lg" x-data="cardComponent()">
     <div class="mt-4">
         <h3 class="text-sm font-semibold text-gray-700">抽卡機制</h3>
         <p>每日限定只能抽 1 次。</p>
-        <button class="mt-2 bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600"
+        <button class="px-2 py-1 mt-2 text-white bg-blue-500 rounded hover:bg-blue-600"
             @click="drawCard()">立即抽卡</button>
     </div>
-    <div x-show="drawLimitReached" class="mt-4 bg-red-100 text-red-700 p-4 rounded-lg">
+    <div x-show="drawLimitReached" class="p-4 mt-4 text-red-700 bg-red-100 rounded-lg">
         今日抽卡次數已達上限！請明天再來。
     </div>
     <template x-if="card">
-        <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <div class="p-4 mt-4 rounded-lg bg-gray-50">
             <div class="flex flex-col items-center">
                 <img class="w-24 h-24 rounded-full" :src="card.user_img" alt="avatar">
                 <h2 class="mt-2 text-lg font-semibold" x-text="card.username"></h2>
@@ -41,7 +41,7 @@
         </div>
         <div class="mt-4">
             <a :href="'/friends/send_friend_request/' + card.id">
-                <button class="mt-2 bg-green-500 text-white py-1 px-2 rounded hover:bg-green-600">加好友</button>
+                <button class="px-2 py-1 mt-2 text-white bg-green-500 rounded hover:bg-green-600">加好友</button>
             </a>
         </div>
 </div>
@@ -54,18 +54,27 @@
             drawLimitReached: false,
             drawCard() {
                 fetch("/friends/random/", { headers: { "X-Requested-With": "XMLHttpRequest" } })
-                    .then(response => response.json())
-                    .then(data => {
-                        this.card = data;
-                        this.drawLimitReached = false;
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Draw limit reached");
+                        }
+                        return response.json();
                     })
-                    .catch(error => console.error("Error:", error));
-            },
-            sendFriendRequest() {
-
+                    .then(data => {
+                        if (data.error) {
+                            this.drawLimitReached = true;
+                            this.card = null;
+                        } else {
+                            this.card = data;
+                            this.drawLimitReached = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        this.drawLimitReached = true;
+                    });
             }
         }
     }
-
 </script>
 {% endblock %}

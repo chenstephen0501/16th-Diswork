@@ -15,6 +15,8 @@ import random
 from django.utils import timezone
 from django.db.models.functions import TruncDate
 from django.template.loader import render_to_string
+from django.views import View
+
 
 @method_decorator(login_required, name="dispatch")
 class MemberListView(ListView):
@@ -29,7 +31,7 @@ class MemberListView(ListView):
         if keyword:
             return query.filter(username__icontains=keyword)
         return query
-    
+
 
 @method_decorator(login_required, name="dispatch")
 class FriendListView(ListView):
@@ -55,7 +57,7 @@ class FriendDeleteView(DeleteView):
 def send_friend_request(req, receiver_id):
     members = Member.objects.exclude(id=req.user.id)
     page_number = req.POST.get("page")
-    page_obj, is_paginated  = paginate_queryset(members, page_number, 5)
+    page_obj, is_paginated = paginate_queryset(members, page_number, 5)
     sender_id = req.user.id
     receiver = get_object_or_404(Member, id=receiver_id)
 
@@ -75,7 +77,7 @@ def send_friend_request(req, receiver_id):
     if is_paginated:
         redirect_url += f"?page={page_number}"
 
-    return redirect(redirect_url)    
+    return redirect(redirect_url)
 
 
 @login_required
@@ -121,62 +123,86 @@ def friend_requests(req):
         req, "friends/friend_requests.html", {"received_requests": received_requests}
     )
 
-class DrawCardView(ListView):
-    model = Member
-    template_name = 'friends/card.html'
-    context_object_name = 'members'
-    
-    def get_queryset(self):
-        user = self.request.user
-        
+
+class DrawCardView(View):
+    def get_queryset(self, user):
         friends = Friend.objects.filter(
             Q(sender=user, status="2") | Q(receiver=user, status="2")
         )
-        
+
         friend_ids = set()
         for friend in friends:
             if friend.sender == user:
                 friend_ids.add(friend.receiver.id)
             elif friend.receiver == user:
                 friend_ids.add(friend.sender.id)
-        
-        return Member.objects.exclude(id__in=friend_ids).exclude(id=user.id)
-    
-    def get(self, request):
-        members = list(self.get_queryset())
 
+        return Member.objects.exclude(id__in=friend_ids).exclude(id=user.id)
+
+    def get(self, request):
+        user = request.user
+        members = list(self.get_queryset(user))
         today = timezone.now().date()
 
-        already_drew_today = Card.objects.annotate(date=TruncDate('created_at')).filter(drawer=request.user, date=today).exists()
+        already_drew_today = (
+            Card.objects.annotate(date=TruncDate("created_at"))
+            .filter(drawer=user)
+            .first()
+        )
 
         if already_drew_today:
-            return render(request, "friends/card.html", {"drawn_member": None})
+            random_member = already_drew_today.drawn
+            if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+                member_data = {
+                    "id": random_member.id,
+                    "username": random_member.username,
+                    "name": random_member.name or "無名",
+                    "user_img": (
+                        random_member.user_img.url
+                        if random_member.user_img
+                        else "/static/image/cathead.png"
+                    ),
+                    "birthday": (
+                        random_member.birthday.strftime("%Y-%m-%d")
+                        if random_member.birthday
+                        else "未知"
+                    ),
+                    "interest": random_member.interest or "未知",
+                    "constellation": random_member.constellation or "未知",
+                }
+                return JsonResponse(member_data)
+            else:
+                return render(
+                    request,
+                    "friends/card.html",
+                    {"drawn_member": random_member, "draw_limit_reached": True},
+                )
 
-        count = 0
-        max_count = 10
         random_member = None
-        
-        while count < max_count:
-            random_member = random.choice(members)
-            existing_card = Card.objects.filter(drawer=request.user, drawn=random_member).exists()
-            if not existing_card:
-                break
-            count += 1
-        
-        if count == max_count:
-            return HttpResponse("會員人數新增中")
 
-        card = Card.objects.create(drawer=request.user, drawn=random_member)
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        random_member = random.choice(members)
+        existing_card = Card.objects.filter(drawer=user, drawn=random_member).exists()
+
+        card = Card.objects.create(drawer=user, drawn=random_member)
+
+        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
             member_data = {
                 "id": random_member.id,
                 "username": random_member.username,
-                "name": random_member.name,
-                "user_img": random_member.user_img.url if random_member.user_img else '/static/image/cathead.png',
-                "birthday": random_member.birthday.strftime("%Y-%m-%d"),
-                "interest": random_member.interest,
-                "constellation": random_member.constellation,
+                "name": random_member.name or "無名",
+                "user_img": (
+                    random_member.user_img.url
+                    if random_member.user_img
+                    else "/static/image/cathead.png"
+                ),
+                "birthday": (
+                    random_member.birthday.strftime("%Y-%m-%d")
+                    if random_member.birthday
+                    else "未知"
+                ),
+                "interest": random_member.interest or "未知",
+                "constellation": random_member.constellation or "未知",
             }
             return JsonResponse(member_data)
         else:
-            return render(request, "friends/card.html", {'drawn_member': random_member})
+            return render(request, "friends/card.html", {"drawn_member": random_member})
