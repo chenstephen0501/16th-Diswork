@@ -34,6 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	const messageInputDom = document.querySelector('#chat-message-input');
 	const messageSubmitDom = document.querySelector('#chat-message-submit');
 	messageInputDom.focus();
+	
+
+	messageInputDom.addEventListener("input", function() {
+		if (messageInputDom.value.trim() != "") {
+			messageSubmitDom.removeAttribute("disabled");
+		} else {
+			messageSubmitDom.setAttribute("disabled", "disabled");
+		}
+	})
+	
 	messageInputDom.onkeyup = function (e) {
 		if (e.key === 'Enter') {
 			messageSubmitDom.click();
@@ -44,7 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		const userId = document.querySelector("#chat-message-user").dataset.userId;
 		const userName = document.querySelector('#chat-message-user').dataset.userName;
 		const userImg = document.querySelector('#chat-message-user').dataset.userImg;
-		const message = messageInputDom.value;
+		const message = messageInputDom.value.trim()
+
 		const privateUsers = roomName.split("_");
 		const receiverId = privateUsers[0] == userId ? privateUsers[1] : privateUsers[0];
 		chatSocket.send(JSON.stringify({
@@ -55,5 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			"senderImg": userImg,
 		}));
 		messageInputDom.value = '';
+		messageSubmitDom.setAttribute("disabled", "disabled");
 	};
 })
