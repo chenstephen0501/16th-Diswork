@@ -75,9 +75,10 @@ def send_friend_request(req, receiver_id):
         else:
             messages.success(req, "好友邀請已發送！")
             Friend.objects.create(sender_id=sender_id, receiver_id=receiver_id)
-            messages.success(req, "好友邀請已發送！")
-    
-    return redirect("friends:member_list")
+        return redirect("friends:member_list")
+    else:
+        messages.error(req, "操作錯誤！")
+        return redirect("friends:member_list")
 
 @login_required
 def accept_friend_request(req, friend_request_id):
