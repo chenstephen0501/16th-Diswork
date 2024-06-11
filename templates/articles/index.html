@@ -27,9 +27,11 @@
         <span class="text-white material-symbols-outlined">edit</span>
       </a>
     </div>
-    <div x-data="{ activeBtn : '熱門' }" class="flex">
-      <button class="article-filter-btn" :class="{ 'active': activeBtn === '熱門'}" @click="activeBtn = '熱門'">熱門</button>
-      <button class="article-filter-btn" :class="{ 'active': activeBtn === '最新'}" @click="activeBtn = '最新'">最新</button>
+    <div x-data="{ activeBtn : '{{ request.GET.sort|default:" 最新" }}' }" class="flex">
+      <button class="article-filter-btn" :class="{ 'active': activeBtn === '熱門'}"
+        @click="window.location.href='?sort=熱門'">熱門</button>
+      <button class="article-filter-btn" :class="{ 'active': activeBtn === '最新'}"
+        @click="window.location.href='?sort=最新'">最新</button>
     </div>
   </div>
   <div class="flex flex-col w-full py-4 mx-auto">
@@ -48,8 +50,8 @@
               {{ article.content }}
             </div>
             <div class="inline-flex w-full gap-3 text-sm">
-              <p>留言: {{article.comment_count}}</p>
-              <p>讚數: {{article.like_count}}</p>
+              <p>留言: {{article.comment_count }}</p>
+              <p>讚數: {{ article.like_count }}</p>
             </div>
           </div>
           {% if article.picture %}
