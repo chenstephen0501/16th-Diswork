@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Notification
 
@@ -8,10 +8,14 @@ def notification_list(request):
     notifications = Notification.objects.filter(user=request.user).order_by(
         "-date_sent"
     )
+    unread_count = Notification.objects.filter(user=request.user, is_read=False).count()
     return render(
         request,
         "notifications/notification_list.html",
-        {"notifications": notifications},
+        {
+            "notifications": notifications,
+            "unread_count": unread_count,
+        },
     )
 
 
@@ -25,8 +29,9 @@ def delete_notification(request, notification_id):
 
 @login_required
 def mark_as_read(request, notification_id):
-    notification = Notification.objects.get(pk=notification_id)
-    if notification.user == request.user:
-        notification.is_read = True
-        notification.save()
+    notification = get_object_or_404(
+        Notification, id=notification_id, user=request.user
+    )
+    notification.is_read = True
+    notification.save()
     return redirect("notifications:list")

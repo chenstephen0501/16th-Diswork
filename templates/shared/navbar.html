@@ -10,8 +10,15 @@
       <div class="relative flex items-center" x-data="{ open: false }">
         {% if user.is_authenticated %}
         <div>
-          <span class="pt-[4px] mr-2 material-symbols-outlined" style="font-size: 40px;">
+          <span class="relative pt-[4px] mr-2 material-symbols-outlined" style="font-size: 40px;">
             notifications
+            {% if unread_count > 0 %}
+            <span
+              class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-600 rounded-full"
+              style="font-family: 'Roboto', sans-serif;">
+              {{ unread_count }}
+            </span>
+            {% endif %}
           </span>
         </div>
         <div class="relative">
