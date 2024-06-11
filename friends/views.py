@@ -203,7 +203,7 @@ class DrawCardView(View):
                     "birthday": (
                         random_member.birthday.strftime("%Y-%m-%d")
                         if random_member.birthday
-                        else "未知"
+                        else "未填寫"
                     ),
                     "interest": random_member.interest or "未填寫",
                     "constellation": random_member.constellation or "未填寫",
