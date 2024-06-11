@@ -5,6 +5,13 @@
 <div class="mx-auto mt-4 max-w-4/5">
   <div class="px-4">
     <div class="space-y-2">
+      {% if not received_requests %}
+      <div class="flex items-center justify-center h-40 text-gray-600">
+        <div class="text-center">
+          <p class="mb-2 text-lg font-semibold">目前沒有好友邀請</p>
+        </div>
+      </div>
+      {% else %}
       {% for request in received_requests %}
       <div class="flex items-center justify-between px-4 py-2 rounded-lg hover:bg-gray-200">
         <div class="flex items-center space-x-2">
@@ -34,6 +41,7 @@
         </div>
       </div>
       {% endfor %}
+      {% endif %}
     </div>
   </div>
 </div>
