@@ -7,11 +7,6 @@
       </a>
     </div>
     <div class="relative flex items-center" x-data="{ open: false }">
-
-      <a href="{% url 'friends:draw_card' %}">
-        <span class="material-symbols-outlined">playing_cards</span>
-      </a>
-
       {% if user.is_authenticated %}
       <div class="relative">
         <button class="flex items-center focus:outline-none" @click="open = !open" @click.away="open = false"
