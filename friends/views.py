@@ -165,6 +165,7 @@ class DrawCardView(View):
         user = request.user
         members = list(self.get_queryset(user))
         today = timezone.now().date()
+        category_list = Category.objects.all()
 
         already_drew_today = (
             Card.objects.annotate(date=TruncDate("created_at"))
@@ -197,7 +198,7 @@ class DrawCardView(View):
                 return render(
                     request,
                     "friends/card.html",
-                    {"drawn_member": random_member, "draw_limit_reached": True},
+                    {"drawn_member": random_member, "draw_limit_reached": True, "category_list": category_list},
                 )
 
         random_member = None
@@ -227,4 +228,4 @@ class DrawCardView(View):
             }
             return JsonResponse(member_data)
         else:
-            return render(request, "friends/card.html", {"drawn_member": random_member})
+            return render(request, "friends/card.html", {"drawn_member": random_member, "category_list": category_list})
