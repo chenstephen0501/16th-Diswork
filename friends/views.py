@@ -1,4 +1,5 @@
 from django.views.generic import ListView, DeleteView
+from django.http import JsonResponse
 from django.http import HttpResponse
 from .models import Friend, Card
 from members.models import Member
