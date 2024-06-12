@@ -12,7 +12,7 @@
       <form action="{% url 'members:register' %}" method="post">
         {% csrf_token %}
         <div class="mb-4">
-          <label class="block mb-2 text-sm font-bold text-gray-200" for="name">暱稱:</label>
+          <label class="block mb-2 text-sm font-bold text-gray-200" for="name">暱稱</label>
           {{form.name}}
           {{form.name.errors}}
         </div>
@@ -27,7 +27,7 @@
           {{form.email.errors}}
         </div>
         <div class="mb-4">
-          <label class="block mb-2 text-sm font-bold text-gray-200" for="password1">密碼:</label>
+          <label class="block mb-2 text-sm font-bold text-gray-200" for="password1">密碼</label>
           <div>{{form.password1}}</div>
           {{form.password1.errors}}
         </div>
