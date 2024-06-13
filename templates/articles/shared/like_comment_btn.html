@@ -1,14 +1,12 @@
 <div id="like_comment_btn-{{comment.id}}" class="flex items-center gap-2">
 
   {% if comment.is_like %}
-  <!-- <form action="{% url 'comments:remove_like' comment.id %}"method="POST"> -->
   <form hx-post="{% url 'comments:remove_like' comment.id %}" hx-throttle="500ms"
     hx-target="#like_comment_btn-{{comment.id}}" hx-swap="outerHTML">
     {% csrf_token %}
     <button type="submit" class="material-symbols-outlined like-btn text-white duration-150 ease-linear">favorite</button>
   </form>
   {% else %}
-  <!-- <form action="{% url 'comments:add_like' comment.id %}" method="POST"> -->
   <form hx-post="{% url 'comments:add_like' comment.id %}" hx-throttle="500ms"
     hx-target="#like_comment_btn-{{comment.id}}" hx-swap="outerHTML">
     {% csrf_token %}
