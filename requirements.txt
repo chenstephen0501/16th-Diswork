@@ -74,4 +74,4 @@ wcwidth==0.2.13
 webencodings==0.5.1
 whitenoise==6.6.0
 zope.interface==6.3
-django_extensions
+django-extensions==3.2.3

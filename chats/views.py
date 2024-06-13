@@ -9,7 +9,7 @@ from friends.models import Friend
 from boards.models import Category
 from django.db.models import Q, Prefetch, OuterRef, Subquery
 from django.core.paginator import Paginator
-
+from django.db.models import Max, F
 
 @login_required
 def chat_home(request):
@@ -54,19 +54,50 @@ def chat_create(request):
     return redirect("chats:home")
 
 
+# @login_required
+# def private_message_home(request):
+#     latest_messages_subquery = PrivateMessage.objects.filter(
+#         receiver_id=OuterRef('receiver_id'),
+#         sender_id=OuterRef('sender_id')
+#     ).order_by('-created_at').values('created_at')[:1]
+
+#     latest_messages = PrivateMessage.objects.filter(
+#         receiver_id=request.user.id,
+#         created_at=Subquery(latest_messages_subquery)
+#     ).select_related("sender", "private_room").order_by("-created_at")
+    
+#     return render(request, "chats/private_message_home.html", {"private_messages": latest_messages})
+
 @login_required
 def private_message_home(request):
+    # 首先，找到每个会话中的最新消息的创建时间
     latest_messages_subquery = PrivateMessage.objects.filter(
-        receiver_id=OuterRef('receiver_id'),
-        sender_id=OuterRef('sender_id')
-    ).order_by('-created_at').values('created_at')[:1]
+        receiver_id=request.user.id
+    ).values('sender_id', 'private_room').annotate(
+        latest_created_at=Max('created_at')
+    ).values('latest_created_at')
 
+    # 然后，基于最新消息的创建时间来获取完整的 PrivateMessage 对象
     latest_messages = PrivateMessage.objects.filter(
         receiver_id=request.user.id,
-        created_at=Subquery(latest_messages_subquery)
-    ).select_related("sender", "private_room").order_by("-created_at")
-    
-    return render(request, "chats/private_message_home.html", {"private_messages": latest_messages})
+        created_at__in=latest_messages_subquery
+    ).select_related('sender', 'private_room').order_by('-created_at')
+
+    # 分页处理
+    paginator = Paginator(latest_messages, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    category_list = Category.objects.all()
+
+    return render(
+        request,
+        'chats/private_message_home.html',
+        {
+            'private_messages': latest_messages,
+            'page_obj': page_obj,
+            'category_list': category_list,
+        },
+    )
 
 # @login_required
 # def private_message_home(request):
