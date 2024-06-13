@@ -75,6 +75,7 @@ def private_message_home(request):
     paginator = Paginator(latest_messages, 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    category_list = Category.objects.all()
 
     return render(
         request,
@@ -82,6 +83,7 @@ def private_message_home(request):
         {
             "private_messages": latest_messages,
             "page_obj": page_obj,
+            "category_list": category_list,
         },
     )
 
@@ -120,6 +122,7 @@ def private_message_room(request, room_name):
                     "room_name": room_name,
                     "private_messages": private_messages,
                     "receiver": receiver,
+                    "category_list": category_list,
                 },
             )
 
