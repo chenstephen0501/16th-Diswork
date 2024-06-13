@@ -45,7 +45,7 @@
 </section>
 <section class="px-6 py-20 text-[#fbfbfb] bg-[#292929] md:px-12">
   <div class="flex flex-col items-center justify-between max-w-screen-lg mx-auto md:flex-row">
-    <img src="https://picsum.photos/300/200/?random=10" width="600" height="400" alt="Discord Voice"
+    <img src="{% static 'image/boards.webp' %}" width="600" height="400" alt="Discord Voice"
       class="mb-8 md:mb-0 md:mr-12" style="aspect-ratio: 600 / 400; object-fit: cover;" />
     <div class="max-w-md space-y-6">
       <h2 class="text-3xl font-bold">多元主題討論版</h2>
@@ -54,7 +54,7 @@
       </p>
       <a href="{% url 'boards:list' %}">
         <button
-          class="inline-flex items-center px-4 py-4 mt-4 text-lg font-bold text-white bg-[#3397cf] border  rounded-full hover:bg-sky-400 hover:text-white">
+          class="inline-flex items-center px-4 py-3 mt-4 text-lg font-bold text-white bg-[#3397cf] border  rounded-lg hover:bg-sky-400 hover:text-white">
           加入討論
         </button>
       </a>
@@ -69,7 +69,7 @@
         各個討論版都擁有專屬的活動日曆，讓你與版友有機會在線上交流的同時，也能有面對面的相聚機會！
       </p>
     </div>
-    <img src="https://picsum.photos/300/200/?random=10" width="600" height="400" alt="Discord Voice"
+    <img src="{% static 'image/category.webp' %}" width="600" height="400" alt="Discord Voice"
       class="mb-8 md:mb-0 md:mr-12" style="aspect-ratio: 600 / 400; object-fit: cover;" />
   </div>
 </section>
