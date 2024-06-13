@@ -21,12 +21,22 @@ class ArticleIndexView(ListView):
 
     def get_queryset(self):
         category_id = self.kwargs.get("category_id")
-        return (
-            Article.objects.with_count()
-            .filter(category_id=category_id)
-            .annotate(like_count=Count("like_article", distinct=True))
-            .order_by("-like_count")
-        )
+        sort = self.request.GET.get("sort", "最新")
+
+        if sort == "熱門":
+            return (
+                Article.objects.with_count()
+                .filter(category_id=category_id)
+                .annotate(like_count=Count("like_article", distinct=True))
+                .order_by("-like_count")
+            )
+        else:
+            return (
+                Article.objects.with_count()
+                .filter(category_id=category_id)
+                .annotate(like_count=Count("like_article", distinct=True))
+                .order_by("-created_at")
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,6 +44,7 @@ class ArticleIndexView(ListView):
             Category, id=self.kwargs.get("category_id")
         )
         context["category_list"] = Category.objects.all()
+        context["sort"] = self.request.GET.get("sort", "最新")
         return context
 
 
@@ -79,7 +90,7 @@ class ShowView(DetailView):
         like_subquery = LikeArticle.objects.filter(
             like_by_article_id=self.request.user.id, like_article_id=OuterRef("pk")
         )
-        return Article.objects.annotate(is_like=Exists(like_subquery))
+        return Article.objects.with_count().annotate(is_like=Exists(like_subquery))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -111,7 +122,8 @@ def create(request, category_id):
         article.author = request.user
         article.category_id = category_id
         article.save()
-        return redirect("articles:index", category_id=article.category_id)
+        url = reverse("articles:index", kwargs={"category_id": article.category_id})
+        return redirect(f"{url}?sort=最新")
     return redirect("articles:new", category_id=category_id)
 
 
@@ -154,6 +166,7 @@ def add_like(req, pk):
     article = get_object_or_404(Article, id=pk)
     article.like_article.add(req.user)
     article.save()
+    article.like_count = LikeArticle.objects.filter(like_article=pk).count()
     article.is_like = True
     return render(req, "articles/shared/like_button.html", {"article": article})
 
@@ -164,5 +177,6 @@ def remove_like(req, pk):
     article = get_object_or_404(Article, id=pk)
     article.like_article.remove(req.user)
     article.save()
+    article.like_count = LikeArticle.objects.filter(like_article=pk).count()
     article.is_like = False
     return render(req, "articles/shared/like_button.html", {"article": article})

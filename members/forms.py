@@ -10,40 +10,51 @@ class SignUpForm(UserCreationForm):
         widgets = {
             "name": forms.TextInput(
                 attrs={
-                    "class": "p-2 border-2 border-gray-300 w-full",
+                    "class": "w-full px-3 py-3 text-sm bg-white border rounded shadow border-slate-300 focus:outline-none focus:ring",
                     "placeholder": "請輸入暱稱",
                 }
             ),
             "username": forms.TextInput(
                 attrs={
-                    "class": "p-2 border-2 border-gray-300 w-full",
+                    "class": "w-full px-3 py-3 text-sm bg-white border rounded shadow border-slate-300 focus:outline-none focus:ring",
                     "placeholder": "請輸入帳號",
                 }
             ),
             "email": forms.EmailInput(
                 attrs={
-                    "class": "p-2 border-2 border-gray-300 w-full",
+                    "class": "w-full px-3 py-3 text-sm bg-white border rounded shadow border-slate-300 focus:outline-none focus:ring",
                     "placeholder": "請輸入信箱",
                 }
             ),
             "password1": forms.PasswordInput(
                 attrs={
-                    "class": "p-2 border-2 border-gray-300 w-full",
+                    "class": "w-full px-3 py-3 text-sm bg-white border rounded shadow border-slate-300 focus:outline-none focus:ring",
                     "placeholder": "請輸入密碼",
                 }
             ),
             "password2": forms.PasswordInput(
                 attrs={
-                    "class": "p-2 border-2 border-gray-300 w-full",
+                    "class": "w-full px-3 py-3 text-sm bg-white border rounded shadow border-slate-300 focus:outline-none focus:ring",
                     "placeholder": "確認密碼",
                 }
             ),
             "user_img": forms.FileInput(
                 attrs={
-                    "class": "mx-1 border-2 border-gray-300",
+                    "class": "w-full py-3 text-white bg-orange-500 rounded shadow hover:bg-orange-600 focus:outline-none",
                 }
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].widget.attrs.update({
+            'class': 'w-full px-3 py-3 text-sm bg-white border rounded shadow border-slate-300 focus:outline-none focus:ring',
+            'placeholder': '請輸入密碼'
+        })
+        self.fields['password2'].widget.attrs.update({
+            'class': 'w-full px-3 py-3 text-sm bg-white border rounded shadow border-slate-300 focus:outline-none focus:ring',
+            'placeholder': '確認密碼'
+        })
 
     def clean_email(self):
         email = self.cleaned_data["email"]

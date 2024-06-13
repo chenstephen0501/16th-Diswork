@@ -4,88 +4,102 @@
 {% load static %}
 
 <div class="max-w-4xl mx-auto mt-4">
-    <div class="px-4">
-        <div class="space-y-2">
-            {% for friend in friend_list %}
-            <div class="flex items-center justify-between px-4 py-2 rounded-lg hover:bg-gray-200">
-                <div class="flex items-center space-x-2">
-                    {% if friend.sender != user %}
-                    {% if friend.sender.user_img %}
-                    <img src="{{ friend.sender.user_img.url }}" alt="photo"
-                        class="w-12 h-12 border border-gray-200 rounded-full">
-                    {% else %}
-                    <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
-                    {% endif %}
-                    <div class="text-gray-800">{{ friend.sender.username }}</div>
-                    {% else %}
-                    {% if friend.receiver.user_img %}
-                    <img src="{{ friend.receiver.user_img.url }}" alt="photo"
-                        class="w-12 h-12 border border-gray-200 rounded-full">
-                    {% else %}
-                    <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
-                    {% endif %}
-                    <div class="text-gray-800">{{ friend.receiver.username }}</div>
-                    {% endif %}
-                </div>
-                <div class="flex items-center flex-shrink-0 mr-2 space-x-2">
+  <div class="px-4">
+    <div class="space-y-2">
+      {% if not friend_list %}
+      <div class="flex items-center justify-center h-40 text-gray-600">
+        <div class="text-center">
+          <p class="mb-2 text-lg font-semibold">目前無好友</p>
+          <p class="text-sm">快去添加一些好友吧！</p>
+        </div>
+      </div>
+      {% else %}
+      {% for friend in friend_list %}
+      <div class="flex items-center justify-between px-4 py-2 rounded-lg hover:bg-gray-200">
+        <div class="flex items-center space-x-2">
+          {% if friend.sender != user %}
+          {% if friend.sender.user_img %}
+          <img src="{{ friend.sender.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
+          {% else %}
+          <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+          {% endif %}
+          <div class="text-gray-800">{{ friend.sender.username }}</div>
+          {% else %}
+          {% if friend.receiver.user_img %}
+          <img src="{{ friend.receiver.user_img.url }}" alt="photo"
+            class="w-12 h-12 border border-gray-200 rounded-full">
+          {% else %}
+          <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+          {% endif %}
+          <div class="text-gray-800">{{ friend.receiver.username }}</div>
+          {% endif %}
+        </div>
+        <div class="flex items-center flex-shrink-0 mr-2 space-x-2">
+          <section class="mt-2">
+            {% if user.id == friend.sender.id %}
+            <input class="room-name-input" type="text" size="100" hidden value="{{user.id}},{{friend.receiver.id}}">
+            {% else %}
+            <input class="room-name-input" type="text" size="100" hidden value="{{user.id}},{{friend.sender.id}}">
+            {% endif %}
+            <button class="room-name-submit " type="button"><span
+                class="text-gray-500 hover:text-gray-700 material-symbols-outlined"
+                style="font-size: 30px;">sms</span></button>
+          </section>
 
-                    <section class="mt-2">
-                        {% if user.id == friend.sender.id %}
-                        <input class="room-name-input" type="text" size="100" hidden
-                            value="{{user.id}},{{friend.receiver.id}}">
-                        {% else %}
-                        <input class="room-name-input" type="text" size="100" hidden
-                            value="{{user.id}},{{friend.sender.id}}">
-                        {% endif %}
-                        <button class="room-name-submit " type="button"><span
-                                class="text-gray-500 hover:text-gray-700 material-symbols-outlined"
-                                style="font-size: 30px;">sms</span></button>
-                    </section>
-
-                    <div x-data="{ isOpen: false }" class="relative">
-                        <button @click="isOpen = !isOpen"
-                            class="pt-1 text-gray-500 hover:text-gray-700 material-symbols-outlined focus:outline-none"
-                            style="font-size: 30px;">expand_circle_right</button>
-                        <div x-show="isOpen" @click.away="isOpen = false"
-                            class="absolute right-[-35px] flex items-center justify-center w-20 mt-2 bg-white border border-gray-200 rounded shadow-md top-8">
-                            <a href="{% url 'friends:delete' friend.id %}"
-                                class="inline-block px-2 py-1 text-sm font-light text-red-600 hover:text-red-800">刪除</a>
-                        </div>
-                    </div>
-                </div>
+          <div x-data="{ isOpen: false }" class="relative">
+            <button @click="isOpen = !isOpen"
+              class="pt-1 text-gray-500 hover:text-gray-700 material-symbols-outlined focus:outline-none"
+              style="font-size: 30px;">expand_circle_right</button>
+            <div x-show="isOpen" @click.away="isOpen = false"
+              class="absolute right-[-35px] flex items-center justify-center w-20 mt-2 bg-white border border-gray-200 rounded shadow-md top-8">
+              <a href="{% url 'friends:delete' friend.id %}"
+                class="inline-block px-2 py-1 text-sm font-light text-red-600 hover:text-red-800">刪除</a>
             </div>
-            {% endfor %}
+          </div>
         </div>
+      </div>
+      {% endfor %}
+      {% endif %}
     </div>
 
-    <div class="">
-        {% if is_paginated %}
-
-        <div class="flex justify-center pagination grow">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                <a href="?page=1{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}">&laquo;
-                    first</a>
-                <a
-                    href="?page={{ page_obj.previous_page_number }}{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-
-                {% if page_obj.has_next %}
-                <a
-                    href="?page={{ page_obj.next_page_number }}{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}">next</a>
-                <a
-                    href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}">last
-                    &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
-
+    <div class="flex justify-center mt-4 pagination">
+      {% if is_paginated %}
+      <ul class="flex">
+        {% if page_obj.has_previous %}
+        <li>
+          <a href="?page=1{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}"
+            class="px-1 py-1  text-gray-600 hover:text-[#3397cf]">
+            &laquo; 第一頁
+          </a>
+        </li>
+        <li>
+          <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}"
+            class="px-1 py-1 text-gray-600 hover:text-[#3397cf]">
+            前一頁
+          </a>
+        </li>
         {% endif %}
+        <li>
+          <span class="px-3 py-1 mr-1 text-gray-600">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+        </li>
+        {% if page_obj.has_next %}
+        <li>
+          <a href="?page={{ page_obj.next_page_number }}{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}"
+            class="px-1 py-1 text-gray-600 hover:text-[#3397cf]">
+            下一頁
+          </a>
+        </li>
+        <li>
+          <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.username %}&username={{ request.GET.username }}{% endif %}"
+            class="px-1 py-1 text-gray-600 hover:text-[#3397cf]">
+            最後一頁 &raquo;
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+      {% endif %}
     </div>
+  </div>
 </div>
 
 <script src="{% static 'scripts/add_private_room.js' %}"></script>

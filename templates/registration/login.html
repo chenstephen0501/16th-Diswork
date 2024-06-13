@@ -5,56 +5,50 @@
 {% block content %}
 {% load socialaccount %}
 
-<div class="flex items-center justify-center">
-  <div class="bg-slate-800 rounded-lg flex lg:w-[784px] my-24">
-    <div class="p-8 lg:w-2/3">
-      <div class="mb-5">
+<div class="flex items-center justify-center flex-1">
+  <div class="flex flex-col md:flex-row w-[768px] bg-slate-800 md:rounded-lg p-8">
+    <div class="flex w-full flex-wrap">
+      <div class="w-full mb-5">
         <h1 class="text-3xl font-bold text-center text-white">Welcome to Diswork</h1>
         <p class="text-sm text-center text-gray-200">Discuss your Everything!</p>
       </div>
-      <form action="{% url 'members:login' %}" method="post">
-        {% csrf_token %}
-        <div class="mb-4 ml-3">
-          <label class="block mb-2 text-sm font-bold text-gray-200" for="username">帳號</label>
-          <input type="text" name="username"
-            class="w-full px-3 py-3 text-sm bg-white border rounded shadow border-slate-300 focus:outline-none focus:ring"
-            placeholder="輸入帳號...">
+
+      <div class="flex w-full md:w-2/3 order-3 md:order-2">
+        <form action="{% url 'members:login' %}" method="post" class="w-full">
+          {% csrf_token %}
+          <div class="mb-4 w-full">
+            <label class="block mb-2 text-sm font-bold text-gray-200" for="username">帳號</label>
+            <input type="text" name="username"
+              class="w-full px-3 py-3 text-sm bg-white border rounded shadow border-slate-300 focus:outline-none focus:ring"
+              placeholder="輸入帳號...">
+          </div>
+          <div class="mb-4 w-full">
+            <label class="block mb-2 text-sm font-bold text-gray-200" for="password">密碼</label>
+            <input type="password" name="password"
+              class="w-full px-3 py-3 text-sm bg-white border rounded shadow border-slate-300 focus:outline-none focus:ring"
+              placeholder="輸入密碼...">
+          </div>
+          <div class="inline-block mb-4 text-sm text-gray-400 ">
+            還沒有帳號嗎？
+            <a href="{% url 'members:register' %}" class="transition-all duration-150 ease-linear hover:text-gray-300">歡迎註冊</a>
+          </div>
+          <div class="w-1/2 mx-auto">
+            <button class="w-full py-3 text-white bg-orange-500 rounded shadow hover:bg-orange-600 focus:outline-none transition-all duration-150 ease-linear"
+              type="submit">登入</button>
+          </div>
+          
+        </form>
+      </div>
+      <div class="flex flex-col items-center md:items-end justify-center md:justify-start flex-1 mt-3 md:mt-6 order-2 md:order-3 ">
+        <div class="flex flex-col gap-3 mb-4">
+          <a href="{% provider_login_url 'google' %}?next=/" class="inline-flex items-center w-full px-2 py-4 text-sm font-bold uppercase transition-all duration-150 ease-linear bg-white rounded outline-none active:bg-slate-50 text-slate-700 focus:outline-none hover:bg-gray-300 hover:text-gray-800">
+            <img alt="Google" class="w-5 h-5 object-cover" src="https://demos.creative-tim.com/notus-js/assets/img/google.svg">使用
+              Google 帳戶登入
+          </a>
+          <a href="{% provider_login_url 'line' %}?next=/" class="inline-flex items-center w-full px-2 py-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-green-500 rounded outline-none active:bg-green-600 focus:outline-none hover:bg-green-600">
+            <img alt="line" class="w-5 h-5 object-cover" src="/static/image/line.png">使用 LINE 帳號登入
+          </a>
         </div>
-        <div class="mb-4 ml-3">
-          <label class="block mb-2 text-sm font-bold text-gray-200" for="password">密碼</label>
-          <input type="password" name="password"
-            class="w-full px-3 py-3 text-sm bg-white border rounded shadow border-slate-300 focus:outline-none focus:ring"
-            placeholder="輸入密碼...">
-        </div>
-        <div class="flex items-center justify-between mb-2 ml-3">
-          <a href="#" class="text-sm text-slate-500 hover:text-slate-700">忘記密碼?</a>
-        </div>
-        <div class="mb-2 ml-3">
-          <button class="w-full py-3 text-white bg-orange-500 rounded shadow hover:bg-orange-600 focus:outline-none"
-            type="submit">登入</button>
-        </div>
-        <div class="mt-1">
-          <a href="{% url 'members:register' %}" class="block ml-3 text-sm text-slate-500 hover:text-slate-700">歡迎註冊</a>
-        </div>
-      </form>
-    </div>
-    <div class="flex flex-col items-center justify-center lg:w-1/3 slate-800 lg:ml-auto">
-      <div class="flex flex-col">
-        <a href="{% provider_login_url 'google' %}?next=/">
-          <button
-            class="inline-flex items-center w-full px-2 py-4 mb-6 mr-1 text-sm font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-slate-50 text-slate-700 focus:outline-none hover:bg-gray-300 hover:text-gray-800 hover:shadow-md"
-            type="button">
-            <img alt="Google" class="w-5 mr-1" src="https://demos.creative-tim.com/notus-js/assets/img/google.svg">使用
-            Google 帳戶登入
-          </button>
-        </a>
-        <a href="{% provider_login_url 'line' %}?next=/">
-          <button
-            class="inline-flex items-center w-full px-3 mb-1 py-2.5 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-green-500 rounded shadow outline-none active:bg-green-600 focus:outline-none hover:bg-green-600 hover:shadow-lg"
-            type="button">
-            <img alt="line" class="w-10" src="/static/image/line.png">使用 LINE 帳號登入
-          </button>
-        </a>
       </div>
     </div>
   </div>

@@ -6,6 +6,7 @@ from django.views.generic import TemplateView, FormView, UpdateView, DetailView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect, render
 from .models import Member
+from boards.models import Category
 from .forms import MemberUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -55,7 +56,6 @@ class LogoutView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         logout(request)
-        messages.success(request, "登出成功！")
         return redirect("root")
 
 
@@ -100,6 +100,11 @@ class ProfileView(DetailView):
         if obj != self.request.user:
             raise PermissionDenied()
         return obj
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
 
 
 @method_decorator(login_required, name="dispatch")
