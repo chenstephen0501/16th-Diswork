@@ -56,36 +56,48 @@ def chat_create(request):
 
 @login_required
 def private_message_home(request):
-    latest_messages_subquery = (
-        PrivateMessage.objects.filter(
-            receiver_id=OuterRef("receiver_id"), sender_id=OuterRef("sender_id")
-        )
-        .order_by("-created_at")
-        .values("created_at")[:1]
-    )
+    latest_messages_subquery = PrivateMessage.objects.filter(
+        receiver_id=OuterRef('receiver_id'),
+        sender_id=OuterRef('sender_id')
+    ).order_by('-created_at').values('created_at')[:1]
 
-    latest_messages = (
-        PrivateMessage.objects.filter(
-            receiver_id=request.user.id, created_at=Subquery(latest_messages_subquery)
-        )
-        .select_related("sender", "private_room")
-        .order_by("-created_at")
-    )
+    latest_messages = PrivateMessage.objects.filter(
+        receiver_id=request.user.id,
+        created_at=Subquery(latest_messages_subquery)
+    ).select_related("sender", "private_room").order_by("-created_at")
+    
+    return render(request, "chats/private_message_home.html", {"private_messages": latest_messages})
 
-    paginator = Paginator(latest_messages, 5)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-    category_list = Category.objects.all()
+# @login_required
+# def private_message_home(request):
+    # latest_messages_subquery = (
+    #     PrivateMessage.objects.filter(
+    #         receiver_id=OuterRef("receiver_id"), sender_id=OuterRef("sender_id")
+    #     )
+    #     .order_by("-created_at")
+    #     .values("created_at")[:1]
+    # )
+    # latest_messages_subquery = PrivateMessage.objects.filter(receiver=request.user).values("id")
+    # print("*" * 30)
+    # print(latest_messages_subquery)
+    # print("*" * 30)
+    # latest_messages = (
+    #     PrivateMessage.objects.filter(
+    #         receiver_id=request.user.id, created_at=Subquery(latest_messages_subquery)
+    #     )
+    #     .select_related("sender", "private_room")
+    #     .order_by("-created_at")
+    # )
+    # latest_messages = PrivateMessage.objects.filter(id__in=Subquery(latest_messages_subquery))
+    # print("*" * 30)
+    # print(latest_messages)
+    # print("*" * 30)
+    # paginator = Paginator(latest_messages, 5)
+    # page_number = request.GET.get("page")
+    # page_obj = paginator.get_page(page_number)
+    # category_list = Category.objects.all()
 
-    return render(
-        request,
-        "chats/private_message_home.html",
-        {
-            "private_messages": latest_messages,
-            "page_obj": page_obj,
-            "category_list": category_list,
-        },
-    )
+    # return render(request, "chats/private_message_home.html", {"private_messages":latest_messages, "category_list":category_list})
 
 
 @login_required
