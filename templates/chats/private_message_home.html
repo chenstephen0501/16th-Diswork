@@ -10,32 +10,32 @@
       <a class="" href="{% url 'chats:private_message_room' message.private_room %}">
         <div class="flex p-4 mt-3 bg-white rounded-md border-b-1">
           {% if message.sender.id == user.id %}
-          <div class="pic">
+          <div class="w-12 overflow-hidden rounded-full aspect-square">
             {% if message.sender.user_img %}
             <img src="{{ message.sender.user_img.url }}" alt="photo"
-              class="w-12 h-12 border border-gray-200 rounded-full">
+              class="block object-cover w-full h-full">
             {% else %}
-            <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+            <img src="/static/image/cathead.png" alt="頭貼" class="block object-cover w-full h-full">
             {% endif %}
           </div>
-          <div class="ml-2 content">
+          <div class="flex-1 ml-2 break-all">
             <p class="text-xl">{{message.sender}} <span class="text-xs">{{message.created_at|date:"Y-m-d H:i"}}</span>
             </p>
-            <p>{{message.content}}</p>
+            <p class="w-full">{{message.content}}</p>
           </div>
           {% else %}
-          <div class="pic">
+          <div class="w-12 overflow-hidden rounded-full h-12">
             {% if message.sender.user_img %}
             <img src="{{ message.sender.user_img.url }}" alt="photo"
-              class="w-12 h-12 border border-gray-200 rounded-full">
+              class="block object-cover w-full h-full">
             {% else %}
-            <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+            <img src="/static/image/cathead.png" alt="頭貼" class="block object-cover w-full h-full">
             {% endif %}
           </div>
-          <div class="ml-2 content ">
+          <div class="flex-1 ml-2 break-all">
             <p class="text-xl">{{message.sender}} <span class="text-xs">{{message.created_at|date:"Y-m-d H:i"}}</span>
             </p>
-            <p>{{message.content}}</p>
+            <p class="w-full">{{message.content}}</p>
           </div>
           {% endif %}
         </div>
