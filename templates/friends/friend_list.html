@@ -19,17 +19,17 @@
         <div class="flex items-center space-x-2">
           {% if friend.sender != user %}
           {% if friend.sender.user_img %}
-          <img src="{{ friend.sender.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
+          <img src="{{ friend.sender.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full object-cover">
           {% else %}
-          <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+          <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full object-cover">
           {% endif %}
           <div class="text-gray-800">{{ friend.sender.username }}</div>
           {% else %}
           {% if friend.receiver.user_img %}
           <img src="{{ friend.receiver.user_img.url }}" alt="photo"
-            class="w-12 h-12 border border-gray-200 rounded-full">
+            class="w-12 h-12 border border-gray-200 rounded-full object-cover">
           {% else %}
-          <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+          <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full object-cover">
           {% endif %}
           <div class="text-gray-800">{{ friend.receiver.username }}</div>
           {% endif %}

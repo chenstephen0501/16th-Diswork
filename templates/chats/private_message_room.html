@@ -7,7 +7,7 @@
 		class="sticky top-0 flex items-center justify-between w-full px-4 py-2 font-normal text-black bg-white border-b-1">
 		<div class="flex items-center">
 			<button onclick="window.history.back();" class="material-symbols-outlined">arrow_back</button>
-			<div class="w-12 mx-2 rounded-full aspect-square">
+			<div class="w-12 mx-2 rounded-full aspect-square overflow-hidden">
 				{% if receiver.user_img %}
 				<img src="{{ receiver.user_img.url }}" alt="" class="block object-cover w-full h-full">
 				{% else %}

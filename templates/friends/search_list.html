@@ -17,9 +17,9 @@
       {% for member in search_list %}
       <div class="flex items-center px-4 py-1 space-x-4 rounded-lg hover:bg-gray-200">
         {% if member.user_img %}
-        <img src="{{ member.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full">
+        <img src="{{ member.user_img.url }}" alt="photo" class="w-12 h-12 border border-gray-200 rounded-full object-cover">
         {% else %}
-        <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full">
+        <img src="/static/image/cathead.png" alt="頭貼" class="w-12 h-12 rounded-full object-cover">
         {% endif %}
         <div class="flex-1">
           <div class="font-semibold">{{ member.username }}</div>

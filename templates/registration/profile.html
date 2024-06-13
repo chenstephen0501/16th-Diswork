@@ -5,7 +5,7 @@
     <div class="mb-6">
       <div class="flex items-center">
         <button onclick="window.history.back();" class="material-symbols-outlined mr-4">arrow_back</button>
-        <div class="w-16 h-16 mr-4 overflow-hidden border border-gray-300 rounded-full">
+        <div class="w-16 h-16 mr-4 overflow-hidden border border-gray-300 rounded-full object-cover">
           {% if member.user_img %}
           <img src="{{ member.user_img.url }}" alt="photo" loading="lazy"
             class="block object-cover object-center w-full h-full border-gray-200 rounded-fullborder-2">
