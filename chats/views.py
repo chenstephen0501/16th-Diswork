@@ -6,6 +6,7 @@ from .models import ChatGroup, PrivateChatRoom, PrivateMessage
 from .forms import ChatmessageCreateForm
 from members.models import Member
 from friends.models import Friend
+from boards.models import Category
 from django.db.models import Q, Prefetch, OuterRef, Subquery
 
 @login_required
@@ -47,6 +48,8 @@ def chat_create(request):
 
 @login_required
 def private_message_home(request):
+    category_list = Category.objects.all()
+
     latest_messages_subquery = PrivateMessage.objects.filter(
         receiver_id=OuterRef('receiver_id'),
         sender_id=OuterRef('sender_id')
@@ -57,12 +60,13 @@ def private_message_home(request):
         created_at=Subquery(latest_messages_subquery)
     ).select_related("sender", "private_room").order_by("-created_at")
     
-    return render(request, "chats/private_message_home.html", {"private_messages": latest_messages})
+    return render(request, "chats/private_message_home.html", {"private_messages": latest_messages, "category_list": category_list})
 
 
 @login_required
 def private_message_room(request, room_name):
     privates_users = room_name.split("_")
+    category_list = Category.objects.all()
 
     if int(privates_users[0]) == request.user.id or int(privates_users[1]) == request.user.id:
         check_private_room = PrivateChatRoom.objects.filter(room_name=room_name).exists()
@@ -73,7 +77,7 @@ def private_message_room(request, room_name):
             receiver = Member.objects.get(id=receiver_id)
             private_messages = private_room.private_messages.all()
 
-            return render(request, "chats/private_message_room.html", {"room_name": room_name, "private_messages": private_messages, "receiver": receiver})
+            return render(request, "chats/private_message_room.html", {"room_name": room_name, "private_messages": private_messages, "receiver": receiver, "category_list": category_list})
         
         else:
             receiver_id = next(user_id for user_id in privates_users if request.user.id != int(user_id))

@@ -25,11 +25,11 @@
 
 <body>
   {% include 'shared/navbar.html' %}
-  <main>
+  <main class="flex flex-col" style="min-height: calc(100vh - 58px);">
     {% block content %}
     {% endblock %}
+    {% include "shared/footer.html" %}
   </main>
-  {% include "shared/footer.html" %}
 </body>
 
 </html>

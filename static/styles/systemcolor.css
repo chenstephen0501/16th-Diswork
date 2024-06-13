@@ -1,0 +1,34 @@
+/* 這是背景 */
+.bg-system-color1 {
+    background: #FBFBFB;
+}
+
+.bg-system-color2 {
+    background: #F8F8F8; /* 這是8不是B!! */
+}
+
+.bg-system-color3 {
+    background: #F37426; 
+}
+
+.bg-system-color4 {
+    background: #292929; 
+}
+
+/* 這是文字 */
+.text-system-color1 {
+    color: #FBFBFB;
+}
+
+.text-system-color2 {
+    color: #F8F8F8; /* 這是8不是B!! */
+}
+
+.text-system-color3 {
+    color: #F37426; 
+}
+
+.text-system-color4 {
+    color: #292929; 
+}
+

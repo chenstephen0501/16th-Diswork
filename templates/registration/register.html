@@ -1,43 +1,49 @@
 {% extends 'layouts/base.html' %}
+
+
 {% block content %}
-<div class="flex items-center justify-center text-black register-container">
-  <div class="flex mt-5 p-5 flex-col lg:w-[784px] m-auto border-2 border-gray-300">
-    <h1 class="mt-4 text-3xl text-center">Welcome to Diswork</h1>
-    <p class="mt-1 text-center">Discuss your Everything!</p>
-    <div class="w-full">
+<div class="flex items-center justify-center flex-1 py-8">
+  <div class="bg-slate-800 md:rounded-lg flex w-[500px]">
+    <div class="p-8 w-full">
+      <div class="mb-5">
+        <h1 class="text-3xl font-bold text-center text-white">Welcome to Diswork</h1>
+        <p class="text-sm text-center text-gray-200">Discuss your Everything!</p>
+      </div>
       <form action="{% url 'members:register' %}" method="post">
         {% csrf_token %}
-        <div class="w-9/12 mx-auto mt-3">
-          <label for="name">暱稱:
-            {{form.name}}
-            {{form.name.errors}}
+        <div class="mb-4">
+          <label class="block mb-2 text-sm font-bold text-gray-200" for="name">暱稱</label>
+          {{form.name}}
+          {{form.name.errors}}
         </div>
-        <div class="w-9/12 mx-auto mt-3">
-          <label class="" for="username">帳號:</label>
+        <div class="mb-4">
+          <label class="block mb-2 text-sm font-bold text-gray-200" for="username">帳號</label>
           {{form.username}}
           {{form.username.errors}}
         </div>
-        <div class="w-9/12 mx-auto mt-3">
-          <label class="" for="email">信箱:</label>
+        <div class="mb-4">
+          <label class="block mb-2 text-sm font-bold text-gray-200" for="email">信箱</label>
           {{form.email}}
           {{form.email.errors}}
         </div>
-        <div class="w-9/12 mx-auto mt-3">
-          <label class="" for="password1">密碼:</label>
-          {{form.password1}}
+        <div class="mb-4">
+          <label class="block mb-2 text-sm font-bold text-gray-200" for="password1">密碼</label>
+          <div>{{form.password1}}</div>
           {{form.password1.errors}}
         </div>
-        <div class="w-9/12 mx-auto mt-3">
-          <label class="" for="password2">確認密碼:</label>
+        <div class="mb-6">
+          <label class="block mb-2 text-sm font-bold text-gray-200" for="password2">確認密碼</label>
           {{form.password2}}
           {{form.password2.errors}}
         </div>
-        <div class="flex mt-4 justify-evenly">
-          <button
-            class="px-6 py-2 font-bold bg-orange-500 rounded shadow hover:bg-amber-700 focus:outline-none">註冊</button>
+        <div class="flex w-3/4 gap-3 mx-auto">
+          <button class="flex-1 py-3 text-white bg-orange-500 rounded hover:bg-orange-600 focus:outline-none transition-all duration-150 ease-linear"
+            type="submit">註冊</button>
+          <a href="{% url 'members:login' %}" class="text-white rounded p-3 border border-white hover:bg-gray-700 transition-all duration-150 ease-linear">登入</a>
         </div>
       </form>
     </div>
   </div>
 </div>
+
 {% endblock %}

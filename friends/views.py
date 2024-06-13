@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 from .models import Friend, Card
 from members.models import Member
+from boards.models import Category
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -30,7 +31,12 @@ class MemberListView(ListView):
         if keyword:
             return query.filter(username__icontains=keyword)
         return query
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
+    
 
 @method_decorator(login_required, name="dispatch")
 class FriendListView(ListView):
@@ -42,6 +48,11 @@ class FriendListView(ListView):
         return Friend.objects.filter(sender=user, status="2") | Friend.objects.filter(
             receiver=user, status="2"
         )
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
 
 
 @method_decorator(login_required, name="dispatch")
@@ -49,6 +60,11 @@ class FriendDeleteView(DeleteView):
     model = Friend
     template_name = "friends/confirm_delete.html"
     success_url = reverse_lazy("friends:friend_list")    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
 
 
 @login_required
@@ -138,8 +154,10 @@ def reject_friend_request(req, friend_request_id):
 @login_required
 def friend_requests(req):
     received_requests = Friend.objects.filter(receiver=req.user, status="1")
+    category_list = Category.objects.all()
+
     return render(
-        req, "friends/friend_requests.html", {"received_requests": received_requests}
+        req, "friends/friend_requests.html", {"received_requests": received_requests, "category_list": category_list}
     )
 
 
@@ -162,6 +180,7 @@ class DrawCardView(View):
         user = request.user
         members = list(self.get_queryset(user))
         today = timezone.now().date()
+        category_list = Category.objects.all()
 
         already_drew_today = (
             Card.objects.annotate(date=TruncDate("created_at"))
@@ -194,7 +213,7 @@ class DrawCardView(View):
                 return render(
                     request,
                     "friends/card.html",
-                    {"drawn_member": random_member, "draw_limit_reached": True},
+                    {"drawn_member": random_member, "draw_limit_reached": True, "category_list": category_list},
                 )
 
         random_member = None
@@ -224,4 +243,4 @@ class DrawCardView(View):
             }
             return JsonResponse(member_data)
         else:
-            return render(request, "friends/card.html", {"drawn_member": random_member})
+            return render(request, "friends/card.html", {"drawn_member": random_member, "category_list": category_list})

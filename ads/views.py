@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Ads
+from boards.models import Category
 from .forms import AdsForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -22,6 +23,7 @@ class AdsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = AdsForm()
+        context["category_list"] = Category.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -46,6 +48,11 @@ class AdsCreateView(CreateView):
             return super().dispatch(request, *args, **kwargs)
         else:
             return render(request, "403.html")
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
 
 
 @method_decorator(login_required, name="dispatch")
@@ -66,6 +73,7 @@ class AdsUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context["ads"] = self.get_object()
         context["is_iterable"] = False
+        context["category_list"] = Category.objects.all()
         return context
 
 
