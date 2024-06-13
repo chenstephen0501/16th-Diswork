@@ -2,15 +2,18 @@
 {% load static %}
 {% block content %}
 
-<section class="flex flex-col-reverse relative h-screen px-6 bg-[#f3f4f6] md:px-12">
-  <div class="flex flex-col-reverse w-full items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+<section class="flex flex-col-reverse relative h-screen px-6 bg-[#f3f4f6] md:px-12 overflow-hidden">
+  <div class="w-full min-w-[768px] absolute -bottom-[8%] left-1/2 -translate-x-1/2">
+    <img src="{% static 'image/banner2.png' %}" alt="" class="block w-full">
+  </div>
+  <div class="flex flex-col-reverse w-full items-center absolute top-1/2 md:top-[40%] left-1/2 -translate-y-1/2 -translate-x-1/2">
 
-    <div class="flex flex-col md:flex-row items-center w-full max-w-xl mt-10 md:mt-20 text-center gap-8">
+    <div class="flex flex-col md:flex-row items-center w-full max-w-xl mt-10 md:mt-15 text-center gap-8">
       {% if user.is_authenticated %}
-      <div class="w-1/2 items-center bg-gray-300 hover:bg-[#FE952A] rounded-lg">
-        <a href="{% url 'boards:list' %}" class="block w-full py-3 text-sm md:text-base text-black hover:text-white">進入討論版</a>
+      <div class="w-1/2 items-center bg-[#292929] rounded-lg">
+        <a href="{% url 'boards:list' %}" class="block w-full py-3 text-sm md:text-base text-white">進入討論版</a>
       </div>
-      <div class="w-1/2 items-center bg-gray-300 hover:bg-[#FE952A] rounded-lg">
+      <div class="w-1/2 items-center bg-[#FE952A] rounded-lg">
         {% if member_status == 1 %}
         <div class="w-full bg-gray-300 rounded-lg">
           <p class="block w-full py-3 text-black">已訂閱</p>
@@ -18,19 +21,17 @@
         {% else %}
         <form action="{% url 'paies:create_order' %}" method="POST">
           {% csrf_token %}
-          <button type="submit" class="block w-full py-3 text-sm md:text-base text-black hover:text-white">訂閱我們
+          <button type="submit" class="block w-full py-3 text-sm md:text-base text-white">訂閱我們
           </button>
         </form>
         {% endif %}
       </div>
-      <!-- <div class="w-1/2 ml-2 bg-gray-300 rounded-3xl">
-      </div> -->
       {% else %}
-      <div class="w-1/2 items-center bg-gray-300 hover:bg-[#FE952A] rounded-lg">
-        <a href="{% url 'members:register' %}" class="block w-full py-3 text-sm md:text-base text-black hover:text-white">註冊加入DISWORK</a>
+      <div class="w-1/2 items-center bg-[#292929] rounded-lg">
+        <a href="{% url 'members:register' %}" class="block w-full py-3 text-sm md:text-base text-white">註冊加入DISWORK</a>
       </div>
-      <div class="w-1/2 items-center bg-gray-300 hover:bg-[#FE952A] rounded-lg">
-        <a href="{% url 'members:login' %}" class="block w-full py-3 text-sm md:text-base text-black hover:text-white">登入使用DISWORK</a>
+      <div class="w-1/2 items-center bg-[#FE952A] rounded-lg">
+        <a href="{% url 'members:login' %}" class="block w-full py-3 text-sm md:text-base text-white">登入使用DISWORK</a>
       </div>
       {% endif %}
     </div>
