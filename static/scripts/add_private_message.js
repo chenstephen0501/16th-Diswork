@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		let data = JSON.parse(e.data);
 		const chatLog = document.querySelector('#chat-log');
 		let messageElement = document.createElement('div');
-		messageElement.classList.add("mt-3", "flex", 'p-4', 'border-b', 'border-gray-200', 'bg-white', 'rounded-md');
+		messageElement.classList.add("mt-3", 'p-4', "w-full", "flex", 'items-start', 'rounded-md', 'bg-white'); 
 		messageElement.innerHTML = `
-			<div class="pic">
-				<img src="${data.sender_img}" alt="頭貼" class="w-12 h-12 rounded-full">
+			<div class="pic w-12 aspect-square rounded-full overflow-hidden">
+				<img src="${data.sender_img}" alt="頭貼" class="block w-full h-full object-cover">
 			</div>
-			<div class="content ml-2">
+			<div class="ml-2 flex-1 break-all">
 				<p class="text-xl">${data.sender_name} <span class="text-xs">${data.created_at}</span></p>
-				<p>${data.content}</p>								
+				<p class="w-full">${data.content}</p>						
 			</div>
 		`
 		chatLog.appendChild(messageElement);

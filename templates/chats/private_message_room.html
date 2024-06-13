@@ -41,37 +41,34 @@
 	<div class="w-full flex-1 overflow-scroll bg-white rounded-md">
 		<div id="chat-log" class="flex flex-col w-full p-4">
 			{% for message in private_messages %}
-			<div class="mt-3 p-4 w-full flex items-start rounded-md bg-white ">
-				{% if message.sender.id == user.id %}
-				<div class="pic w-12 aspect-square rounded-full overflow-hidden">
-					{% if message.sender.user_img %}
-					<img src="{{ message.sender.user_img.url }}" alt="photo" class="block w-full h-full object-cover">
-					{% else %}
-					<img src="/static/image/cathead.png" alt="頭貼" class="block w-full h-full object-cover">
+				<div class="mt-3 p-4 w-full flex items-start rounded-md bg-white ">
+        			{% if message.sender.id == user.id %}
+					<div class="pic w-12 aspect-square rounded-full overflow-hidden">
+						{% if message.sender.user_img %}
+							<img src="{{ message.sender.user_img.url }}" alt="photo" class="block w-full h-full object-cover">
+						{% else %}
+							<img src="/static/image/cathead.png" alt="頭貼" class="block w-full h-full object-cover">
+						{% endif %}
+					</div>
+					<div class="ml-2 flex-1 break-all">
+						<p class="text-xl">{{message.sender}} <span class="text-xs">{{message.created_at|date:"Y-m-d H:i"}}</span></p>
+						<p class="w-full">{{message.content}}</p>								
+					</div>
+        			{% else %}
+					<div class="pic w-full aspect-square rounded-full overflow-hidden">
+						{% if message.sender.user_img %}
+							<img src="{{ message.sender.user_img.url }}" alt="photo" class="block w-full h-full object-cover">
+						{% else %}
+							<img src="/static/image/cathead.png" alt="頭貼" class="block w-full h-full object-cover">
+						{% endif %}
+					</div>
+					<div class="ml-2 flex-1 break-all">
+						<p class="text-xl">{{message.sender}} <span class="text-xs">{{message.created_at|date:"Y-m-d H:i"}}</span></p>
+						<p class="w-full">{{message.content}}</p>								
+					</div>
 					{% endif %}
-				</div>
-				<div class="ml-2 flex-1 break-all">
-					<p class="text-xl">{{ message.sender }}
-						<span class="text-xs">{{ message.created_at|date:"Y-m-d H:i" }}</span>
-					</p>
-					<p class="w-full">{{message.content}}</p>
-				</div>
-				{% else %}
-				<div class="pic w-12 aspect-square rounded-full overflow-hidden">
-					{% if message.sender.user_img %}
-					<img src="{{ message.sender.user_img.url }}" alt="photo" class="block w-full h-full object-cover">
-					{% else %}
-					<img src="/static/image/cathead.png" alt="頭貼" class="block w-full h-full object-cover">
-					{% endif %}
-				</div>
-				<div class="ml-2 flex-1 break-all">
-					<p class="text-xl">{{message.sender}} <span class="text-xs">{{message.created_at|date:"Y-m-d
-							H:i"}}</span></p>
-					<p class="w-full">{{message.content}}</p>
-				</div>
-				{% endif %}
-			</div>
-			{% endfor %}
+        		</div>
+        	{% endfor %}
 		</div>
 	</div>
 	<div class="flex sticky bottom-0 w-full bg-white p-4 items-center">
