@@ -10,6 +10,8 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.db.models import Exists, OuterRef, Count
+from django.middleware.csrf import get_token
 
 
 @method_decorator(login_required, name="dispatch")
@@ -44,9 +46,18 @@ class CommentCreateView(CreateView):
         self.object = form.save()
 
         if self.request.headers.get("Accept") == "application/json":
-            comments = Comment.objects.filter(article=article)
+            csrf_token = get_token(self.request)
+            like_comment_subquery = LikeComment.objects.filter(
+            like_comment_id=OuterRef('pk'),
+            like_by_id=self.request.user.id,
+            ).values("pk")
+        
+            comments = Comment.objects.filter(article=article).select_related("member").annotate(
+            is_like=Exists(like_comment_subquery), like_count=Count("comment"))
+        
+
             comment_html = render_to_string(
-                "articles/shared/comment.html", {"comments": comments}
+                "articles/shared/comment.html", {"comments": comments, "user": self.request.user, "csrf_token": csrf_token}
             )
             return JsonResponse({"comment_html": comment_html})
         else:
