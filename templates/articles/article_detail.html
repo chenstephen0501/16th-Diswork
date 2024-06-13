@@ -7,8 +7,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="relative block w-full h-screen overflow-auto bg-opacity-60">
-  <div class="flex flex-col w-full h-full mx-auto bg-white md:w-4/5">
+<div class="relative block w-full h-full bg-opacity-60">
+  <div class="flex flex-col relative w-full h-full mx-auto bg-white md:w-4/5">
     <div class="sticky top-0 flex items-center w-full px-4 py-2 bg-white md:mx-auto md:px-0 md:py-4 border-b-1">
       {% if article.category.picture %}
       <img class="block object-cover w-8 h-8 rounded-full" src="{{ article.category.picture.url }}">
@@ -66,23 +66,62 @@
           </div>
         </div>
       </div>
-      {% comment %} <div class="w-full px-4 md:px-0 bg-slate-300 md:bg-white">
+      <div class="w-full px-4 md:px-0 bg-slate-300 md:bg-white">
         <p class="pb-2 text-sm pt-7">共 {{article.comment_count}} 則留言</p>
-      </div> {% endcomment %}
-      <div class="px-4" id="comments-container">
-        {% include 'articles/shared/comment.html' %}
+      </div>
+
+      <div class="px-4 pb-4">
+        {% for comment in comments %}
+        <div class="w-full pt-5 pb-4 mx-auto bg-white border-b-1">
+          <div class="py-2">
+            <div class="flex items-start">
+              <div class="mt-1">
+                {% if comment.member.user_img %}
+                <img class="w-8 h-8 rounded-full" src="{{ comment.member.user_img.url }}" alt="photo">
+                {% else %}
+                <img class="w-8 h-8 border border-black rounded-full" src="{% static 'image/cathead.png' %}"
+                  alt="photo">
+                {% endif %}
+              </div>
+              <div class="flex-1 ml-2">
+                <div class="flex items-center justify-between">
+                  <p class="inline text-sm font-bold">{{ comment.member }}</p>
+                  <div class="flex items-center">
+                    {% include 'articles/shared/like_comment_btn.html' %}
+                  </div>
+                </div>
+
+                <div class="w-full my-1">
+                  <p class="break-words">{{ comment.content|linebreaksbr }}</p>
+                </div>
+
+                <div>
+                  <p class="text-sm text-gray-400">{{ comment.created_at|date:"Y-m-d H:i" }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end pb-2">
+            {% if comment.member.id == user.id %}
+            <form action="{% url 'comments:delete' pk=comment.id %}" method="post" class="inline">
+              {% csrf_token %}
+              <button type="submit" class="px-2 py-1 text-white bg-red-500 rounded">刪除</button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+        {% empty %}
+          <p class="text-gray-500">尚無留言</p>
+        {% endfor %}
       </div>
     </div>
-    <div class="sticky bottom-0 bg-white">
-      <form id="comment-form" method="post" action="{% url 'articles:comment' pk=article.pk %}" class="px-4">
+    <div class="sticky w-full left-0 bottom-0 bg-white">
+      <form method="post" action="{% url 'articles:comment' pk=article.pk %}" class="px-4">
         {% csrf_token %}
         {{ comment_form.content }}
         {{ comment_form.member }}
         <button type="submit"
-          class="absolute px-2 py-1 mx-2 mb-1 font-bold text-white -translate-y-1/2 rounded top-1/2 right-5 bg-sky-400">
-          送出
-        </button>
-        <input type="hidden" id="comment-url" value="{% url 'articles:comment' pk=article.pk %}">
+          class="absolute px-2 py-1 font-bold text-white -translate-y-1/2 rounded top-1/2 right-4 bg-sky-400">送出</button>
       </form>
     </div>
   </div>
