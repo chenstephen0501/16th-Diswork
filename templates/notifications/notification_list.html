@@ -3,7 +3,10 @@
 
 <body class="bg-gray-100">
   <div class="container px-4 py-8 mx-auto">
-    <h1 class="mb-2 text-3xl font-bold text-gray-800">所有通知</h1>
+    <div class="flex items-center">
+      <button onclick="window.history.back();" class="material-symbols-outlined mr-4">arrow_back</button>
+      <h1 class="mb-2 text-3xl font-bold text-gray-800">所有通知</h1>
+    </div>
     {% if notifications %}
     <ul class="divide-y divide-gray-300">
       {% for notification in notifications %}

@@ -5,7 +5,10 @@
   {% csrf_token %}
   <div class="relative block max-w-2xl p-6 mx-auto rounded-md" style="height: calc(100vh - 96.97px);">
     <div class="flex flex-col w-full">
-      <h1 class="inline-block pb-4 mb-2 text-2xl border-b-2 border-black">新增活動</h1>
+      <div class="flex items-center py-2 mb-2 bg-white shadow">
+        <button onclick="window.history.back();" class="ml-4 material-symbols-outlined">arrow_back</button>
+        <div class="flex-1 text-center text-2xl font-bold text-gray-800">新增活動</div>
+      </div>
       <div class="space-y-4">
         <div class="my-1">
           <label for="title" class="block mb-1 text-base font-medium text-black">活動</label>

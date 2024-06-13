@@ -9,7 +9,10 @@
 {% block content %}
 <div class="block max-w-2xl p-2 mx-auto rounded-md">
   <div class="sticky top-0 z-50 flex flex-col w-full">
-    <h1 class="inline-block pb-2 text-2xl border-b-2 border-black">廣告看板管理</h1>
+    <div class="flex items-center pb-2 border-b-2 border-black">
+      <button onclick="window.history.back();" class="material-symbols-outlined">arrow_back</button>
+      <h1 class="ml-2 text-2xl">廣告看板管理</h1>
+    </div>
     <div class="flex flex-col p-4 bg-white rounded-lg">
       <form id="editForm" action="{% url 'ads:create' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
