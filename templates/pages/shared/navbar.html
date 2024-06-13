@@ -1,5 +1,5 @@
 <nav
-  class="fixed top-0 flex flex-col w-full pl-6 pr-2 py-1 font-sans text-center text-white bg-transparent shadow backdrop-blur-sm backdrop-filter sm:flex-row sm:text-left sm:justify-between sm:items-baseline z-[99]">
+  class="fixed top-0 flex flex-col w-full px-6 py-3 font-sans text-center text-white bg-transparent shadow backdrop-blur-sm backdrop-filter sm:flex-row sm:text-left sm:justify-between sm:items-baseline z-[99]">
   <div class="flex items-center justify-between w-full">
     <div class="flex items-center">
       <a href="{% url 'root' %}">
@@ -8,18 +8,18 @@
     </div>
     <div class="relative flex items-center" x-data="{ open: false }">
       {% if user.is_authenticated %}
-      <div class="relative">
-        <button class="flex items-center focus:outline-none" @click="open = !open" @click.away="open = false"
-          aria-expanded="false" aria-haspopup="true">
+      <div class="flex items-center relative" @click="open = !open" @click.away="open = false"
+      aria-expanded="false" aria-haspopup="true">
+        <button class="flex items-center focus:outline-none">
           {% if member.user_img %}
-          <img class="w-12 h-12 transition duration-300 border-2 border-gray-200 rounded-full"
+          <img class="w-12 h-12 transition duration-300 border-2 border-gray-200 rounded-full object-cover"
             src="{{ member.user_img.url }}" alt="photo">
           {% else %}
           <span class="material-symbols-outlined" style="font-size: 45px;">account_circle</span>
           {% endif %}
-          <span class="material-symbols-outlined"
-            style="font-size: 28px; padding: 0; margin-left: 2px;">arrow_drop_down</span>
         </button>
+        <span class="material-symbols-outlined"
+          style="font-size: 28px; padding: 0; margin-left: 2px;">arrow_drop_down</span>
       </div>
 
       <div x-show="open" class="absolute right-0 w-48 py-2 mt-2 bg-white rounded-md shadow-lg top-12 dark:bg-gray-800"
