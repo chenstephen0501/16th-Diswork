@@ -56,7 +56,6 @@ class LogoutView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         logout(request)
-        messages.success(request, "登出成功！")
         return redirect("root")
 
 
