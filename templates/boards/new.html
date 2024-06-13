@@ -10,7 +10,10 @@
 {% block content %}
 <div class="relative block p-6 mx-auto">
   <div class="max-w-2xl mx-auto">
-    <h1 class="pb-4 mb-4 text-2xl border-b-2 border-black">新增看版</h1>
+    <div class="flex items-center pb-4 mb-4 border-b-2 border-black">
+      <button onclick="window.history.back();" class="material-symbols-outlined mr-4">arrow_back</button>
+      <h1 class="text-2xl">新增看版</h1>
+    </div>
     <div class="flex flex-col space-y-2">
       <div class="flex items-center">
         <label for="member" class="mb-1 font-medium text-black">版主:</label>

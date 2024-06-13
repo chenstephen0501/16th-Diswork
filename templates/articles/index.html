@@ -14,6 +14,7 @@
   <div class="sticky top-0 flex flex-col items-start justify-between pt-3 bg-white border-b-1">
     <div class="flex items-center justify-between w-full my-3">
       <div class="flex items-center">
+        <button onclick="window.history.back();" class="material-symbols-outlined mr-4">arrow_back</button>
         {% if category.picture %}
         <img class="block object-cover w-12 h-12 rounded-full" src="{{ category.picture.url }}"
           class="object-cover w-full h-full">

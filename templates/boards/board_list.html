@@ -8,7 +8,10 @@
 {% block content %}
 <div class="px-4 md:px-8">
   <div class="sticky top-0 flex items-center justify-between py-3 bg-white border-b-1">
-    <p class="text-lg font-medium">所有看板</p>
+    <div class="flex items-center">
+      <button onclick="window.history.back();" class="material-symbols-outlined mr-4">arrow_back</button>
+      <p class="text-lg font-medium">所有看板</p>
+    </div>
   </div>
   {% for category in category_list %}
   <div class="flex items-center justify-between w-full">

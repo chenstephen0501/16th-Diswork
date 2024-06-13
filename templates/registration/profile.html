@@ -4,6 +4,7 @@
   <div class="max-w-4xl p-6 mx-auto bg-white">
     <div class="mb-6">
       <div class="flex items-center">
+        <button onclick="window.history.back();" class="material-symbols-outlined mr-4">arrow_back</button>
         <div class="w-16 h-16 mr-4 overflow-hidden border border-gray-300 rounded-full">
           {% if member.user_img %}
           <img src="{{ member.user_img.url }}" alt="photo" loading="lazy"
