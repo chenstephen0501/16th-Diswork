@@ -8,8 +8,8 @@
     </div>
     <div class="relative flex items-center" x-data="{ open: false }">
       {% if user.is_authenticated %}
-      <div class="flex items-center relative" @click="open = !open" @click.away="open = false"
-      aria-expanded="false" aria-haspopup="true">
+      <div class="flex items-center relative" @click="open = !open" @click.away="open = false" aria-expanded="false"
+        aria-haspopup="true">
         <button class="flex items-center focus:outline-none">
           {% if member.user_img %}
           <img class="w-12 h-12 transition duration-300 border-2 border-gray-200 rounded-full object-cover"
@@ -25,7 +25,8 @@
       <div x-show="open" class="absolute right-0 w-48 py-2 mt-2 bg-white rounded-md shadow-lg top-12 dark:bg-gray-800"
         @click.away="open = false">
         <a href="{% url 'chats:index' %}"
-          class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">訊息</a>
+          class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 hidden">訊息
+        </a>
         <a href="{% url 'friends:friend_list' %}"
           class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">好友</a>
         <a href="{% url 'members:profile' pk=user.id %}"
