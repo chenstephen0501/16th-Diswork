@@ -2,14 +2,15 @@
 
 {% load static %}
 
-{% block header%}
+{% block header %}
 <script src="{% static 'scripts/comment.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
 <div class="relative block w-full h-full bg-opacity-60">
-  <div class="flex flex-col relative w-full h-full mx-auto bg-white md:w-4/5">
+  <div class="relative flex flex-col w-full h-full mx-auto bg-white md:w-4/5">
     <div class="sticky top-0 flex items-center w-full px-4 py-2 bg-white md:mx-auto md:px-0 md:py-4 border-b-1">
+      <button onclick="window.history.back();" class="mr-2 material-symbols-outlined">arrow_back</button>
       {% if article.category.picture %}
       <img class="block object-cover w-8 h-8 rounded-full" src="{{ article.category.picture.url }}">
       {% else %}
@@ -111,11 +112,11 @@
           </div>
         </div>
         {% empty %}
-          <p class="text-gray-500">尚無留言</p>
+        <p class="text-gray-500">尚無留言</p>
         {% endfor %}
       </div>
     </div>
-    <div class="sticky w-full left-0 bottom-0 bg-white">
+    <div class="sticky bottom-0 left-0 w-full bg-white">
       <form method="post" action="{% url 'articles:comment' pk=article.pk %}" class="px-4">
         {% csrf_token %}
         {{ comment_form.content }}

@@ -1,12 +1,11 @@
 {% extends 'boards/base.html' %}
+{% load static %}
+
 {% block content %}
 
 <body class="bg-gray-100">
   <div class="container px-4 py-8 mx-auto">
-    <div class="flex items-center">
-      <button onclick="window.history.back();" class="mr-4 material-symbols-outlined">arrow_back</button>
-      <h1 class="mb-2 text-3xl font-bold text-gray-800">所有通知</h1>
-    </div>
+    <h1 class="mb-2 text-3xl font-bold text-gray-800">所有通知</h1>
     {% if notifications %}
     <ul class="divide-y divide-gray-300">
       {% for notification in notifications %}
@@ -19,7 +18,8 @@
             <div class="flex-1">
               <div class="flex items-center">
                 <div class="text-lg font-semibold text-gray-800">{{ notification.title }}</div>
-                <div class="pt-1 ml-2 text-sm text-gray-500">{{ notification.date_sent|date:"Y-m-d H:i" }}</div>
+                <div class="pt-1 ml-2 text-sm text-gray-500">{{ notification.date_sent|date:"Y-m-d H:i" }}
+                </div>
               </div>
               <p class="mt-1 text-gray-600">{{ notification.message|safe }}</p>
             </div>
@@ -40,3 +40,5 @@
   </div>
 </body>
 {% endblock %}
+
+<script src="{% static " scripts/notification.js" %}"></script>

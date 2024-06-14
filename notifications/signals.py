@@ -29,7 +29,7 @@ def handle_message(sender, instance, created, **kwargs):
             room_name = f"{instance.receiver.id}_{instance.sender.id}"
         chat_url = reverse("chats:private_message_room", args=[room_name])
         notification_message = format_html(
-            '{} 傳了一則私訊。<a href="{}">點擊這裡查看</a>',
+            '{} <a href="{}">傳了一則私訊。點擊查看</a>',
             instance.sender.username,
             chat_url,
         )
@@ -44,10 +44,17 @@ def handle_message(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Comment)
 def handle_comment(sender, instance, created, **kwargs):
     if created:
+        article_url = reverse("articles:show", args=[instance.article.id])
+        notification_message = format_html(
+            '{} <a href="{}">在你的文章底下留言。點擊查看</a>',
+            instance.member.username,
+            article_url,
+        )
+
         Notification.objects.create(
             user=instance.article.author,
             title="新留言",
-            message=f"{instance.member.username} 在你的文章底下留言。",
+            message=notification_message,
         )
 
 
