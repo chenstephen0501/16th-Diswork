@@ -20,7 +20,6 @@ NotifyUrl = settings.ENCRYPTION_KEY['NOTIFY_URL']
 PayGateWay = settings.ENCRYPTION_KEY['PAY_GATEWAY']
 RespondType = settings.ENCRYPTION_KEY['RESPOND_TYPE']
 
-orders = {}
 def index(request):
     return render(request, 'paies/index.html', {'title': 'Express'})
 
