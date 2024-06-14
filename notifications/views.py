@@ -6,7 +6,6 @@ from boards.models import Category
 
 @login_required
 def notification_list(request):
-    print("create")
     notifications = Notification.objects.filter(user=request.user).order_by(
         "-date_sent"
     )
@@ -25,7 +24,6 @@ def notification_list(request):
 
 @login_required
 def delete_notification(request, notification_id):
-    print("delete")
     notification = Notification.objects.get(pk=notification_id)
     if notification.user == request.user:
         notification.delete()
@@ -34,7 +32,6 @@ def delete_notification(request, notification_id):
 
 @login_required
 def mark_as_read(request, notification_id):
-    print("as_read")
     notification = get_object_or_404(Notification, pk=notification_id)
     notification.is_read = True
     notification.save()
