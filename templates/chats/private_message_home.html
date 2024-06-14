@@ -12,28 +12,32 @@
           {% if message.sender.id == user.id %}
           <div class="w-12 overflow-hidden rounded-full aspect-square">
             {% if message.sender.user_img %}
-            <img src="{{ message.sender.user_img.url }}" alt="photo"
-              class="block object-cover w-full h-full">
+            <img src="{{ message.sender.user_img.url }}" alt="photo" class="block object-cover w-full h-full">
             {% else %}
             <img src="/static/image/cathead.png" alt="頭貼" class="block object-cover w-full h-full">
             {% endif %}
           </div>
           <div class="flex-1 ml-2 break-all">
-            <p class="text-xl">{{message.sender}} <span class="text-xs">{{message.created_at|date:"Y-m-d H:i"}}</span>
+            <p class="text-xl">{{message.sender}}
+              <span class="text-xs">
+                {{message.created_at|date:"Y-m-d H:i"}}
+              </span>
             </p>
             <p class="w-full">{{message.content}}</p>
           </div>
           {% else %}
           <div class="w-12 overflow-hidden rounded-full h-12">
             {% if message.sender.user_img %}
-            <img src="{{ message.sender.user_img.url }}" alt="photo"
-              class="block object-cover w-full h-full">
+            <img src="{{ message.sender.user_img.url }}" alt="photo" class="block object-cover w-full h-full">
             {% else %}
             <img src="/static/image/cathead.png" alt="頭貼" class="block object-cover w-full h-full">
             {% endif %}
           </div>
           <div class="flex-1 ml-2 break-all">
-            <p class="text-xl">{{message.sender}} <span class="text-xs">{{message.created_at|date:"Y-m-d H:i"}}</span>
+            <p class="text-xl">{{message.sender}}
+              <span class="text-xs">
+                {{message.created_at|date:"Y-m-d H:i"}}
+              </span>
             </p>
             <p class="w-full">{{message.content}}</p>
           </div>
