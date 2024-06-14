@@ -1,7 +1,13 @@
 {% extends 'pages/base.html' %}
 {% load static %}
-{% block content %}
 
+{% block header %}
+<link rel="stylesheet" href="{% static 'styles/loading.css' %}">
+<script src="{% static 'scripts/payment_loading.js' %}" defer></script>
+{% endblock %}
+
+
+{% block content %}
 <section class="flex flex-col-reverse relative h-screen px-6 bg-[#f3f4f6] md:px-12 overflow-hidden">
   <div class="w-full min-w-[768px] absolute -bottom-[8%] left-1/2 -translate-x-1/2">
     <img src="{% static 'image/banner2.png' %}" alt="" class="block w-full">
@@ -19,9 +25,9 @@
           <p class="block w-full py-3 text-black">已訂閱</p>
         </div>
         {% else %}
-        <form action="{% url 'paies:create_order' %}" method="POST">
+        <form id="pay-form" action="{% url 'paies:create_order' %}" method="POST">
           {% csrf_token %}
-          <button type="submit" class="block w-full py-3 text-sm md:text-base text-white">訂閱我們
+          <button type="submit" id="saveButton" class="block w-full py-3 text-sm md:text-base text-white">訂閱我們
           </button>
         </form>
         {% endif %}
@@ -131,5 +137,9 @@
     </div>
   </div>
 </section>
+<div id="loading-overlay" class="fixed top-0 left-0 z-50 hidden w-full h-full bg-black opacity-50"></div>
+<div id="loading-spinner" class="absolute z-50 hidden transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+  <div class="loader"></div>
+</div>
 
 {% endblock %}
