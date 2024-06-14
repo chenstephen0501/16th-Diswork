@@ -23,7 +23,6 @@ def handle_friend(sender, instance, created, **kwargs):
 def handle_message(sender, instance, created, **kwargs):
     if created:
 
-        # 生成包含跳轉連結的通知訊息
         if instance.sender.id < instance.receiver.id:
             room_name = f"{instance.sender.id}_{instance.receiver.id}"
         else:
@@ -35,7 +34,6 @@ def handle_message(sender, instance, created, **kwargs):
             chat_url,
         )
 
-        # 創建通知
         Notification.objects.create(
             user=instance.receiver,
             title="新訊息",
