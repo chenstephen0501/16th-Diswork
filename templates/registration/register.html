@@ -4,10 +4,10 @@
 {% block content %}
 <div class="flex items-center justify-center flex-1 py-8">
   <div class="bg-slate-800 md:rounded-lg flex w-[500px]">
-    <div class="p-8 w-full">
+    <div class="w-full p-8">
       <div class="mb-5">
         <h1 class="text-3xl font-bold text-center text-white">Welcome to Diswork</h1>
-        <p class="text-sm text-center text-gray-200">Discuss your Everything!</p>
+        <p class="text-sm text-center text-gray-200">Discuss Your Everything!</p>
       </div>
       <form action="{% url 'members:register' %}" method="post">
         {% csrf_token %}
@@ -37,9 +37,11 @@
           {{form.password2.errors}}
         </div>
         <div class="flex w-3/4 gap-3 mx-auto">
-          <button class="flex-1 py-3 text-white bg-orange-500 rounded hover:bg-orange-600 focus:outline-none transition-all duration-150 ease-linear"
+          <button
+            class="flex-1 py-3 text-white transition-all duration-150 ease-linear bg-orange-500 rounded hover:bg-orange-600 focus:outline-none"
             type="submit">註冊</button>
-          <a href="{% url 'members:login' %}" class="text-white rounded p-3 border border-white hover:bg-gray-700 transition-all duration-150 ease-linear">登入</a>
+          <a href="{% url 'members:login' %}"
+            class="p-3 text-white transition-all duration-150 ease-linear border border-white rounded hover:bg-gray-700">登入</a>
         </div>
       </form>
     </div>
