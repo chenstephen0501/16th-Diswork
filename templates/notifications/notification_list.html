@@ -9,7 +9,7 @@
     {% if notifications %}
     <ul class="divide-y divide-gray-300">
       {% for notification in notifications %}
-      <a href="{% url 'notifications:as_read' notification.id %}">
+      <a href="{% url 'notifications:as_read' notification.id %}" id="outerLink">
         <li class="relative px-6 py-1 transition duration-300">
           {% if not notification.is_read %}
           <div class="absolute left-0 w-2 h-2 transform -translate-y-1/2 bg-blue-500 rounded-full top-1/2"></div>
@@ -21,7 +21,7 @@
                 <div class="pt-1 ml-2 text-sm text-gray-500">{{ notification.date_sent|date:"Y-m-d H:i" }}
                 </div>
               </div>
-              <p class="mt-1 text-gray-600">{{ notification.message|safe }}</p>
+              <p class="mt-1 text-gray-600" class="innerLink">{{ notification.message|safe }}</p>
             </div>
             <div class="flex space-x-4">
               <a href="{% url 'notifications:delete' notification.id %}">
@@ -30,8 +30,8 @@
             </div>
           </div>
         </li>
+        <li class="border-b border-gray-300"></li>
       </a>
-      <li class="border-b border-gray-300"></li>
       {% endfor %}
     </ul>
     {% else %}
@@ -40,5 +40,3 @@
   </div>
 </body>
 {% endblock %}
-
-<script src="{% static " scripts/notification.js" %}"></script>

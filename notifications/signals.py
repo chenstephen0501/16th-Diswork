@@ -48,7 +48,7 @@ def handle_comment(sender, instance, created, **kwargs):
         notification_message = format_html(
             '{} <a href="{}">在你的文章底下留言。點擊查看</a>',
             instance.member.username,
-            article_url,
+            f"{article_url}?n_id=123",
         )
 
         Notification.objects.create(

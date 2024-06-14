@@ -93,6 +93,7 @@ class ShowView(DetailView):
         return Article.objects.with_count().annotate(is_like=Exists(like_subquery))
 
     def get_context_data(self, **kwargs):
+        print(self)
         context = super().get_context_data(**kwargs)
         like_comment_subquery = LikeComment.objects.filter(
             like_by_id=self.request.user.id, like_comment_id=OuterRef("pk")
