@@ -5,6 +5,8 @@ from friends.models import Friend
 from chats.models import PrivateMessage
 from comments.models import Comment, LikeComment
 from articles.models import LikeArticle
+from django.utils.html import format_html
+from django.urls import reverse
 
 
 @receiver(post_save, sender=Friend)
@@ -20,10 +22,24 @@ def handle_friend(sender, instance, created, **kwargs):
 @receiver(post_save, sender=PrivateMessage)
 def handle_message(sender, instance, created, **kwargs):
     if created:
+
+        # 生成包含跳轉連結的通知訊息
+        if instance.sender.id < instance.receiver.id:
+            room_name = f"{instance.sender.id}_{instance.receiver.id}"
+        else:
+            room_name = f"{instance.receiver.id}_{instance.sender.id}"
+        chat_url = reverse("chats:private_message_room", args=[room_name])
+        notification_message = format_html(
+            '{} 傳了一則私訊。<a href="{}">點擊這裡查看</a>',
+            instance.sender.username,
+            chat_url,
+        )
+
+        # 創建通知
         Notification.objects.create(
             user=instance.receiver,
             title="新訊息",
-            message=f"{instance.sender.username} 傳了一則私訊。",
+            message=notification_message,
         )
 
 

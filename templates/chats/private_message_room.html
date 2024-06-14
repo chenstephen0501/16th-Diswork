@@ -7,7 +7,7 @@
 		class="sticky top-0 flex items-center justify-between w-full px-4 py-2 font-normal text-black bg-white border-b-1">
 		<div class="flex items-center">
 			<button onclick="window.history.back();" class="material-symbols-outlined">arrow_back</button>
-			<div class="w-12 mx-2 rounded-full aspect-square overflow-hidden">
+			<div class="w-12 mx-2 overflow-hidden rounded-full aspect-square">
 				{% if receiver.user_img %}
 				<img src="{{ receiver.user_img.url }}" alt="" class="block object-cover w-full h-full">
 				{% else %}
@@ -26,10 +26,7 @@
 						d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
 				</svg>
 			</button>
-			<div x-show="showDropdown" @click.away="showDropdown = false"
-				class="absolute w-20 right-2 z-10 py-2 bg-white rounded-md shadow-md">
-				<a href="#" class="block px-2 py-1 text-sm font-light text-center text-red-600 hover:text-red-800">刪除好友</a>
-			</div>
+
 		</div>
 	</div>
 	<div class="flex-1 w-full overflow-scroll bg-white rounded-md">
