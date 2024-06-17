@@ -55,5 +55,5 @@ $ make server
   - GitHub: Bunny1780
   - Email: defyto13579@gmail.com
 4. 陳志誠 StephenChen
-  - GitHub: chenstephen0501
+  - GitHub: [chenstephen0501](https://github.com/chenstephen0501)
   - Email: tom9876555@gmail.com
