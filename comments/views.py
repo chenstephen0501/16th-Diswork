@@ -87,7 +87,6 @@ class CommentDeleteView(DeleteView):
 def add_like(req, pk):
     comment = get_object_or_404(Comment, id=pk)
     comment.like_comment.add(req.user)
-    comment.save()
     comment.is_like = True
     comment.like_count = LikeComment.objects.filter(like_comment=pk).count()
     return render(req, "articles/shared/like_comment_btn.html", {"comment": comment})
