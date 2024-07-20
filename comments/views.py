@@ -8,8 +8,6 @@ from articles.models import Article
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-from django.http import JsonResponse
-from django.template.loader import render_to_string
 from django.db.models import Exists, OuterRef, Count
 from django.middleware.csrf import get_token
 
@@ -21,7 +19,7 @@ class CommentListView(ListView):
     context_object_name = "comments"
 
     def get_queryset(self):
-        member_id = self.kwargs["id"]
+        member_id = self.kwargs["pk"]
         self.member = get_object_or_404(Member, id=member_id)
         return Comment.objects.filter(member=self.member).order_by("-created_at")
 
@@ -44,8 +42,7 @@ class CommentCreateView(CreateView):
         form.instance.article = article
         form.instance.member = self.request.user
         self.object = form.save()
-
-        if self.request.headers.get("Accept") == "application/json":
+        if self.request.method == "POST":
             csrf_token = get_token(self.request)
             like_comment_subquery = LikeComment.objects.filter(
             like_comment_id=OuterRef('pk'),
@@ -54,12 +51,8 @@ class CommentCreateView(CreateView):
         
             comments = Comment.objects.filter(article=article).select_related("member").annotate(
             is_like=Exists(like_comment_subquery), like_count=Count("comment"))
-        
-
-            comment_html = render_to_string(
-                "articles/shared/comment.html", {"comments": comments, "user": self.request.user, "csrf_token": csrf_token}
-            )
-            return JsonResponse({"comment_html": comment_html})
+    
+            return render(self.request, "articles/shared/comment.html", {"comments": comments, "user": self.request.user, "csrf_token": csrf_token })
         else:
             return redirect("articles:show", pk=article_id)
 
