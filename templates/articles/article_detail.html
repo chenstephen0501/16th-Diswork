@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block header %}
+<script src="{% static 'scripts/comment.js' %}" ></script>
+{% endblock %}
+
 {% block content %}
 <div class="relative block w-full h-full bg-opacity-60">
   <div class="relative flex flex-col w-full h-full mx-auto bg-white md:w-4/5">
@@ -59,9 +63,10 @@
             <div class="flex items-center gap-1 text-base md:text-lg">
               {% include 'articles/shared/like_button.html' %}
             </div>
-            <div id="comment-count" x-data="{ count: {{ article.comment_count }}}">
-              <p class="text-base md:text-lg">｜留言 <span x-text="count"></span> </p>
-            </div>
+            <div id="comment-count" x-data="commentCountComponent({{ article.comment_count }})">
+              <p class="text-base md:text-lg">｜留言 <span x-text="$store.commentCount.count"></span> </p>
+          </div>
+          
           </div>
         </div>
       </div>
@@ -71,18 +76,10 @@
       </div>
     </div>
 
-    <div class="sticky bottom-0 left-0 w-full bg-white" x-data="{ content: '', member: '{{ user.id }}', commentCount: {{ article.comment_count }} }">
-      <form hx-post="{% url 'articles:comment' pk=article.pk %}" hx-swap="innerHTML" hx-target="#comment-container" hx-trigger="submit" hx-throttle="500ms"  @htmx:before-request="event.target.querySelector('button').disabled = true" @htmx:after-request="commentCount++; content = ''; $nextTick(() => { 
-        const alpineElement = document.getElementById('comment-count');
-        const alpineInstance = alpineElement.__x;
-        if (alpineInstance) {
-          alpineInstance.$data.count++;
-          return
-        }
-        return
-      })" class="px-4">
+    <div class="sticky bottom-0 left-0 w-full bg-white" x-data="{ content: '', member: '{{ user.id }}' }">
+      <form hx-post="{% url 'articles:comment' pk=article.pk %}" hx-swap="innerHTML" hx-target="#comment-container" hx-trigger="submit" hx-throttle="500ms" @htmx:before-request="disableButton(event)" @htmx:after-request="content = ''; $store.commentCount.increment()" class="px-4">
         {% csrf_token %}
-        <textarea id="comment-textarea" x-ref="text" x-model="content" name="content" placeholder="發表留言..." class="w-full"></textarea>
+        <textarea id="comment-textarea" x-model="content" name="content" placeholder="發表留言..." class="w-full"></textarea>
         <input type="hidden" name="member" x-bind:value="member">
         <button type="submit" class="absolute px-2 py-1 font-bold text-white -translate-y-1/2 rounded top-20 right-4 bg-sky-400" :class="{ 'bg-gray-400':content.trim() === '' || content.trim().length === 0, 'bg-sky-400': content.trim() !== '' || content.trim().length !== 0 }" x-bind:disabled="content.trim() === '' || content.trim().length === 0" hx-throttle="500ms" >送出</button>
       </form>
@@ -90,4 +87,5 @@
 
   </div>
 </div>
+
 {% endblock %}
