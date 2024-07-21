@@ -27,7 +27,7 @@
   </div>
   <div class="flex justify-end pb-2">
     {% if comment.member.id == user.id %}
-    <form action="{% url 'comments:delete' pk=comment.id %}" method="post" class="inline">
+    <form hx-post="{% url 'comments:delete' pk=comment.id %}"  class="inline" hx-target="#comment-container" hx-swap="innerHTML" hx-trigger="submit">
       {% csrf_token %}
       <button type="submit" class="px-2 py-1 text-white bg-red-500 rounded">刪除</button>
     </form>
