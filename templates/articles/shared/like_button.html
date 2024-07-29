@@ -1,14 +1,8 @@
 <div id="like-btn" class="flex items-end gap-2">
     {% if article.is_like %}
-    <form id="remover-btn" hx-post="{% url 'articles:remove_like' article.id %}" hx-target="#like-btn" hx-throttle="500ms" hx-swap="outerHTML">
-        {% csrf_token %}
-        <button type="submit" class="material-symbols-outlined like-btn text-2xl leading-none text-white duration-150 ease-linear">favorite</button>
-        </form>
+        <button type="submit" class="material-symbols-outlined like-btn text-2xl leading-none text-white duration-150 ease-linear" id="remover-btn" hx-post="{% url 'articles:remove_like' article.id %}" hx-target="#like-btn" hx-throttle="500ms" hx-swap="outerHTML" >favorite</button>
         {% else %}
-    <form id="add-btn" hx-post="{% url 'articles:add_like' article.id %}" hx-target="#like-btn" hx-throttle="500ms" hx-swap="outerHTML">
-        {% csrf_token %}
-        <button type="submit" class="material-symbols-outlined like-btn text-2xl leading-none bg-transparent duration-150 ease-linear">favorite</button>
-    </form>
+        <button type="submit" class="material-symbols-outlined like-btn text-2xl leading-none bg-transparent duration-150 ease-linear" id="add-btn" hx-post="{% url 'articles:add_like' article.id %}" hx-target="#like-btn" hx-throttle="500ms" hx-swap="outerHTML">favorite</button>
     {% endif %}
     <div class="flex self-center">{{article.like_count}}</div>
 </div>

@@ -36,7 +36,6 @@ class CommentCreateView(CreateView):
     model = Comment
     form_class = CommentForm
     template_name = "articles/article_detail.html"
-
     def form_valid(self, form):
         article_id = self.kwargs["pk"]
         article = get_object_or_404(Article, pk=article_id)
@@ -44,7 +43,6 @@ class CommentCreateView(CreateView):
         form.instance.member = self.request.user
         self.object = form.save()
         if self.request.method == "POST":
-            csrf_token = get_token(self.request)
             like_comment_subquery = LikeComment.objects.filter(
             like_comment_id=OuterRef('pk'),
             like_by_id=self.request.user.id,
@@ -52,8 +50,7 @@ class CommentCreateView(CreateView):
         
             comments = Comment.objects.filter(article=article).select_related("member").annotate(
             is_like=Exists(like_comment_subquery), like_count=Count("comment"))
-    
-            return render(self.request, "articles/shared/comment.html", { "comments": comments, "user": self.request.user, "csrf_token": csrf_token })
+            return render(self.request, "articles/shared/comment.html", { "comments": comments, "user": self.request.user})
         else:
             return redirect("articles:show", pk=article_id)
 
@@ -71,16 +68,13 @@ class CommentCreateView(CreateView):
 class CommentDeleteView(DeleteView):
     model = Comment
     template_name = "articles/article_detail.html"
-    
     def get_success_url(self):
         article_id = self.object.article_id
-        print("success", article_id)
         return reverse_lazy("article:show", kwargs={ "pk": article_id })
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         article_id = self.object.article_id
-        csrf_token = get_token(request)
         self.object.delete()
         article = get_object_or_404(Article, pk=article_id)
 
@@ -91,7 +85,7 @@ class CommentDeleteView(DeleteView):
 
         comments = Comment.objects.filter(article=article).select_related("member").annotate(is_like=Exists(like_comment_subquery), like_count=Count("comment"))
 
-        return render(self.request, "articles/shared/comment.html", { "comments": comments, "user": self.request.user, "csrf_token": csrf_token })
+        return render(self.request, "articles/shared/comment.html", { "comments": comments, "user": self.request.user })
 
 
 @login_required
