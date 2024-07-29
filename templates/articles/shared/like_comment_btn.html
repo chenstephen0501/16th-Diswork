@@ -1,17 +1,11 @@
 <div id="like_comment_btn-{{comment.id}}" class="flex items-center gap-2">
 
   {% if comment.is_like %}
-  <form hx-post="{% url 'comments:remove_like' comment.id %}" hx-throttle="500ms"
-    hx-target="#like_comment_btn-{{comment.id}}" hx-swap="outerHTML">
-    {% csrf_token %}
-    <button type="submit" class="material-symbols-outlined like-btn text-white duration-150 ease-linear">favorite</button>
-  </form>
+    <button type="submit" class="material-symbols-outlined like-btn text-white duration-150 ease-linear" hx-post="{% url 'comments:remove_like' comment.id %}" hx-throttle="500ms"
+    hx-target="#like_comment_btn-{{comment.id}}" hx-swap="outerHTML">favorite</button>
   {% else %}
-  <form hx-post="{% url 'comments:add_like' comment.id %}" hx-throttle="500ms"
-    hx-target="#like_comment_btn-{{comment.id}}" hx-swap="outerHTML">
-    {% csrf_token %}
-    <button type="submit" class="material-symbols-outlined like-btn bg-transparent duration-150 ease-linear">favorite</button>
-  </form>
+    <button type="submit" class="material-symbols-outlined like-btn bg-transparent duration-150 ease-linear" hx-post="{% url 'comments:add_like' comment.id %}" hx-throttle="500ms"
+    hx-target="#like_comment_btn-{{comment.id}}" hx-swap="outerHTML">favorite</button>
   {% endif %}
   <p class="flex-1 leading-none">{{comment.like_count}}</p>
 </div>
