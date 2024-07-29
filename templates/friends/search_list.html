@@ -4,6 +4,10 @@
 {% include 'shared/message.html' %}
 {% load static %}
 
+{% block extra_js %}
+<script src="{% static 'scripts/add_private_room.js' %}" defer></script>
+{% endblock %}
+
 <div class="flex flex-col mx-auto max-w-4/5">
   <div class="w-full p-4 mt-4">
     <form method="GET" action="." class="flex justify-end">
@@ -85,7 +89,5 @@
     {% endif %}
   </div>
 </div>
-
-<script src="{% static 'scripts/add_private_room.js' %}"></script>
 
 {% endblock %}

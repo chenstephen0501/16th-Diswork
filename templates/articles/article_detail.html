@@ -2,9 +2,11 @@
 
 {% load static %}
 
-{% block header %}
+{% include '' %}
+
+{% block extra_js %}
 <script  src="{% static 'scripts/comment.js' %}" ></script>
-<script  src="{% static 'scripts/csrf.js' %}" ></script>
+<script  src="{% static 'scripts/csrf.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
