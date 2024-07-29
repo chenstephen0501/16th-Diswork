@@ -1,3 +1,4 @@
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, CreateView, DeleteView
@@ -7,9 +8,7 @@ from .forms import CommentForm
 from articles.models import Article
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.urls import reverse_lazy
-from django.http import JsonResponse
-from django.template.loader import render_to_string
+from django.urls import reverse_lazy, reverse
 from django.db.models import Exists, OuterRef, Count
 from django.middleware.csrf import get_token
 
@@ -21,7 +20,7 @@ class CommentListView(ListView):
     context_object_name = "comments"
 
     def get_queryset(self):
-        member_id = self.kwargs["id"]
+        member_id = self.kwargs["pk"]
         self.member = get_object_or_404(Member, id=member_id)
         return Comment.objects.filter(member=self.member).order_by("-created_at")
 
@@ -44,8 +43,7 @@ class CommentCreateView(CreateView):
         form.instance.article = article
         form.instance.member = self.request.user
         self.object = form.save()
-
-        if self.request.headers.get("Accept") == "application/json":
+        if self.request.method == "POST":
             csrf_token = get_token(self.request)
             like_comment_subquery = LikeComment.objects.filter(
             like_comment_id=OuterRef('pk'),
@@ -54,12 +52,8 @@ class CommentCreateView(CreateView):
         
             comments = Comment.objects.filter(article=article).select_related("member").annotate(
             is_like=Exists(like_comment_subquery), like_count=Count("comment"))
-        
-
-            comment_html = render_to_string(
-                "articles/shared/comment.html", {"comments": comments, "user": self.request.user, "csrf_token": csrf_token}
-            )
-            return JsonResponse({"comment_html": comment_html})
+    
+            return render(self.request, "articles/shared/comment.html", { "comments": comments, "user": self.request.user, "csrf_token": csrf_token })
         else:
             return redirect("articles:show", pk=article_id)
 
@@ -77,9 +71,27 @@ class CommentCreateView(CreateView):
 class CommentDeleteView(DeleteView):
     model = Comment
     template_name = "articles/article_detail.html"
-
+    
     def get_success_url(self):
-        return reverse_lazy("articles:show", kwargs={"pk": self.object.article_id})
+        article_id = self.object.article_id
+        print("success", article_id)
+        return reverse_lazy("article:show", kwargs={ "pk": article_id })
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        article_id = self.object.article_id
+        csrf_token = get_token(request)
+        self.object.delete()
+        article = get_object_or_404(Article, pk=article_id)
+
+        like_comment_subquery = LikeComment.objects.filter(
+            like_comment_id=OuterRef('pk'),
+            like_by_id=self.request.user.id,
+            ).values("pk")
+
+        comments = Comment.objects.filter(article=article).select_related("member").annotate(is_like=Exists(like_comment_subquery), like_count=Count("comment"))
+
+        return render(self.request, "articles/shared/comment.html", { "comments": comments, "user": self.request.user, "csrf_token": csrf_token })
 
 
 @login_required
@@ -87,7 +99,6 @@ class CommentDeleteView(DeleteView):
 def add_like(req, pk):
     comment = get_object_or_404(Comment, id=pk)
     comment.like_comment.add(req.user)
-    comment.save()
     comment.is_like = True
     comment.like_count = LikeComment.objects.filter(like_comment=pk).count()
     return render(req, "articles/shared/like_comment_btn.html", {"comment": comment})
