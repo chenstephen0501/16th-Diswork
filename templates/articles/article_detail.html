@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block header %}
-<script src="{% static 'scripts/comment.js' %}" ></script>
+<script  src="{% static 'scripts/comment.js' %}" ></script>
 {% endblock %}
 
 {% block content %}
@@ -18,7 +18,7 @@
       {% endif %}
       <h4 class="ml-4 text-lg font-bold text-gray-800">{{ article.category.title }}</h4>
     </div>
-    <div class="flex-1 overflow-y-scroll">
+    <div class="flex-1 overflow-y-scroll" x-data="commentCountComponent({{ article.comment_count }})">
       <div class="w-full p-4 mx-auto md:px-0">
         <h1 class="pt-4 mb-3 text-2xl font-bold text-gray-800">{{ article.title }}</h1>
         <div class="flex items-center justify-between space-x-1">
@@ -63,7 +63,7 @@
             <div class="flex items-center gap-1 text-base md:text-lg">
               {% include 'articles/shared/like_button.html' %}
             </div>
-            <div id="comment-count" x-data="commentCountComponent({{ article.comment_count }})">
+            <div id="comment-count" >
               <p class="text-base md:text-lg">｜留言 <span x-text="$store.commentCount.count"></span> </p>
           </div>
           
@@ -71,13 +71,13 @@
         </div>
       </div>
 
-      <div id="comment-container" class="px-4 pb-4">
+      <div id="comment-container"  class="px-4 pb-4" >
         {% include 'articles/shared/comment.html' %}
       </div>
     </div>
 
     <div class="sticky bottom-0 left-0 w-full bg-white" x-data="{ content: '', member: '{{ user.id }}' }">
-      <form hx-post="{% url 'articles:comment' pk=article.pk %}" hx-swap="innerHTML" hx-target="#comment-container" hx-trigger="submit" hx-throttle="500ms" @htmx:before-request="disableButton(event)" @htmx:after-request="content = ''; $store.commentCount.increment()" class="px-4">
+      <form hx-post="{% url 'articles:comment' pk=article.pk %}" hx-swap="innerHTML swap:1s" hx-target="#comment-container" hx-trigger="submit" hx-throttle="500ms" @htmx:before-request="disableButton(event)" @htmx:after-request="content = ''; $store.commentCount.increment()" class="px-4">
         {% csrf_token %}
         <textarea id="comment-textarea" x-model="content" name="content" placeholder="發表留言..." class="w-full"></textarea>
         <input type="hidden" name="member" x-bind:value="member">
