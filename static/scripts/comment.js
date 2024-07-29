@@ -3,19 +3,21 @@ function disableButton(event) {
 }
 
 document.addEventListener("alpine:init", () => {
-    Alpine.store("commentCount", {
-      count: 1,
-      increment() {
-        this.count++;
-      },
-    });
+  Alpine.store("commentCount", {
+    count: 1,
+    increment() {
+      this.count++;
+    },
+    decrement() {
+      this.count--;
+    },
+  });
 });
 
 function commentCountComponent(initialCount) {
   return {
     init() {
-      this.$store.commentCount.count = initialCount
-    }
-  }
-
+      this.$store.commentCount.count = initialCount;
+    },
+  };
 }
