@@ -34,9 +34,7 @@ HOST_NAME = os.getenv("HOST_NAME")
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = [
-    f"https://{HOST_NAME}",
-]
+CSRF_TRUSTED_ORIGINS = [f"https://{HOST_NAME}", "https://*.herokuapp.com"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -195,6 +193,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
