@@ -34,7 +34,7 @@ HOST_NAME = os.getenv("HOST_NAME")
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = [f"https://{HOST_NAME}", f"http://{HOST_NAME}", "https://diswork-f0115f5426e3.herokuapp.com"]
+CSRF_TRUSTED_ORIGINS = [f"https://{HOST_NAME}", f"http://{HOST_NAME}", "https://diswork-f0115f5426e3.herokuapp.com", "https://diswork.org/"]
 
 # Application definition
 INSTALLED_APPS = [
