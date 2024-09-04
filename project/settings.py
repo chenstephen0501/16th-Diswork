@@ -35,7 +35,7 @@ HOST_NAME = os.getenv("HOST_NAME")
 ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [f"https://{HOST_NAME}", f"http://{HOST_NAME}"]
-print(f"https://{HOST_NAME}")
+
 # Application definition
 INSTALLED_APPS = [
     "daphne",
