@@ -44,13 +44,13 @@
       <div
         class="flex flex-col items-center justify-center flex-1 order-2 mt-3 md:items-end md:justify-start md:mt-6 md:order-3 ">
         <div class="flex flex-col gap-3 mb-4">
-          <a href="{% provider_login_url 'google' method='oauth2' %}?next=/"
+          <a href="{% provider_login_url 'google'  %}?next=/"
             class="inline-flex items-center w-full px-2 py-4 text-sm font-bold uppercase transition-all duration-150 ease-linear bg-white rounded outline-none active:bg-slate-50 text-slate-700 focus:outline-none hover:bg-gray-300 hover:text-gray-800">
             <img alt="Google" class="object-cover w-5 h-5"
               src="https://demos.creative-tim.com/notus-js/assets/img/google.svg">使用
             Google 帳戶登入
           </a>
-          <a href="{% provider_login_url 'line' method='oauth2' %}?next=/"
+          <a href="{% provider_login_url 'line' %}?next=/"
             class="inline-flex items-center w-full px-2 py-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-green-500 rounded outline-none active:bg-green-600 focus:outline-none hover:bg-green-600">
             <img alt="line" class="object-cover w-5 h-5" src="/static/image/line.png">使用 LINE 帳號登入
           </a>
