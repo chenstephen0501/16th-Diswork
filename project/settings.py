@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "channels",
     "ads",
     "notifications",
+    'corsheaders',
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
@@ -91,6 +92,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -223,4 +225,7 @@ AUTHENTICATION_BACKENDS = {
 }
 
 SITE_ID = int(os.getenv("SITE_ID", 1))
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 LOGIN_REDIRECT_URL = "/"
