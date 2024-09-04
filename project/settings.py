@@ -105,6 +105,8 @@ MIDDLEWARE = [
 
     'project.middleware.ReferrerPolicyMiddleware',
 ]
+REFERRER_POLICY = 'no-referrer-when-downgrade'
+
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
