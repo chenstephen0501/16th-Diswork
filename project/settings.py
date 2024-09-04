@@ -105,6 +105,7 @@ MIDDLEWARE = [
 
 ]
 
+REFERRER_POLICY = 'no-referrer-when-downgrade'
 
 
 CSRF_COOKIE_SECURE = True
