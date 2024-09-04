@@ -103,9 +103,8 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
-    'project.middleware.ReferrerPolicyMiddleware',
 ]
-REFERRER_POLICY = 'no-referrer-when-downgrade'
+
 
 
 CSRF_COOKIE_SECURE = True
