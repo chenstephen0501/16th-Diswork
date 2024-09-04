@@ -102,7 +102,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
+    'project.middleware.ReferrerPolicyMiddleware',
 ]
+
+
 
 ROOT_URLCONF = "project.urls"
 
