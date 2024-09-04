@@ -18,8 +18,6 @@ from chats.routing import websocket_urlpatterns
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 
-django.setup()  
-
 django_asgi_app = get_asgi_application()
 
 
