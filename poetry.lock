@@ -471,21 +471,6 @@ socialaccount = ["pyjwt[crypto] (>=1.7)", "requests (>=2.0.0)", "requests-oauthl
 steam = ["python3-openid (>=3.0.8)"]
 
 [[package]]
-name = "django-cors-headers"
-version = "4.4.0"
-description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "django_cors_headers-4.4.0-py3-none-any.whl", hash = "sha256:5c6e3b7fe870876a1efdfeb4f433782c3524078fa0dc9e0195f6706ce7a242f6"},
-    {file = "django_cors_headers-4.4.0.tar.gz", hash = "sha256:92cf4633e22af67a230a1456cb1b7a02bb213d6536d2dcb2a4a24092ea9cebc2"},
-]
-
-[package.dependencies]
-asgiref = ">=3.6"
-django = ">=3.2"
-
-[[package]]
 name = "django-extensions"
 version = "3.2.3"
 description = "Extensions for Django"
@@ -1265,4 +1250,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "d466975b56fdc9ff73536148d6c2d0eca78e8b12fb7233c9db982657da1dbae0"
+content-hash = "5a8b818a8c52072793f12acdd6428e67497f62e3bda1de1208f38b4e105524cb"
