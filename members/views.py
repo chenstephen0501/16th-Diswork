@@ -78,13 +78,13 @@ class RegisterView(FormView):
             reverse("members:activate", kwargs={"uidb64": uid, "token": token})
         )
 
-        # send_mail(
-        #     "Diswork會員驗證信件",
-        #     "點擊此連結驗證您的帳戶：{}".format(link),
-        #     os.getenv("DEFAULT_FROM_EMAIL"),
-        #     [user.email],
-        #     fail_silently=False,
-        # )
+        send_mail(
+            "Diswork會員驗證信件",
+            "點擊此連結驗證您的帳戶：{}".format(link),
+            os.getenv("DEFAULT_FROM_EMAIL"),
+            [user.email],
+            fail_silently=False,
+        )
         messages.success(self.request, "請至您的註冊信箱查看信件並完成註冊。")
         return super().form_valid(form)
 
