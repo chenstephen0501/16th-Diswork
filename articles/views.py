@@ -165,8 +165,7 @@ class DeleteView(DeleteView):
 def add_like(req, pk):
     article = get_object_or_404(Article, id=pk)
     article.like_article.add(req.user)
-    article.save()
-    article.like_count = LikeArticle.objects.filter(like_article=pk).count()
+    article.like_count = article.like_article.count()
     article.is_like = True
     return render(req, "articles/shared/like_button.html", {"article": article})
 
@@ -176,7 +175,6 @@ def add_like(req, pk):
 def remove_like(req, pk):
     article = get_object_or_404(Article, id=pk)
     article.like_article.remove(req.user)
-    article.save()
-    article.like_count = LikeArticle.objects.filter(like_article=pk).count()
+    article.like_count = article.like_article.count()
     article.is_like = False
     return render(req, "articles/shared/like_button.html", {"article": article})
